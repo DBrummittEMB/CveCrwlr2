@@ -1,11 +1,39 @@
 import { locations } from './location.js';
 import { fightDragon } from './fight.js';
+import { lose } from './endGame.js';
 
 export let xp = 0;
+
+// Health handling
 export let health = 100;
+export function addHealth(amount) {
+  health += amount;
+}
+export function subtractHealth(amount) {
+  if (health >= amount) {
+    health -= amount;
+  } else {
+    lose();
+    // Handle insufficient health, ie losing
+  }
+}
+
+// Gold handling
 export let gold = 50;
+export function addGold(amount) {
+  gold += amount;
+}
+export function subtractGold(amount) {
+  if (gold >= amount) {
+    gold -= amount;
+    // Additional logic if needed
+  } else {
+    text.innerText = "You do not have enough gold to buy health.";
+    // Handle insufficient gold
+  }
+}
+
 export let currentWeapon = 0;
-export let fighting;
 export let monsterHealth;
 export let inventory = ["stick"];
 
@@ -31,9 +59,11 @@ button1.onclick = () => {
 
 button2.onclick = goCave;
 
+/*
 button2.onclick = () => {
   console.log("Cave button clicked");
 };
+*/
 
 button3.onclick = fightDragon;
 
@@ -48,7 +78,7 @@ button3.onclick = () => {
  * @param {Object} location - The location object containing button text, 
  * button functions, text, and image properties.
  */
-function update(location) {
+export function update(location) {
   button1.innerText = location["button text"][0];
   button2.innerText = location["button text"][1];
   button3.innerText = location["button text"][2];

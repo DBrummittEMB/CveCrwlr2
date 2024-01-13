@@ -1,10 +1,18 @@
 import { locations } from './location.js';
 import { monsters } from './monster.js';
 import { winGame, lose } from './endGame.js';
+import { update } from './script.js';
+import { weapons } from './item.js';
+import { currentWeapon } from './script.js';
+import { health } from './script.js';
+import { xp } from './script.js';
+
+export let fighting;
 
 export function fightSlime() {
     fighting = 0;
     goFight();
+    console.log("Slime button clicked");
   }
 
 export function fightBeast() {
