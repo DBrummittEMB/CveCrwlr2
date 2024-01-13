@@ -1,3 +1,7 @@
+import { gold } from './script.js';
+import { health } from './script.js';
+import { currentWeapon } from './script.js';
+import { weapons } from './item.js';
 
 export function buyHealth() {
     if (gold >= 10) {

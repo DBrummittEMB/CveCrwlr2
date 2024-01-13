@@ -23,9 +23,11 @@ export const monsterHealthText = document.querySelector("#monsterHealth");
 // initialize buttons
 button1.onclick = goStore;
 
+/*
 button1.onclick = () => {
   console.log("Store button clicked");
 };
+*/
 
 button2.onclick = goCave;
 
