@@ -1,0 +1,54 @@
+body {
+  background-color: darkblue;
+}
+
+#text {
+  background-color: black;
+  color: white;
+  padding: 10px;
+}
+
+#game {
+  max-width: 400px;
+  max-height: 500px;
+  background-color: lightgray;
+  color: white;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+#controls {
+  border: 1px black solid;
+  padding: 5px;
+}
+
+#stats {
+  border: 1px black solid;
+  color: black;
+  padding: 5px;
+}
+
+#monsterStats {
+  display: none;
+  border: 1px white solid;
+  color: limegreen;
+  padding: 5px;
+  background-color: black;
+}
+
+.stat {
+  padding-right: 10px;
+}
+#monsterName {
+  color: red;
+}
+
+#image {
+  width: 100%; /* Makes the image responsive, adjusting to the container's width */
+  max-height: 200px;
+  width: auto;
+  margin: 0 auto; /* Centers the image within its container */
+  border: 1px solid black; /* Optional: adds a border around the image */
+  padding: 5px; /* Optional: adds some space around the image */
+  background-color: black; /* Optional: background color for the image area */
+}
