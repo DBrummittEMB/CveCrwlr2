@@ -1,13 +1,11 @@
 import { locations } from './location.js';
 import { monsters } from './monster.js';
 import { winGame, lose } from './endGame.js';
-import { update } from './script.js';
 import { weapons } from './item.js';
-import { currentWeapon } from './script.js';
-import { health } from './script.js';
-import { xp } from './script.js';
+import { update, currentWeapon, health, xp, monsterNameText, monsterHealthText, subtractHealth, addXp, addGold, gold, inventory, weaponUp } from './script.js';
 
-export let fighting;
+let fighting;
+let monsterHealth;
 
 /** Need to update the individual monsters to a single function that builds monsters from a class */
 
@@ -63,7 +61,7 @@ export function goFight() {
 export function attack() {
   text.innerText = "The " + monsters[fighting].name + " attacks.";
   text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".";
-  health -= getMonsterAttackValue(monsters[fighting].level);
+  subtractHealth(getMonsterAttackValue(monsters[fighting].level));
   if (isMonsterHit()) {
     monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
   } else {
@@ -79,7 +77,7 @@ export function attack() {
 
   if (Math.random() <= 0.1 && inventory.length !== 1) {
     text.innerText += " Your " + inventory.pop() + " breaks.";
-    currentWeapon--;
+    weaponUp;
   }
 }
 
@@ -116,8 +114,8 @@ export function dodge() {
  * Transitions to the next location.
 */
 export function defeatMonster() {
-  gold += Math.floor(monsters[fighting].level * 6.7);
-  xp += monsters[fighting].level;
+  addGold(Math.floor(monsters[fighting].level * 6.7));
+  addXp(monsters[fighting].level);
   goldText.innerText = gold;
   xpText.innerText = xp;
   update(locations[4]);

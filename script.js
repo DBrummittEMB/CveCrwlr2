@@ -2,8 +2,16 @@ import { locations } from './location.js';
 import { fightDragon } from './fight.js';
 import { lose } from './endGame.js';
 
+/* Handle player stats logic */
+
 // xp handling
 export let xp = 0;
+export function addXp(amount) {
+  xp += amount;
+}
+export function subtractXp(amount) {
+  xp -= amount;
+}
 
 // Health handling
 export let health = 100;
@@ -49,7 +57,7 @@ export function weaponDown() {
   }
 }
 
-export let monsterHealth;
+/* End of player stats logic section */
 
 // DOM assignments
 const button1 = document.querySelector("#button1");
@@ -114,6 +122,18 @@ export function update(location) {
     const monsterImage = document.getElementById("image");
     monsterImage.style.display = "none";
   }
+}
+
+export function restart() {
+  xp = 0;
+  health = 100;
+  gold = 50;
+  currentWeapon = 0;
+  inventory = ["stick"];
+  goldText.innerText = gold;
+  healthText.innerText = health;
+  xpText.innerText = xp;
+  goTown();
 }
 
 /**

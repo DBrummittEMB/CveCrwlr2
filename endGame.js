@@ -1,14 +1,5 @@
-export function restart() {
-    xp = 0;
-    health = 100;
-    gold = 50;
-    currentWeapon = 0;
-    inventory = ["stick"];
-    goldText.innerText = gold;
-    healthText.innerText = health;
-    xpText.innerText = xp;
-    goTown();
-  }
+import { update } from './script.js';
+import { locations } from './location.js';
 
 export function winGame() {
     update(locations[6]);

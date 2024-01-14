@@ -10,7 +10,7 @@ import { buyHealth } from './store.js';
 import { buyWeapon } from './store.js';
 import { easterEgg } from './script.js';
 import { pickTwo, pickEight } from './easterEgg.js';
-import { restart } from './endGame.js';
+import { restart } from './script.js';
 
 /*
 export class location {
