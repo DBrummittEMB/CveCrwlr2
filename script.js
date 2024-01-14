@@ -2,6 +2,7 @@ import { locations } from './location.js';
 import { fightDragon } from './fight.js';
 import { lose } from './endGame.js';
 
+// xp handling
 export let xp = 0;
 
 // Health handling
@@ -33,10 +34,24 @@ export function subtractGold(amount) {
   }
 }
 
-export let currentWeapon = 0;
-export let monsterHealth;
+// Changing weapons
 export let inventory = ["stick"];
+export let currentWeapon = 0;
+export function weaponUp() {
+  currentWeapon++;
+  console.log("weaponUp");
+}
+export function weaponDown() {
+  if (inventory.length > 0) {
+    currentWeapon--;
+  } else {
+    text.innerText = "Don't sell your only weapon!";
+  }
+}
 
+export let monsterHealth;
+
+// DOM assignments
 const button1 = document.querySelector("#button1");
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
@@ -71,6 +86,12 @@ button3.onclick = () => {
   console.log("Dragon button clicked");
 };
 
+/*
+button3.onclick = () => {
+  console.log("Dragon button clicked");
+};
+*/
+
 
 /**
  * Updates the UI based on the given location object.
@@ -95,19 +116,31 @@ export function update(location) {
   }
 }
 
+/**
+ * Updates the UI with the town location data.
+ */
 export function goTown() {
   update(locations[0]);
 }
 
+/**
+ * Updates the UI with the cave location data.
+ */
 export function goCave() {
   update(locations[2]);
 }
 
+/**
+ * Updates the UI with the store location data.
+ */
 export function goStore() {
   update(locations[1]);
   console.log("Store function called");
 }
 
+/**
+ * Updates the UI with the easter egg location data.
+ */
 export function easterEgg() {
   update(locations[7]);
 }
