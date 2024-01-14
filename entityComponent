@@ -1,0 +1,30 @@
+class nameComponent {
+    constructor(health) {
+        this.health = health;
+    }
+}
+class healthComponent {
+    constructor(health) {
+        this.health = health;
+    }
+}
+class levelComponent {
+    constructor(health) {
+        this.health = health;
+    }
+}
+class imageUrlComponent {
+    constructor(health) {
+        this.health = health;
+    }
+}
+class xpComponent {
+    constructor(health) {
+        this.health = health;
+    }
+}
+class goldComponent {
+    constructor(health) {
+        this.health = health;
+    }
+}

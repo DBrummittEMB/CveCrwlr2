@@ -6,10 +6,15 @@ import { weapons } from './item.js';
  * then updates the UI to reflect the new gold and health values.
  */
 export function buyHealth() {
-  subtractGold(10);
-  addHealth(10);
-  goldText.innerText = gold;
-  healthText.innerText = health;
+  if (gold >= 10) {
+    subtractGold(10);
+    addHealth(10);
+    goldText.innerText = gold;
+    healthText.innerText = health;
+  } else {
+    text.innerText = "You do not have enough gold to buy health.";
+    // Handle insufficient gold
+  }
 }
 
 /**

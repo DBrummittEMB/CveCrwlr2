@@ -35,57 +35,45 @@ export function fightDragon() {
   goFight();
 }
 
-/**
- * Updates the UI to start a fight with the monster specified by fighting.
- * Shows the monster's name, image, and health.
- * Hides other UI elements.
-*/
+
+
+
+
 export function goFight() {
   update(locations[3]);
-  monsterHealth = monsters[fighting].health;
+  let enemy = entityManager.createEntity(monsters[fighting]);
   monsterStats.style.display = "block";
-  monsterNameText.innerText = monsters[fighting].name;
-  monsterHealthText.innerText = monsterHealth;
+  monsterNameText.innerText = enemy.name;
+  monsterHealthText.innerText = enemy.health;
 
   const monsterImage = document.getElementById('image');
   monsterImage.src = monsters[fighting].imageUrl;
   monsterImage.style.display = "block";
 }
-
-/**
- * Handles attacking the monster in a fight.
- * Calculates damage dealt to player and monster.
- * Handles when monster or player health reaches 0.
- * Has a chance to break the player's weapon.
-*/
 export function attack() {
-  text.innerText = "The " + monsters[fighting].name + " attacks.";
-  text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".";
-  subtractHealth(getMonsterAttackValue(monsters[fighting].level));
-  if (isMonsterHit()) {
-    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
-  } else {
-    text.innerText += " You miss.";
-  }
-  healthText.innerText = health;
-  monsterHealthText.innerText = monsterHealth;
-  if (health <= 0) {
-    lose();
-  } else if (monsterHealth <= 0) {
-    fighting === 2 ? winGame() : defeatMonster();
-  }
+  let monsterDamage = getMonsterAttackValue(monsters[fighting].level);
+  let playerDamage = getPlayerAttackValue(level);
+  subtractHealth(monsterDamage);
+  enemy.health -= playerDamage;
+  monsterHealthText.innerText = enemy.health;
+  text.innerText = "The " + enemy.name + " attacks for " + monsterDamage + ".";
+  text.innerText += " You attack the " + enemy.name " with your " + weapons[currentWeapon].name + " for " + playerDamage + ".";
 
-  if (Math.random() <= 0.1 && inventory.length !== 1) {
-    text.innerText += " Your " + inventory.pop() + " breaks.";
-    weaponUp;
-  }
-}
+
+
 
 /**
  * Calculates the attack damage value for a monster based on its level.
  * Subtracts a random value based on player XP to add variability.
 */
 export function getMonsterAttackValue(level) {
+  let hit = (level * 5) - (Math.floor(Math.random() * xp));
+  console.log(hit);
+  return hit;
+}
+
+// gets attack value of the player
+export function getPlayerAttackValue(level) {
   let hit = (level * 5) - (Math.floor(Math.random() * xp));
   console.log(hit);
   return hit;

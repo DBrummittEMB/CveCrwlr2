@@ -5,6 +5,8 @@ export class Weapon {
         this.power = power;
     }
 }
+
+let stick = new Weapon('stick');
 */
 
 export const weapons = [

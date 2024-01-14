@@ -1,6 +1,54 @@
 import { locations } from './location.js';
 import { fightDragon } from './fight.js';
 import { lose } from './endGame.js';
+// DOM assignments
+const button1 = document.querySelector("#button1");
+const button2 = document.querySelector("#button2");
+const button3 = document.querySelector("#button3");
+const text = document.querySelector("#text");
+export const xpText = document.querySelector("#xpText");
+export const healthText = document.querySelector("#healthText");
+export const goldText = document.querySelector("#goldText");
+const monsterStats = document.querySelector("#monsterStats");
+export const monsterNameText = document.querySelector("#monsterName");
+export const monsterHealthText = document.querySelector("#monsterHealth");
+
+// Entity
+export class Entity {
+  constructor(id) {
+      this.id = id;
+      this.components = {};
+  }
+
+  addComponent(componentType, component) {
+      this.components[componentType] = component;
+  }
+
+  getComponent(componentType) {
+      return this.components[componentType];
+  }
+}
+
+// EntityManager
+export class EntityManager {
+  constructor() {
+      this.entities = [];
+      this.nextId = 0;
+  }
+
+  createEntity() {
+      let entity = new Entity(this.nextId++);
+      this.entities.push(entity);
+      return entity;
+  }
+
+  getEntitiesWithComponent(componentType) {
+      return this.entities.filter(entity => entity.getComponent(componentType));
+  }
+}
+
+// initialize entity manager
+const entityManager = new EntityManager();
 
 /* Handle player stats logic */
 
@@ -33,13 +81,7 @@ export function addGold(amount) {
   gold += amount;
 }
 export function subtractGold(amount) {
-  if (gold >= amount) {
-    gold -= amount;
-    // Additional logic if needed
-  } else {
-    text.innerText = "You do not have enough gold to buy health.";
-    // Handle insufficient gold
-  }
+  gold -= amount; 
 }
 
 // Changing weapons
@@ -59,47 +101,14 @@ export function weaponDown() {
 
 /* End of player stats logic section */
 
-// DOM assignments
-const button1 = document.querySelector("#button1");
-const button2 = document.querySelector("#button2");
-const button3 = document.querySelector("#button3");
-const text = document.querySelector("#text");
-export const xpText = document.querySelector("#xpText");
-export const healthText = document.querySelector("#healthText");
-export const goldText = document.querySelector("#goldText");
-const monsterStats = document.querySelector("#monsterStats");
-export const monsterNameText = document.querySelector("#monsterName");
-export const monsterHealthText = document.querySelector("#monsterHealth");
-
 // initialize buttons
 button1.onclick = goStore;
-
-/*
-button1.onclick = () => {
-  console.log("Store button clicked");
-};
-*/
-
 button2.onclick = goCave;
-
-/*
-button2.onclick = () => {
-  console.log("Cave button clicked");
-};
-*/
-
 button3.onclick = fightDragon;
 
 button3.onclick = () => {
   console.log("Dragon button clicked");
 };
-
-/*
-button3.onclick = () => {
-  console.log("Dragon button clicked");
-};
-*/
-
 
 /**
  * Updates the UI based on the given location object.
@@ -124,6 +133,10 @@ export function update(location) {
   }
 }
 
+/**
+ * Resets the player stats and inventory to starting values, 
+ * and updates the UI to the town view.
+ */
 export function restart() {
   xp = 0;
   health = 100;
