@@ -1,8 +1,5 @@
-import { addHealth, gold, subtractGold, weaponUp } from './script.js';
-import { health } from './script.js';
-import { currentWeapon } from './script.js';
+import { addHealth, gold, subtractGold, weaponUp, health, currentWeapon, inventory } from './script.js';
 import { weapons } from './item.js';
-import { inventory } from './script.js';
 
 /**
  * Subtracts gold from the player's total and adds health,

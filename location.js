@@ -1,16 +1,7 @@
-import { goStore } from './script.js';
-import { goCave } from './script.js';
-import { goTown } from './script.js';
-import { fightDragon } from './fight.js';
-import { fightSlime } from './fight.js';
-import { fightBeast } from './fight.js';
-import { attack } from './fight.js';
-import { dodge } from './fight.js';
-import { buyHealth } from './store.js';
-import { buyWeapon } from './store.js';
-import { easterEgg } from './script.js';
+import { goStore, goCave, goTown, easterEgg, restart } from './script.js';
+import { fightDragon, fightSlime, fightBeast, attack, dodge } from './fight.js';
+import { buyHealth, buyWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
-import { restart } from './script.js';
 
 /*
 export class location {
