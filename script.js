@@ -36,8 +36,11 @@ export class EntityManager {
       this.nextId = 0;
   }
 
-  createEntity() {
+  createEntity(initObject) {
       let entity = new Entity(this.nextId++);
+      for (const key in initObject) {
+        entity.addComponent(key, initObject[key]);
+    }
       this.entities.push(entity);
       return entity;
   }
@@ -48,7 +51,7 @@ export class EntityManager {
 }
 
 // initialize entity manager
-const entityManager = new EntityManager();
+export const entityManager = new EntityManager();
 
 /* Handle player stats logic */
 

@@ -1,17 +1,3 @@
-/*
-export class Monster {
-    constructor(config) {
-        this.name = name;
-        this.level = level;
-        this.health = health;
-        this.imageUrl = imageUrl;
-    }
-}
-
-let slime = new Monster(monsters[0]);
-
-*/
-
 export const monsters = [
   {
     name: "Slime",
