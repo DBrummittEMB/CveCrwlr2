@@ -1,5 +1,5 @@
 import { goStore, goCave, goTown, easterEgg, restart } from './script.js';
-import { fightDragon, fightSlime, fightBeast, attack, dodge } from './fight.js';
+import { fightDragon, fightSlime, fightBeast, combatSystem, combat } from './fight.js';
 import { buyHealth, buyWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 
@@ -40,7 +40,7 @@ export const locations = [
     {
       name: "fight",
       "button text": ["Attack", "Dodge", "Run"],
-      "button functions": [attack, dodge, goTown],
+      "button functions": [combat.attack, combatSystem.dodge, goTown],
       text: "You are fighting a monster.",
       image: true
     },

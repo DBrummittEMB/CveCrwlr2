@@ -6,15 +6,50 @@ import { update, currentWeapon, entityManager, health, xp, monsterNameText, mons
 
 let fighting;
 
-/** Need to update the individual monsters to a single function that builds monsters from a class */
+export const combatSystem = (function() {
+  let enemy;
+  let enemyHealth;
+  let enemyName;
 
+  function goFight() {
+    update(locations[3]);
+    enemy = entityManager.createEntity(monsters[fighting]);
+    enemyHealth = enemy.getComponent("health");
+    enemyName = enemy.getComponent("name");
+    monsterStats.style.display = "block";
+    monsterNameText.innerText = enemyName;
+    monsterHealthText.innerText = enemyHealth;
+  
+    const monsterImage = document.getElementById('image');
+    monsterImage.src = monsters[fighting].imageUrl;
+    monsterImage.style.display = "block";
+  }
+  function attack() {
+    let monsterDamage = getMonsterAttackValue(enemy.getComponent("level"));
+    let playerDamage = getPlayerAttackValue(enemy.getComponent("level"));
+    subtractHealth(monsterDamage);
+    healthText.innerText = health;
+    enemyHealth -= playerDamage;
+    monsterHealthText.innerText = enemyHealth;
+    text.innerText = "The " + enemyName + " attacks for " + monsterDamage + ".";
+    text.innerText += " You attack the " + enemyName + " with your " + weapons[currentWeapon].name + " for " + playerDamage + ".";
+    console.log("Attack called");
+    if (enemyHealth <= 0) {
+      defeatMonster();
+    }
+  }
+
+  return { goFight, attack };
+})
+
+export const combat = combatSystem();
 /**
  * Starts a fight with the Slime monster.
  * Calls goFight() to update the UI for the fight.
  */
 export function fightSlime() {
   fighting = 0;
-  goFight();
+  combat.goFight();
   console.log("Slime button clicked");
 }
 
@@ -23,7 +58,7 @@ export function fightSlime() {
  */
 export function fightBeast() {
   fighting = 1;
-  goFight();
+  combat.goFight();
 }
 
 /**
@@ -31,36 +66,8 @@ export function fightBeast() {
  */
 export function fightDragon() {
   fighting = 2;
-  goFight();
+  combat.goFight();
 }
-
-
-
-
-
-export function goFight() {
-  update(locations[3]);
-  let enemy = entityManager.createEntity(monsters[fighting]);
-  monsterStats.style.display = "block";
-  monsterNameText.innerText = enemy.getComponent("name");
-  monsterHealthText.innerText = enemy.getComponent("health");
-
-  const monsterImage = document.getElementById('image');
-  monsterImage.src = monsters[fighting].imageUrl;
-  monsterImage.style.display = "block";
-}
-export function attack() {
-  let monsterDamage = getMonsterAttackValue(monsters[fighting].level);
-  let playerDamage = getPlayerAttackValue(level);
-  subtractHealth(monsterDamage);
-  enemy.health -= playerDamage;
-  monsterHealthText.innerText = enemy.health;
-  text.innerText = "The " + enemy.name + " attacks for " + monsterDamage + ".";
-  text.innerText += " You attack the " + enemy.name + " with your " + weapons[currentWeapon].name + " for " + playerDamage + ".";
-  
-}
-
-
 
 /**
  * Calculates the attack damage value for a monster based on its level.
