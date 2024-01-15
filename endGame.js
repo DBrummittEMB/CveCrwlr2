@@ -1,6 +1,6 @@
 import { update } from './script.js';
 import { locations } from './location.js';
-
+import { healthText, health } from './script.js';
 export function winGame() {
     update(locations[6]);
   
@@ -15,4 +15,6 @@ export function lose() {
     const loseImage = document.getElementById('image');
     loseImage.src = locations[5].imageUrl;
     loseImage.style.display = "block";
+    healthText.innerText = health;
+    console.log(health);
   }

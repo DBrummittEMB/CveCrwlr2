@@ -35,7 +35,11 @@ export const combatSystem = (function() {
     text.innerText += " You attack the " + enemyName + " with your " + weapons[currentWeapon].name + " for " + playerDamage + ".";
     console.log("Attack called");
     if (enemyHealth <= 0) {
-      defeatMonster();
+      if (enemyName === "Dragon") {
+        winGame();
+      } else{
+        defeatMonster();
+      }
     }
   }
 
@@ -81,7 +85,7 @@ function getMonsterAttackValue(level) {
 
 // gets attack value of the player
 function getPlayerAttackValue(level) {
-  let hit = (level * 5) - (Math.floor(Math.random() * xp));
+  let hit = (level * 15) - (Math.floor(Math.random() * xp));
   console.log(hit);
   return hit;
 }

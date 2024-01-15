@@ -73,6 +73,7 @@ export function subtractHealth(amount) {
   if (health >= amount) {
     health -= amount;
   } else {
+    health -= amount;
     lose();
     // Handle insufficient health, ie losing
   }
