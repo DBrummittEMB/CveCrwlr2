@@ -11,20 +11,20 @@ export const smallMonsters = [
     level: 1,
     health: 28,
     power: 8,
-    imageUrl: "/imgs/phantomImage.png"
+    imageUrl: "/imgs/phantom.png"
   },
   {
     name: "Venomous Serpent",
     level: 1,
     health: 10,
     power: 3,
-    imageUrl: "/imgs/venomousSerpentImage.png"
+    imageUrl: "/imgs/venomousSerpent.png"
   },
   {
     name: "Prairie Wolf",
     level: 2,
     health: 12,
-    imageUrl: "/imgs/prairieWolfImage.png"
+    imageUrl: "/imgs/prairieWolf.png"
   },
   {
     name: "Mountain Viper",
@@ -111,14 +111,14 @@ export const mediumMonsters = [
     level: 1,
     health: 38,
     power: 18,
-    imageUrl: "/imgs/arcaneGolemImage.png"
+    imageUrl: "/imgs/arcaneGolem.png"
   },
   {
     name: "Spectral Assassin",
     level: 1,
     health: 50,
     power: 15,
-    imageUrl: "/imgs/spectralAssassinImage.png"
+    imageUrl: "/imgs/spectralAssassin.png"
   },
   {
     name: "Lava Beast",
