@@ -1,27 +1,35 @@
 import { locations } from './location.js';
-import { monsters } from './monster.js';
+import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { winGame, lose } from './endGame.js';
 import { weapons } from './item.js';
 import { update, currentWeapon, entityManager, health, xp, monsterNameText, monsterHealthText, subtractHealth, addXp, addGold, gold, inventory, weaponUp } from './script.js';
 
 let fighting;
 
-export const combatSystem = (function() {
+/**
+ * Defines a combat system with functions to start a fight and attack.
+ * Creates an enemy entity, sets its health and name.
+ * Updates UI to show enemy stats and image.
+ * Calculates monster and player attack damage based on levels.
+ * Reduces enemy health when player attacks.
+ * Checks for win or loss based on enemy health after attack.
+*/
+export const combatSystem = (function () {
   let enemy;
   let enemyHealth;
   let enemyName;
 
   function goFight() {
     update(locations[3]);
-    enemy = entityManager.createEntity(monsters[fighting]);
+    enemy = entityManager.createEntity(fighting);
     enemyHealth = enemy.getComponent("health");
     enemyName = enemy.getComponent("name");
     monsterStats.style.display = "block";
     monsterNameText.innerText = enemyName;
     monsterHealthText.innerText = enemyHealth;
-  
+
     const monsterImage = document.getElementById('image');
-    monsterImage.src = monsters[fighting].imageUrl;
+    monsterImage.src = fighting.imageUrl;
     monsterImage.style.display = "block";
   }
   function attack() {
@@ -37,7 +45,7 @@ export const combatSystem = (function() {
     if (enemyHealth <= 0) {
       if (enemyName === "Dragon") {
         winGame();
-      } else{
+      } else {
         defeatMonster();
       }
     }
@@ -47,29 +55,35 @@ export const combatSystem = (function() {
 })
 
 export const combat = combatSystem();
+
 /**
- * Starts a fight with the Slime monster.
+ * Starts a fight with a random small monster.
+ * Sets the fighting variable to a random small monster index. 
  * Calls goFight() to update the UI for the fight.
- */
-export function fightSlime() {
-  fighting = 0;
+*/
+export function fightSmall() {
+  fighting = smallMonsters[Math.floor(Math.random() * 3)];
   combat.goFight();
   console.log("Slime button clicked");
 }
 
 /**
- * Starts a fight with the Beast monster by setting the fighting variable and calling goFight().
+ * Starts a fight with a random medium-difficulty monster.
+ * Sets the fighting variable to a random medium monster index.
+ * Calls goFight() to update the UI for the fight.
  */
-export function fightBeast() {
-  fighting = 1;
+export function fightMedium() {
+  fighting = mediumMonsters[Math.floor(Math.random() * 3)];
   combat.goFight();
 }
 
 /**
- * Starts a fight with the Dragon monster by setting the fighting variable to 2 and calling goFight().
- */
-export function fightDragon() {
-  fighting = 2;
+ * Starts a fight with a random boss monster.
+ * Sets the fighting variable to a random boss monster index.
+ * Calls goFight() to update the UI for the fight.
+*/
+export function fightBoss() {
+  fighting = bossMonsters[Math.floor(Math.random() * 3)];
   combat.goFight();
 }
 
@@ -113,8 +127,8 @@ export function dodge() {
  * Transitions to the next location.
 */
 function defeatMonster() {
-  addGold(Math.floor(monsters[fighting].level * 6.7));
-  addXp(monsters[fighting].level);
+  addGold(Math.floor(fighting.level * 6.7));
+  addXp(fighting.level);
   goldText.innerText = gold;
   xpText.innerText = xp;
   update(locations[4]);

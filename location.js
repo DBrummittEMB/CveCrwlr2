@@ -1,25 +1,13 @@
 import { goStore, goCave, goTown, easterEgg, restart } from './script.js';
-import { fightDragon, fightSlime, fightBeast, combatSystem, combat } from './fight.js';
+import { fightBoss, fightSmall, fightMedium, combatSystem, combat } from './fight.js';
 import { buyHealth, buyWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
-
-/*
-export class location {
-    constructor(name, buttonTxt, buttonFunction, text, image) {
-        this.name = name;
-        this.buttonTxt = buttonTxt;
-        this.buttonFunction = buttonFunction;
-        this.text = text;
-        this.image = image;
-    }
-}
-*/
 
 export const locations = [
     {
       name: "town square",
-      "button text": ["Go to store", "Go to cave", "Fight dragon"],
-      "button functions": [goStore, goCave, fightDragon],
+      "button text": ["Go to store", "Go to cave", "Fight Boss"],
+      "button functions": [goStore, goCave, fightBoss],
       text: "You are in the town square. You see a sign that says \"Store.\"",
       image: false
     },
@@ -32,8 +20,8 @@ export const locations = [
     },
     {
       name: "cave",
-      "button text": ["Fight slime", "Fight fanged beast", "Go to town square"],
-      "button functions": [fightSlime, fightBeast, goTown],
+      "button text": ["Fight small", "Fight medium", "Go to town square"],
+      "button functions": [fightSmall, fightMedium, goTown],
       text: "You enter the cave. You see some monsters.",
       image: false
     },

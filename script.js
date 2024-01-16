@@ -1,5 +1,5 @@
 import { locations } from './location.js';
-import { fightDragon } from './fight.js';
+import { fightBoss } from './fight.js';
 import { lose } from './endGame.js';
 // DOM assignments
 const button1 = document.querySelector("#button1");
@@ -108,7 +108,7 @@ export function weaponDown() {
 // initialize buttons
 button1.onclick = goStore;
 button2.onclick = goCave;
-button3.onclick = fightDragon;
+button3.onclick = fightBoss;
 
 button3.onclick = () => {
   console.log("Dragon button clicked");
