@@ -6,7 +6,7 @@ import { pickTwo, pickEight } from './easterEgg.js';
 export const locations = [
     {
       name: "town square",
-      "button text": ["Go to store", "Go to cave", "Fight Boss"],
+      "button text": ["Go to store", "Go to cave", "Stats", "Inventory", "Fight Boss"],
       "button functions": [goStore, goCave, fightBoss],
       text: "You are in the town square. You see a sign that says \"Store.\"",
       image: false
@@ -27,7 +27,7 @@ export const locations = [
     },
     {
       name: "fight",
-      "button text": ["Attack", "Dodge", "Run"],
+      "button text": ["Attack", "Item(coming soon)", "Run"],
       "button functions": [combat.attack, combatSystem.dodge, goTown],
       text: "You are fighting a monster.",
       image: true
@@ -37,6 +37,13 @@ export const locations = [
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
       "button functions": [goTown, goTown, easterEgg],
       text: "The monster screams \"Arg!\" as it dies. You gain experience points and find gold.",
+      image: false
+    },
+    {
+      name: "stats",
+      "button text": ["Go to town square", "Go to town square", "Go to town square"],
+      "button functions": [goTown, goTown, easterEgg],
+      text: "Health: ${health} | Gold: ${gold} | Weapon: ${weapons[currentWeapon].name}",
       image: false
     },
     {

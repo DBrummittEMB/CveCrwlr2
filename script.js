@@ -5,6 +5,7 @@ import { lose } from './endGame.js';
 const button1 = document.querySelector("#button1");
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
+const button4 = document.querySelector("#button4");
 const text = document.querySelector("#text");
 export const xpText = document.querySelector("#xpText");
 export const healthText = document.querySelector("#healthText");
@@ -57,6 +58,21 @@ export const entityManager = new EntityManager();
 
 // xp handling
 export let xp = 0;
+let level =0;
+let previousXp = 100; //XP for level 1
+let currentXp = 150; //XP for level 2
+export let xpToNextLevel = xp;
+function updateXpToNextLevel() {
+  let nextXp = previousXp + currentXp;
+  previousXp = currentXp;
+  currentXp = nextXp;
+  xpToNextLevel = nextXp;
+}
+/* Usage example when the player levels up
+level++;
+updateXpToNextLevel(); // Call this function each time the player levels up
+*/
+
 export function addXp(amount) {
   xp += amount;
 }
@@ -108,7 +124,9 @@ export function weaponDown() {
 // initialize buttons
 button1.onclick = goStore;
 button2.onclick = goCave;
-button3.onclick = fightBoss;
+button3.onclick = goStats;
+button4.onclick = goInventory;
+button5.onclick = fightBoss;
 
 button3.onclick = () => {
   console.log("Dragon button clicked");
@@ -124,9 +142,13 @@ export function update(location) {
   button1.innerText = location["button text"][0];
   button2.innerText = location["button text"][1];
   button3.innerText = location["button text"][2];
+  button4.innerText = location["button text"][2];
+  button5.innerText = location["button text"][2];
   button1.onclick = location["button functions"][0];
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
+  button4.onclick = location["button functions"][2];
+  button5.onclick = location["button functions"][2];
   text.innerText = location.text;
   console.log("update called")
 

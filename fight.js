@@ -83,7 +83,7 @@ export function fightMedium() {
  * Calls goFight() to update the UI for the fight.
 */
 export function fightBoss() {
-  fighting = bossMonsters[Math.floor(Math.random() * 3)];
+  fighting = bossMonsters[1];
   combat.goFight();
 }
 
