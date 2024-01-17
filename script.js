@@ -15,6 +15,8 @@ export let xpToNextLevel = xp;
 export let inventory = ["stick"];
 export let currentWeapon = 0;
 
+
+
 // Entity
 export class Entity {
   constructor(id) {

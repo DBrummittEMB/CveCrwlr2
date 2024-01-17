@@ -84,7 +84,7 @@ export const locations = [
     {
       name: "pickCharacter",
       "button text": ["Character 1", "Character 2", "Back"],
-      "button functions": [startGame, startGame, goHomeScreen],
+      "button functions": [goTown, goTown, goHomeScreen],
       text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
       imageUrl: "openScreen.png",
       image: true
@@ -148,6 +148,7 @@ export const locations = [
    */
   export function goTown() {
     update(locations[0]);
+    console.log("Town function called");
   }
   
   /**
@@ -155,6 +156,7 @@ export const locations = [
    */
   export function goCave() {
     update(locations[2]);
+    console.log("Cave function called");
   }
   
   /**
@@ -184,4 +186,23 @@ export const locations = [
    */
   export function easterEgg() {
     update(locations[8]);
+    console.log("Easter egg function called");
+  }
+
+  export function goHomeScreen() {
+    update(locations[9]);
+    console.log("Home screen function called");
+  }
+
+  export function goPickCharacter() {
+    update(locations[10]);
+    console.log("Pick character function called");
+  }
+
+  export function goSettings() {
+
+  }
+
+  export function goChangelog() {
+
   }
