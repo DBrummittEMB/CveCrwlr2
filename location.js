@@ -1,7 +1,8 @@
-import { gold, goStore, goCave, goTown,goStats, goInventory, easterEgg, restart, health } from './script.js';
+import { gold, health, currentWeapon } from './script.js';
 import { fightBoss, fightSmall, fightMedium, combatSystem, combat } from './fight.js';
 import { buyHealth, buyWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
+import { weapons } from './item.js';
 
 
 
@@ -79,7 +80,7 @@ export const locations = [
       text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
       imageUrl: "openScreen.png",
       image: true
-    }
+    },
     {
       name: "pickCharacter",
       "button text": ["Character 1", "Character 2", "Back"],
@@ -89,3 +90,98 @@ export const locations = [
       image: true
     }
   ];
+
+  function createButtons(location) {
+    // Remove all existing buttons
+    const buttonContainer = document.getElementById('controls');
+    buttonContainer.innerHTML = '';
+  
+    // Create new buttons based on the location's data
+    location['button text'].forEach((text, index) => {
+        const button = document.createElement('button');
+        button.innerText = text;
+        button.onclick = location['button functions'][index];
+        buttonContainer.appendChild(button);
+    });
+  }
+  
+  // initialize buttons
+  createButtons(locations[0]);
+  
+  /**
+   * Updates the UI based on the given location object.
+   * 
+   * @param {Object} location - The location object containing button text, 
+   * button functions, text, and image properties.
+   */
+  export function update(location) {
+    createButtons(location); // Create buttons dynamically based on location
+    text.innerText = location.text;
+    console.log("update called")
+  
+    if (location.image == false) {
+      monsterStats.style.display = "none";
+      const monsterImage = document.getElementById("image");
+      monsterImage.style.display = "none";
+    }
+  }
+  
+  
+  /**
+   * Resets the player stats and inventory to starting values, 
+   * and updates the UI to the town view.
+   */
+  export function restart() {
+    xp = 0;
+    health = 100;
+    gold = 50;
+    currentWeapon = 0;
+    inventory = ["stick"];
+    goldText.innerText = gold;
+    healthText.innerText = health;
+    xpText.innerText = xp;
+    goTown();
+  }
+  
+  /**
+   * Updates the UI with the town location data.
+   */
+  export function goTown() {
+    update(locations[0]);
+  }
+  
+  /**
+   * Updates the UI with the cave location data.
+   */
+  export function goCave() {
+    update(locations[2]);
+  }
+  
+  /**
+   * Updates the UI with the store location data.
+   */
+  export function goStore() {
+    update(locations[1]);
+    console.log("Store function called");
+  }
+  /**
+   * Updates the UI with the store location data.
+   */
+  export function goStats() {
+    update(locations[5]);
+    console.log("Stats function called");
+  }
+  /**
+   * Updates the UI with the store location data.
+   */
+  export function goInventory() {
+    update(locations[5]);
+    console.log("Inventory function called");
+  }
+  
+  /**
+   * Updates the UI with the easter egg location data.
+   */
+  export function easterEgg() {
+    update(locations[8]);
+  }

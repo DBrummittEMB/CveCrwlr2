@@ -1,5 +1,4 @@
-import { update } from './script.js';
-import { locations } from './location.js';
+import { locations, update } from './location.js';
 import { healthText, health } from './script.js';
 
 

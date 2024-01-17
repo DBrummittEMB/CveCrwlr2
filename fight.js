@@ -1,8 +1,8 @@
-import { locations } from './location.js';
+import { locations, update } from './location.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { winGame, lose } from './endGame.js';
 import { weapons } from './item.js';
-import { update, currentWeapon, entityManager, health, xp, monsterNameText, monsterHealthText, subtractHealth, addXp, addGold, gold, inventory, weaponUp } from './script.js';
+import { currentWeapon, entityManager, health, xp, monsterNameText, monsterHealthText, subtractHealth, addXp, addGold, gold, inventory, weaponUp } from './script.js';
 
 let fighting;
 
