@@ -13,6 +13,10 @@ export const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 export const monsterNameText = document.querySelector("#monsterName");
 export const monsterHealthText = document.querySelector("#monsterHealth");
+export let health = 100;
+export let gold = 50;
+export let xp = 0;
+let level =0;
 
 // Entity
 export class Entity {
@@ -57,8 +61,6 @@ export const entityManager = new EntityManager();
 /* Handle player stats logic */
 
 // xp handling
-export let xp = 0;
-let level =0;
 let previousXp = 100; //XP for level 1
 let currentXp = 150; //XP for level 2
 export let xpToNextLevel = xp;
@@ -81,7 +83,6 @@ export function subtractXp(amount) {
 }
 
 // Health handling
-export let health = 100;
 export function addHealth(amount) {
   health += amount;
 }
@@ -96,12 +97,12 @@ export function subtractHealth(amount) {
 }
 
 // Gold handling
-export let gold = 50;
 export function addGold(amount) {
   gold += amount;
 }
 export function subtractGold(amount) {
-  gold -= amount; 
+  gold -= amount;
+  eventEmitter.emit("goldUpdated");
 }
 
 // Changing weapons
@@ -194,10 +195,24 @@ export function goStore() {
   update(locations[1]);
   console.log("Store function called");
 }
+/**
+ * Updates the UI with the store location data.
+ */
+export function goStats() {
+  update(locations[5]);
+  console.log("Stats function called");
+}
+/**
+ * Updates the UI with the store location data.
+ */
+export function goInventory() {
+  update(locations[5]);
+  console.log("Inventory function called");
+}
 
 /**
  * Updates the UI with the easter egg location data.
  */
 export function easterEgg() {
-  update(locations[7]);
+  update(locations[8]);
 }

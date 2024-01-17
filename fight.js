@@ -83,7 +83,7 @@ export function fightMedium() {
  * Calls goFight() to update the UI for the fight.
 */
 export function fightBoss() {
-  fighting = bossMonsters[1];
+  fighting = bossMonsters[0];
   combat.goFight();
 }
 

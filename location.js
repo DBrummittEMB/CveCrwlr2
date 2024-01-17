@@ -1,4 +1,4 @@
-import { goStore, goCave, goTown, easterEgg, restart } from './script.js';
+import { health, gold, goStore, goCave, goTown,goStats, goInventory, easterEgg, restart } from './script.js';
 import { fightBoss, fightSmall, fightMedium, combatSystem, combat } from './fight.js';
 import { buyHealth, buyWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
@@ -7,7 +7,7 @@ export const locations = [
     {
       name: "town square",
       "button text": ["Go to store", "Go to cave", "Stats", "Inventory", "Fight Boss"],
-      "button functions": [goStore, goCave, fightBoss],
+      "button functions": [goStore, goCave, goStats, goInventory, fightBoss],
       text: "You are in the town square. You see a sign that says \"Store.\"",
       image: false
     },
@@ -43,7 +43,7 @@ export const locations = [
       name: "stats",
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
       "button functions": [goTown, goTown, easterEgg],
-      text: "Health: ${health} | Gold: ${gold} | Weapon: ${weapons[currentWeapon].name}",
+      text: `Health: ${health} | Gold: ${gold} | Weapon: ${weapons[currentWeapon].name}`,
       image: false
     },
     {
