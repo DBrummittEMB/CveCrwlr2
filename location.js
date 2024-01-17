@@ -1,7 +1,9 @@
-import { health, gold, goStore, goCave, goTown,goStats, goInventory, easterEgg, restart } from './script.js';
+import { gold, goStore, goCave, goTown,goStats, goInventory, easterEgg, restart, health } from './script.js';
 import { fightBoss, fightSmall, fightMedium, combatSystem, combat } from './fight.js';
 import { buyHealth, buyWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
+
+
 
 export const locations = [
     {
@@ -69,5 +71,21 @@ export const locations = [
       text: "You find a secret game. Pick a number above. If you pick correctly, you win!",
       imageUrl: "",
       image: false
+    },
+    {
+      name: "homeScreen",
+      "button text": ["Start", "Settings", "Change log"],
+      "button functions": [goPickCharacter, goSettings, goChangelog],
+      text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
+      imageUrl: "openScreen.png",
+      image: true
+    }
+    {
+      name: "pickCharacter",
+      "button text": ["Character 1", "Character 2", "Back"],
+      "button functions": [startGame, startGame, goHomeScreen],
+      text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
+      imageUrl: "openScreen.png",
+      image: true
     }
   ];
