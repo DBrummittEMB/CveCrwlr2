@@ -121,16 +121,22 @@ export function weaponDown() {
 
 /* End of player stats logic section */
 
-// initialize buttons
-button1.onclick = goStore;
-button2.onclick = goCave;
-button3.onclick = goStats;
-button4.onclick = goInventory;
-button5.onclick = fightBoss;
+function createButtons(location) {
+  // Remove all existing buttons
+  const buttonContainer = document.getElementById('controls');
+  buttonContainer.innerHTML = '';
 
-button3.onclick = () => {
-  console.log("Dragon button clicked");
-};
+  // Create new buttons based on the location's data
+  location['button text'].forEach((text, index) => {
+      const button = document.createElement('button');
+      button.innerText = text;
+      button.onclick = location['button functions'][index];
+      buttonContainer.appendChild(button);
+  });
+}
+
+// initialize buttons
+createButtons(locations[0]);
 
 /**
  * Updates the UI based on the given location object.
@@ -139,16 +145,7 @@ button3.onclick = () => {
  * button functions, text, and image properties.
  */
 export function update(location) {
-  button1.innerText = location["button text"][0];
-  button2.innerText = location["button text"][1];
-  button3.innerText = location["button text"][2];
-  button4.innerText = location["button text"][2];
-  button5.innerText = location["button text"][2];
-  button1.onclick = location["button functions"][0];
-  button2.onclick = location["button functions"][1];
-  button3.onclick = location["button functions"][2];
-  button4.onclick = location["button functions"][2];
-  button5.onclick = location["button functions"][2];
+  createButtons(location); // Create buttons dynamically based on location
   text.innerText = location.text;
   console.log("update called")
 
@@ -158,6 +155,7 @@ export function update(location) {
     monsterImage.style.display = "none";
   }
 }
+
 
 /**
  * Resets the player stats and inventory to starting values, 
