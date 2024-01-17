@@ -1,8 +1,9 @@
-import { gold, health, currentWeapon } from './script.js';
+import { gold, health, currentWeapon, xp, inventory } from './script.js';
 import { fightBoss, fightSmall, fightMedium, combatSystem, combat } from './fight.js';
 import { buyHealth, buyWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { weapons } from './item.js';
+import { restart } from './endGame.js';
 
 
 
@@ -106,7 +107,7 @@ export const locations = [
   }
   
   // initialize buttons
-  createButtons(locations[0]);
+  createButtons(locations[9]);
   
   /**
    * Updates the UI based on the given location object.
@@ -126,23 +127,8 @@ export const locations = [
     }
   }
   
-  
-  /**
-   * Resets the player stats and inventory to starting values, 
-   * and updates the UI to the town view.
-   */
-  export function restart() {
-    xp = 0;
-    health = 100;
-    gold = 50;
-    currentWeapon = 0;
-    inventory = ["stick"];
-    goldText.innerText = gold;
-    healthText.innerText = health;
-    xpText.innerText = xp;
-    goTown();
-  }
-  
+
+
   /**
    * Updates the UI with the town location data.
    */

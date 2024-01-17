@@ -1,3 +1,4 @@
+import { eventEmitter } from './eventEmitter.js';
 const text = document.querySelector("#text");
 export const xpText = document.querySelector("#xpText");
 export const healthText = document.querySelector("#healthText");
