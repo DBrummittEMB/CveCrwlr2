@@ -1,30 +1,31 @@
 class nameComponent {
-    constructor(health) {
-        this.health = health;
+    constructor(name) {
+        this.name = name;
     }
 }
 class healthComponent {
     constructor(health) {
         this.health = health;
+        this.maxHealth = maxHealth;
     }
 }
 class levelComponent {
-    constructor(health) {
-        this.health = health;
+    constructor(level) {
+        this.level = level;
     }
 }
 class imageUrlComponent {
-    constructor(health) {
-        this.health = health;
+    constructor(imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
 class xpComponent {
-    constructor(health) {
-        this.health = health;
+    constructor(xp) {
+        this.xp = xp;
     }
 }
 class goldComponent {
-    constructor(health) {
-        this.health = health;
+    constructor(gold) {
+        this.gold = gold;
     }
 }

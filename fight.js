@@ -36,7 +36,6 @@ export const combatSystem = (function () {
     let monsterDamage = getMonsterAttackValue(enemy.getComponent("level"));
     let playerDamage = getPlayerAttackValue(enemy.getComponent("level"));
     subtractHealth(monsterDamage);
-    healthText.innerText = health;
     enemyHealth -= playerDamage;
     monsterHealthText.innerText = enemyHealth;
     text.innerText = "The " + enemyName + " attacks for " + monsterDamage + ".";

@@ -1,9 +1,9 @@
-import { gold, health, currentWeapon, xp, inventory } from './script.js';
+import { eventEmitter } from './eventEmitter.js';
+import { gold, health, currentWeapon, restart } from './script.js';
 import { fightBoss, fightSmall, fightMedium, combatSystem, combat } from './fight.js';
-import { buyHealth, buyWeapon } from './store.js';
+import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { weapons } from './item.js';
-import { restart } from './endGame.js';
 
 
 
@@ -13,21 +13,24 @@ export const locations = [
       "button text": ["Go to store", "Go to cave", "Stats", "Inventory", "Fight Boss"],
       "button functions": [goStore, goCave, goStats, goInventory, fightBoss],
       text: "You are in the town square. You see a sign that says \"Store.\"",
-      image: false
+      imageUrl: "/imgs/townSquare.png",
+      image: true
     },
     {
       name: "store",
-      "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to town square"],
-      "button functions": [buyHealth, buyWeapon, goTown],
+      "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Sell Weapon", "Go to town square"],
+      "button functions": [buyHealth, buyWeapon, sellWeapon, goTown],
       text: "You enter the store.",
-      image: false
+      imageUrl: "/imgs/shop.png",
+      image: true
     },
     {
       name: "cave",
       "button text": ["Fight small", "Fight medium", "Go to town square"],
       "button functions": [fightSmall, fightMedium, goTown],
       text: "You enter the cave. You see some monsters.",
-      image: false
+      imageUrl: "/imgs/cave.png",
+      image: true
     },
     {
       name: "fight",
@@ -79,7 +82,7 @@ export const locations = [
       "button text": ["Start", "Settings", "Change log"],
       "button functions": [goPickCharacter, goSettings, goChangelog],
       text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
-      imageUrl: "openScreen.png",
+      imageUrl: "/imgs/openScreen.png",
       image: true
     },
     {
@@ -87,108 +90,115 @@ export const locations = [
       "button text": ["Character 1", "Character 2", "Back"],
       "button functions": [goTown, goTown, goHomeScreen],
       text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
-      imageUrl: "openScreen.png",
+      imageUrl: "/imgs/openScreen.png",
       image: true
     }
   ];
 
-  function createButtons(location) {
-    // Remove all existing buttons
-    const buttonContainer = document.getElementById('controls');
-    buttonContainer.innerHTML = '';
-  
-    // Create new buttons based on the location's data
-    location['button text'].forEach((text, index) => {
-        const button = document.createElement('button');
-        button.innerText = text;
-        button.onclick = location['button functions'][index];
-        buttonContainer.appendChild(button);
-    });
-  }
+function createButtons(location) {
+  // Remove all existing buttons
+  const buttonContainer = document.getElementById('controls');
+  buttonContainer.innerHTML = '';
+
+  // Create new buttons based on the location's data
+  location['button text'].forEach((text, index) => {
+      const button = document.createElement('button');
+      button.innerText = text;
+      button.onclick = location['button functions'][index];
+      buttonContainer.appendChild(button);
+  });
+}
   
   // initialize buttons
   createButtons(locations[9]);
   
-  /**
-   * Updates the UI based on the given location object.
-   * 
-   * @param {Object} location - The location object containing button text, 
-   * button functions, text, and image properties.
-   */
-  export function update(location) {
-    createButtons(location); // Create buttons dynamically based on location
-    text.innerText = location.text;
-    console.log("update called")
+/**
+ * Updates the UI based on the given location object.
+ * 
+ * @param {Object} location - The location object containing button text, 
+ * button functions, text, and image properties.
+ */
+export function update(location) {
+  createButtons(location); // Create buttons dynamically based on location
+  text.innerText = location.text;
+  console.log("update called")
+  if (location.image == false) {
+    monsterStats.style.display = "none";
+    const monsterImage = document.getElementById("image");
+    monsterImage.style.display = "none";
+  } else if (location.image == true) {
+    monsterStats.style.display = "block";
+    const monsterImage = document.getElementById("image");
+    monsterImage.style.display = "block";
+    monsterImage.src = location.imageUrl;
+  }
+}
   
-    if (location.image == false) {
-      monsterStats.style.display = "none";
-      const monsterImage = document.getElementById("image");
-      monsterImage.style.display = "none";
-    }
-  }
+eventEmitter.on('update', update);
+eventEmitter.on('goldUpdated', () => { goldText.innerText = gold; });
+eventEmitter.on('healthUpdated', () => { healthText.innerText = health });
+eventEmitter.on('restart', () => update(locations[9]));
+
+/**
+ * Updates the UI with the town location data.
+ */
+export function goTown() {
+  update(locations[0]);
+  console.log("Town function called");
+}
   
-
-
-  /**
-   * Updates the UI with the town location data.
-   */
-  export function goTown() {
-    update(locations[0]);
-    console.log("Town function called");
-  }
+/**
+ * Updates the UI with the cave location data.
+ */
+export function goCave() {
+  update(locations[2]);
+  console.log("Cave function called");
+}
   
-  /**
-   * Updates the UI with the cave location data.
-   */
-  export function goCave() {
-    update(locations[2]);
-    console.log("Cave function called");
-  }
+/**
+ * Updates the UI with the store location data.
+ */
+export function goStore() {
+  update(locations[1]);
+  console.log("Store function called");
+}
+/**
+ * Updates the UI with the store location data.
+ */
+export function goStats() {
+  update(locations[5]);
+  console.log("Stats function called");
+}
+/**
+ * Updates the UI with the store location data.
+ */
+export function goInventory() {
+  update(locations[5]);
+  console.log("Inventory function called");
+}
   
-  /**
-   * Updates the UI with the store location data.
-   */
-  export function goStore() {
-    update(locations[1]);
-    console.log("Store function called");
-  }
-  /**
-   * Updates the UI with the store location data.
-   */
-  export function goStats() {
-    update(locations[5]);
-    console.log("Stats function called");
-  }
-  /**
-   * Updates the UI with the store location data.
-   */
-  export function goInventory() {
-    update(locations[5]);
-    console.log("Inventory function called");
-  }
-  
-  /**
-   * Updates the UI with the easter egg location data.
-   */
-  export function easterEgg() {
-    update(locations[8]);
-    console.log("Easter egg function called");
-  }
+/**
+ * Updates the UI with the easter egg location data.
+ */
+export function easterEgg() {
+  update(locations[8]);
+  console.log("Easter egg function called");
+}
 
-  export function goHomeScreen() {
-    update(locations[9]);
-    console.log("Home screen function called");
-  }
+export function goHomeScreen() {
+  update(locations[9]);
+  console.log("Home screen function called");
+}
 
-  export function goPickCharacter() {
-    update(locations[10]);
-    console.log("Pick character function called");
-  }
+export function goPickCharacter() {
+  update(locations[10]);
+  console.log("Pick character function called");
+}
 
-  export function goSettings() {
+export function goSettings() {
 
-  }
+}
 
-  export function goChangelog() {
+export function goChangelog() {
 
-  }
+}

@@ -6,6 +6,7 @@ export const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 export const monsterNameText = document.querySelector("#monsterName");
 export const monsterHealthText = document.querySelector("#monsterHealth");
+export const image = document.querySelector("#image");
 export let health = 100;
 export let gold = 50;
 export let xp = 0;
@@ -74,24 +75,29 @@ updateXpToNextLevel(); // Call this function each time the player levels up
 
 export function addXp(amount) {
   xp += amount;
+  eventEmitter.emit("xpUpdated");
 }
 export function subtractXp(amount) {
   xp -= amount;
+  eventEmitter.emit("xpUpdated");
 }
 
 // Health handling
 export function addHealth(amount) {
   health += amount;
+  eventEmitter.emit("healthUpdated");
 }
 export function subtractHealth(amount) {
   if (health >= amount) {
     health -= amount;
+    eventEmitter.emit("healthUpdated");
   } 
 }
 
 // Gold handling
 export function addGold(amount) {
   gold += amount;
+  eventEmitter.emit("goldUpdated");
 }
 export function subtractGold(amount) {
   gold -= amount;
@@ -113,3 +119,15 @@ export function weaponDown() {
 
 /* End of player stats logic section */
 
+export function restart() {
+  xp = 0;
+  health = 100;
+  gold = 50;
+  currentWeapon = 0;
+  inventory = ["stick"];
+  goldText.innerText = gold;
+  healthText.innerText = health;
+  xpText.innerText = xp;
+  eventEmitter.emit("restart");
+  console.log("restart function called");
+}
