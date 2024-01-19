@@ -1,6 +1,5 @@
 import { eventEmitter } from './eventEmitter.js';
-import { gold, health, currentWeapon, restart } from './script.js';
-import { fightBoss, fightSmall, fightMedium, combatSystem, combat } from './fight.js';
+import { restart, player } from './script.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { weapons } from './item.js';
@@ -11,7 +10,7 @@ export const locations = [
     {
       name: "town square",
       "button text": ["Go to store", "Go to cave", "Stats", "Inventory", "Fight Boss"],
-      "button functions": [goStore, goCave, goStats, goInventory, fightBoss],
+      "button functions": [goStore, goCave, goStats, goInventory, eventEmitter.emit('fightBoss')],
       text: "You are in the town square. You see a sign that says \"Store.\"",
       imageUrl: "/imgs/townSquare.png",
       image: true
@@ -27,7 +26,7 @@ export const locations = [
     {
       name: "cave",
       "button text": ["Fight small", "Fight medium", "Go to town square"],
-      "button functions": [fightSmall, fightMedium, goTown],
+      "button functions": [eventEmitter.emit('fightSmall'), eventEmitter.emit('fightMedium'), goTown],
       text: "You enter the cave. You see some monsters.",
       imageUrl: "/imgs/cave.png",
       image: true
@@ -35,7 +34,7 @@ export const locations = [
     {
       name: "fight",
       "button text": ["Attack", "Item(coming soon)", "Run"],
-      "button functions": [combat.attack, combatSystem.dodge, goTown],
+      "button functions": [eventEmitter.emit('attack'), eventEmitter.emit('dodge'), goTown],
       text: "You are fighting a monster.",
       image: true
     },
@@ -50,7 +49,7 @@ export const locations = [
       name: "stats",
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
       "button functions": [goTown, goTown, easterEgg],
-      text: `Health: ${health} | Gold: ${gold} | Weapon: ${weapons[currentWeapon].name}`,
+      text: `Health: ${player.health} | Gold: ${player.gold} | Weapon: ${weapons[player.currentWeapon]}`,
       image: false
     },
     {
@@ -118,7 +117,7 @@ function createButtons(location) {
  * @param {Object} location - The location object containing button text, 
  * button functions, text, and image properties.
  */
-export function update(location) {
+eventEmitter.on('update', (location) => {
   createButtons(location); // Create buttons dynamically based on location
   text.innerText = location.text;
   console.log("update called")
@@ -132,18 +131,19 @@ export function update(location) {
     monsterImage.style.display = "block";
     monsterImage.src = location.imageUrl;
   }
-}
+});
   
-eventEmitter.on('update', update);
-eventEmitter.on('goldUpdated', () => { goldText.innerText = gold; });
-eventEmitter.on('healthUpdated', () => { healthText.innerText = health });
+eventEmitter.on('goldUpdated', () => { 
+  let goldComp = player.getComponent('gold');
+  goldText.innerText = goldComp.gold;
+ });
 eventEmitter.on('restart', () => update(locations[9]));
 
 /**
  * Updates the UI with the town location data.
  */
 export function goTown() {
-  update(locations[0]);
+  eventEmitter.emit('update', (locations[0]) );
   console.log("Town function called");
 }
   
@@ -151,7 +151,7 @@ export function goTown() {
  * Updates the UI with the cave location data.
  */
 export function goCave() {
-  update(locations[2]);
+  eventEmitter.emit('update', (locations[2]) );
   console.log("Cave function called");
 }
   
@@ -159,21 +159,21 @@ export function goCave() {
  * Updates the UI with the store location data.
  */
 export function goStore() {
-  update(locations[1]);
+  eventEmitter.emit('update', (locations[1]) );
   console.log("Store function called");
 }
 /**
  * Updates the UI with the store location data.
  */
 export function goStats() {
-  update(locations[5]);
+  eventEmitter.emit('update', (locations[5]) );
   console.log("Stats function called");
 }
 /**
  * Updates the UI with the store location data.
  */
 export function goInventory() {
-  update(locations[5]);
+  eventEmitter.emit('update', (locations[5]) );
   console.log("Inventory function called");
 }
   
@@ -181,17 +181,17 @@ export function goInventory() {
  * Updates the UI with the easter egg location data.
  */
 export function easterEgg() {
-  update(locations[8]);
+  eventEmitter.emit('update', (locations[8]) );
   console.log("Easter egg function called");
 }
 
 export function goHomeScreen() {
-  update(locations[9]);
+  eventEmitter.emit('update', (locations[9]) );
   console.log("Home screen function called");
 }
 
 export function goPickCharacter() {
-  update(locations[10]);
+  eventEmitter.emit('update', (locations[10]) );
   console.log("Pick character function called");
 }
 

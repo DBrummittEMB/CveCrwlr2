@@ -1,5 +1,4 @@
-import { lose } from './endGame.js';
-import { addGold, subtractHealth, gold, health } from './script.js';
+import { player } from './script.js';
 
 export function pickTwo() {
     pick(2);
@@ -24,14 +23,10 @@ export function pick(guess) {
     }
     if (numbers.indexOf(guess) !== -1) {
       text.innerText += "Correct! You win 20 gold!";
-      addGold(20);
-      goldText.innerText = gold;
+      eventEmitter.emit('addGold', 20);
+      goldText.innerText = player.gold;
     } else {
       text.innerText += "Wrong! You lose 10 health!";
-      subtractHealth(10);
-      healthText.innerText = health;
-      if (health <= 0) {
-        lose();
-      }
+      eventEmitter.emit('playerDamaged', 10);
     }
   }

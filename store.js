@@ -1,14 +1,16 @@
-import { addHealth, gold, subtractGold, weaponUp, currentWeapon, inventory, addGold } from './script.js';
-import { weapons } from './item.js';
+import { player } from './script.js';
+import { eventEmitter } from './eventEmitter.js';
 
 /**
  * Subtracts gold from the player's total and adds health,
  * then updates the UI to reflect the new gold and health values.
  */
 export function buyHealth() {
-  if (gold >= 10) {
-    subtractGold(10);
-    addHealth(10);
+  let goldComponent = player.getComponent('gold');
+  if (goldComponent.gold >= 10) {
+    console.log(goldComponent.gold);
+    eventEmitter.emit('subtractGold', 10);
+    eventEmitter.emit('addHealth', 10);
   } else {
     text.innerText = "You do not have enough gold to buy health.";
     // Handle insufficient gold
@@ -22,18 +24,9 @@ export function buyHealth() {
  * the most powerful and updates text and button if so.
 */
 export function buyWeapon() {
-  if (gold >= 30) {
-    if (currentWeapon < weapons.length - 1) {
-      subtractGold(30);
-      weaponUp();
-      let newWeapon = weapons[currentWeapon].name;
-      text.innerText = "You now have a " + newWeapon + ".";
-      inventory.push(newWeapon);
-      text.innerText += " In your inventory you have: " + inventory;
-      console.log("buyweapon function called");
-    } else {
-      text.innerText = "You already have the most powerful weapon!";
-    }
+  let goldComponent = player.getComponent('gold');
+  if (goldComponent.gold >= 30) {
+    eventEmitter.emit('subtractGold', 30);
   } else {
     text.innerText = "You do not have enough gold to buy a weapon.";
   }
@@ -44,13 +37,13 @@ export function buyWeapon() {
  * updating the text with the sold weapon name, and updating the inventory text.
 */
 export function sellWeapon() {
-  if (inventory.length > 1) {
-    addGold(15);
-    let soldWeapon = inventory.shift();
+  let inventoryComponent = player.getComponent('inventory');
+  if (inventoryComponent.length > 1) {
+    eventEmitter.emit('addGold', 20);
+    let soldWeapon = inventoryComponent.shift();
     text.innerText = "You sold a " + soldWeapon + ".";
-    text.innerText += " In your inventory you have: " + inventory;
+    text.innerText += " In your inventory you have: " + inventoryComponent;
   } else {
     text.innerText = "Don't sell your only weapon!";
   };
 }
-
