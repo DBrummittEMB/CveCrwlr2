@@ -33,6 +33,9 @@ function fightSmall() {
 function fightMedium() {
   eventEmitter.emit('fightMedium');
 }
+function fightBoss() {
+  eventEmitter.emit('fightBoss');
+}
 function attack() {
   eventEmitter.emit('attack');
 }
@@ -44,7 +47,7 @@ export const locations = [
     {
       name: "town square",
       "button text": ["Go to store", "Go to cave", "Stats", "Inventory", "Fight Boss"],
-      "button functions": [goStore, goCave, goStats, goInventory, eventEmitter.emit('fightBoss')],
+      "button functions": [goStore, goCave, goStats, goInventory, fightBoss],
       text: "You are in the town square. You see a sign that says \"Store.\"",
       imageUrl: "/imgs/townSquare.png",
       image: true

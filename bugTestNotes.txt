@@ -1,0 +1,65 @@
+--------------------------------------------------------------------------------------------------
+Sell Weapon: ##### Done #####
+	-Sell Weapon button is not functional. only says 'Don't sell your only weapon!'
+--------------------------------------------------------------------------------------------------
+
+u.i.:
+	-Gold amount isn't accurate at startup and isn't updated to the accurate amount until it is interacted with. ------Marked as done. Hard code starting amount in html for now, add setting up listeners to functionality update list.
+	-Monster stats are not showing up. -----Done, created new div for images
+	-Restyle the u.i.
+		-ChatGPT Prompt:
+			I am building a Javascript web game...
+
+Easter Egg:
+	-broken functionality recieve the following error:
+		````
+		easterEgg.js:26 Uncaught ReferenceError: eventEmitter is not defined
+    at pick (easterEgg.js:26:7)
+    at HTMLButtonElement.pickEight (easterEgg.js:12:3)
+		````
+--------------------------------------------------------------------------------------------------
+Fight Boss:######## Done ########
+	-Fight Boss button completely broken.
+--------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------
+Losing:######## Done ########
+	-Get the following error on player death:
+		````
+		ncaught TypeError: "update" is not a function
+    at endGame.js:13:31
+    at eventEmitter.js:16:17
+    at Array.forEach (<anonymous>)
+    at EventEmitter.emit (eventEmitter.js:15:36)
+    at script.js:102:18
+    at eventEmitter.js:16:17
+    at Array.forEach (<anonymous>)
+    at EventEmitter.emit (eventEmitter.js:15:36)
+    at fight.js:44:16
+    at eventEmitter.js:16:17
+(anonymous) @ endGame.js:13
+(anonymous) @ eventEmitter.js:16
+emit @ eventEmitter.js:15
+(anonymous) @ script.js:102
+(anonymous) @ eventEmitter.js:16
+emit @ eventEmitter.js:15
+(anonymous) @ fight.js:44
+(anonymous) @ eventEmitter.js:16
+emit @ eventEmitter.js:15
+attack @ location.js:40
+--------------------------------------------------------------------------------------------------
+
+REPLAY button from lose screen:
+	-REPLAY button broken, recieved following error:
+		````
+		Uncaught ReferenceError: update is not defined
+    at location.js:178:34
+    at eventEmitter.js:16:17
+    at Array.forEach (<anonymous>)
+    at EventEmitter.emit (eventEmitter.js:15:36)
+    at HTMLButtonElement.restart (script.js:165:16)
+(anonymous) @ location.js:178
+(anonymous) @ eventEmitter.js:16
+emit @ eventEmitter.js:15
+restart @ script.js:165
+		````

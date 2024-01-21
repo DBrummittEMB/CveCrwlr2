@@ -10,7 +10,7 @@ export function winGame() {
   }
 
 eventEmitter.on('lose', () => {
-    eventEmitter.emit('update'(locations[6]));
+    eventEmitter.emit('update', (locations[6]));
   
     const loseImage = document.getElementById('image');
     loseImage.src = locations[6].imageUrl;
