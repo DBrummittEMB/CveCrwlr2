@@ -66,6 +66,12 @@ export let player = entityManager.createEntity({
 })
 player.getComponent('inventory').items.push(weapons[0].name);
 //console.log(player);
+//console.log(player.id);
+// Log entities 
+entityManager.entities.forEach(entity => {
+  console.log(entity);
+});
+
 
 /* Handle player stats logic */
 eventEmitter.on('addXp',(amount) => {
@@ -143,25 +149,3 @@ eventEmitter.on('weaponDown',() => {
     text.innerText = "You don't have any weapons in your inventory!";
   }
 });
-
-/* End of player stats logic section */
-
-export function restart() {
-  let playerID = player.getComponent('id');
-  entityManager.removeEntity(playerID);
-  player = entityManager.createEntity({
-    'name': new nameComponent("player"),
-    'health': new healthComponent(100),
-    'level': new levelComponent(1),
-    'xp': new xpComponent(0),
-    'gold': new goldComponent(50),
-    'imageUrl': new imageUrlComponent("images/player.png"),
-    'strength': new strengthComponent(10),
-    'intelligence': new intelligenceComponent(10),
-    'currentWeapon': new currentWeaponComponent(0),
-    'inventory': new inventoryComponent()
-  });
-  player.getComponent('inventory').items.push(weapons[0].name);
-  eventEmitter.emit("restart");
-  console.log("restart function called");
-}

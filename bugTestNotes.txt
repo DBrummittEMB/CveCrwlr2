@@ -17,6 +17,8 @@ Easter Egg:
     at pick (easterEgg.js:26:7)
     at HTMLButtonElement.pickEight (easterEgg.js:12:3)
 		````
+
+    
 --------------------------------------------------------------------------------------------------
 Fight Boss:######## Done ########
 	-Fight Boss button completely broken.
@@ -48,8 +50,8 @@ emit @ eventEmitter.js:15
 emit @ eventEmitter.js:15
 attack @ location.js:40
 --------------------------------------------------------------------------------------------------
-
-REPLAY button from lose screen:
+--------------------------------------------------------------------------------------------------
+REPLAY button from lose screen:##########  DONE  ##########
 	-REPLAY button broken, recieved following error:
 		````
 		Uncaught ReferenceError: update is not defined
@@ -63,3 +65,11 @@ REPLAY button from lose screen:
 emit @ eventEmitter.js:15
 restart @ script.js:165
 		````
+--------------------------------------------------------------------------------------------------
+
+Player stats not resetting on restart:
+    - When restarting a game after a game over, the player stats are not reset. This most likely has something to do with the event emitter or the romoval and creation of player entity.
+
+
+Win Functionality is broken:
+  - Error about win not being a function, most likely need to update it to an event emitter.

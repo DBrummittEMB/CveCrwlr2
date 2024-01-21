@@ -1,5 +1,5 @@
 import { eventEmitter } from './eventEmitter.js';
-import { restart, player } from './script.js';
+import {  player } from './script.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 export const monsterNameText = document.querySelector("#monsterName");
@@ -9,22 +9,22 @@ export const monsterHealthStat = document.querySelector("#monsterHealthStat");
 
 function health() {
   let healthComponent = player.getComponent('health');
-  console.log('healthComponent called');
+  //console.log('healthComponent called');
   return healthComponent.currentHealth;
 }
 function gold() {
   let goldComponent = player.getComponent('gold');
-  console.log('goldComponent called');
+  //console.log('goldComponent called');
   return goldComponent.gold;
 }
 function inventory() {
   let inventoryComponent = player.getComponent('inventory');
-  console.log(inventoryComponent.items);
+  //console.log(inventoryComponent.items);
   return inventoryComponent.items;
 }
 function xp() {
   let xpComponent = player.getComponent('xp');
-  console.log('xpComponent called');
+  //console.log('xpComponent called');
   return xpComponent.xp;
 }
 function fightSmall() {
@@ -41,6 +41,9 @@ function attack() {
 }
 function dodge() {
   eventEmitter.emit('dodge');
+}
+function restart() {
+  eventEmitter.emit('restart', player);
 }
 
 export const locations = [
@@ -100,7 +103,7 @@ export const locations = [
     {
       name: "win",
       "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
-      "button functions": [restart, restart, restart],
+      "button functions": [restart(player), restart(player), restart(player)],
       text: "Winner Winner Chicken Dinner!.",
       imageUrl: "/imgs/win.png",
       image: true
@@ -174,8 +177,6 @@ eventEmitter.on('update', (location) => {
     monsterStats.style.display = "none";
   }
 });
-  
-eventEmitter.on('restart', () => update(locations[9]));
 
 /**
  * Updates the UI with the town location data.
