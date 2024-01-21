@@ -201,7 +201,7 @@ export const mediumMonsters = [
   export const bossMonsters = [
     {
       name: "Dragon",
-      level: 10,
+      level: 5,
       health: 300,
       imageUrl: "/imgs/bossDragon.png"
     },

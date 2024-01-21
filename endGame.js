@@ -2,16 +2,16 @@ import { locations, } from './location.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { defaultPlayer } from './playerTemplate.js';
 
-export function winGame() {
-    eventEmitter.emit('update'(locations[7]));
+eventEmitter.on('winGame', () => {
+    eventEmitter.emit('update', (locations[7]));
   
     const winImage = document.getElementById('image');
     winImage.src = locations[7].imageUrl;
     winImage.style.display = "block";
-  }
+  });
 
 eventEmitter.on('lose', () => {
-    eventEmitter.emit('update', (locations[6]));
+    eventEmitter.emit('update', (locations[6]) );
   
     const loseImage = document.getElementById('image');
     loseImage.src = locations[6].imageUrl;
@@ -27,9 +27,10 @@ eventEmitter.on('restart', (player) => {
     let playerComponent = player.getComponent(componentName);
     console.log("Component retrieved: ", playerComponent); // Log component retrieved
     if (playerComponent) {
-      if (componentName === 'inventoryComponent') {
+      if (componentName === 'inventory') {
+        console.log('Resetting inventory, default items: ', defaultPlayer[componentName]); // debug inventory component
         // Reset inventory
-        playerComponent.items = [...defaultPlayer[componentName]];
+        playerComponent.items = [...defaultPlayer[componentName].items];
       } else {
         // For other components, reset their properties
         let defaultValues = defaultPlayer[componentName];

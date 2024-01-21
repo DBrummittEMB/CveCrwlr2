@@ -3,22 +3,25 @@ Sell Weapon: ##### Done #####
 	-Sell Weapon button is not functional. only says 'Don't sell your only weapon!'
 --------------------------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------------------------
 u.i.:
 	-Gold amount isn't accurate at startup and isn't updated to the accurate amount until it is interacted with. ------Marked as done. Hard code starting amount in html for now, add setting up listeners to functionality update list.
 	-Monster stats are not showing up. -----Done, created new div for images
 	-Restyle the u.i.
 		-ChatGPT Prompt:
 			I am building a Javascript web game...
+--------------------------------------------------------------------------------------------------
 
-Easter Egg:
+--------------------------------------------------------------------------------------------------
+Easter Egg:################# DONE #################
 	-broken functionality recieve the following error:
 		````
 		easterEgg.js:26 Uncaught ReferenceError: eventEmitter is not defined
     at pick (easterEgg.js:26:7)
     at HTMLButtonElement.pickEight (easterEgg.js:12:3)
 		````
+--------------------------------------------------------------------------------------------------
 
-    
 --------------------------------------------------------------------------------------------------
 Fight Boss:######## Done ########
 	-Fight Boss button completely broken.
@@ -67,9 +70,21 @@ restart @ script.js:165
 		````
 --------------------------------------------------------------------------------------------------
 
-Player stats not resetting on restart:
+--------------------------------------------------------------------------------------------------
+Player stats not resetting on restart:############### DONE ###############
     - When restarting a game after a game over, the player stats are not reset. This most likely has something to do with the event emitter or the romoval and creation of player entity.
+    - Have gone through many iterations and tests. Switched to trying to update the relevant stats in the player entity by creating a default object in playerTemplate.js and looping over it. Logging at every step, check the console for returns.
+----------------------------------------------------------------------------------------------------
 
-
-Win Functionality is broken:
+----------------------------------------------------------------------------------------------------
+Win Functionality is broken:##################### DONE #####################
   - Error about win not being a function, most likely need to update it to an event emitter.
+  --------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------
+  Reset buttons on win screen broken:################### DONE ###################
+    -buttons don't work.
+----------------------------------------------------------------------------------------------------
+
+Inventory is not being reset:
+  - When restarting a game the inventory component of the player is not being reset. most likely a data structure issue.

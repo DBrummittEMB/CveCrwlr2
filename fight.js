@@ -2,7 +2,6 @@ import { locations, monsterHealthText, monsterNameText } from './location.js';
 import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
-import { winGame } from './endGame.js';
 import { player, entityManager } from './script.js';
 
 
@@ -49,7 +48,7 @@ eventEmitter.on('attack', () => {
   console.log("Attack called " + weaponIndex);
   if (enemyHealth <= 0) {
     if (enemyName === "Dragon") {
-      winGame();
+      eventEmitter.emit('winGame');
     } else {
       defeatMonster();
     }

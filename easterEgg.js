@@ -1,4 +1,5 @@
 import { player } from './script.js';
+import { eventEmitter } from './eventEmitter.js';
 
 export function pickTwo() {
     pick(2);
@@ -13,6 +14,8 @@ export function pickEight() {
 }
 
 export function pick(guess) {
+    let goldComponent = player.getComponent('gold');
+    let healthComponent = player.getComponent('health');
     let numbers = [];
     while (numbers.length < 10) {
       numbers.push(Math.floor(Math.random() * 11));
@@ -24,9 +27,10 @@ export function pick(guess) {
     if (numbers.indexOf(guess) !== -1) {
       text.innerText += "Correct! You win 20 gold!";
       eventEmitter.emit('addGold', 20);
-      goldText.innerText = player.gold;
+      goldText.innerText = goldComponent.gold;
     } else {
       text.innerText += "Wrong! You lose 10 health!";
       eventEmitter.emit('playerDamaged', 10);
+      healthText.innerText = healthComponent.currentHealth;
     }
   }

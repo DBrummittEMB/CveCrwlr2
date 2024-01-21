@@ -1,5 +1,5 @@
 import { eventEmitter } from './eventEmitter.js';
-import {  player } from './script.js';
+import {  player, xpText, healthText, goldText } from './script.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 export const monsterNameText = document.querySelector("#monsterName");
@@ -103,7 +103,7 @@ export const locations = [
     {
       name: "win",
       "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
-      "button functions": [restart(player), restart(player), restart(player)],
+      "button functions": [restart, restart, restart],
       text: "Winner Winner Chicken Dinner!.",
       imageUrl: "/imgs/win.png",
       image: true
@@ -159,7 +159,13 @@ function createButtons(location) {
  */
 eventEmitter.on('update', (location) => {
   createButtons(location); // Create buttons dynamically based on location
+  let xpComponent = player.getComponent('xp');
+  let healthComponent = player.getComponent('health');
+  let goldComponent = player.getComponent('gold');
   text.innerText = location.text;
+  goldText.innerText = goldComponent.gold;
+  xpText.innerText = xpComponent.xp;
+  healthText.innerText = healthComponent.currentHealth;
   console.log("update called")
   if (location.image == false) {
     imageContainer.style.display = "none";
