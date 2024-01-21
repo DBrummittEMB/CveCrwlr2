@@ -44,3 +44,8 @@ export class currentWeaponComponent {
         this.weaponIndex = weaponIndex;
     }
 }
+export class inventoryComponent {
+    constructor() {
+        this.items = [];
+    }
+}

@@ -1,14 +1,3 @@
-/*
-export class Weapon {
-    constructor(name, power) {
-        this.name = name;
-        this.power = power;
-    }
-}
-
-let stick = new Weapon('stick');
-*/
-
 export const weapons = [
     {
       name: "stick",

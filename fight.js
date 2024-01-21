@@ -1,8 +1,10 @@
-import { locations, } from './location.js';
+import { locations, monsterHealthText, monsterNameText } from './location.js';
+import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { winGame } from './endGame.js';
-import { player, entityManager, monsterNameText, monsterHealthText, } from './script.js';
+import { player, entityManager } from './script.js';
+
 
 let fighting;
 
@@ -15,12 +17,15 @@ let fighting;
  * Checks for win or loss based on enemy health after attack.
 */
 
+let enemy;
+let enemyHealth;
+let enemyName;
 
 eventEmitter.on('goFight', () => {
   eventEmitter.emit('update', (locations[3]));
-  let enemy = entityManager.createEntity(fighting);
-  let enemyHealth = enemy.getComponent("health");
-  let enemyName = enemy.getComponent("name");
+  enemy = entityManager.createEntity(fighting);
+  enemyHealth = enemy.getComponent("health");
+  enemyName = enemy.getComponent("name");
   monsterStats.style.display = "block";
   monsterNameText.innerText = enemyName;
   monsterHealthText.innerText = enemyHealth;
@@ -30,14 +35,18 @@ eventEmitter.on('goFight', () => {
   monsterImage.style.display = "block";
 });
 eventEmitter.on('attack', () => {
-  let monsterDamage = getMonsterAttackValue(enemy.getComponent("level"));
-  let playerDamage = getPlayerAttackValue(enemy.getComponent("level"));
+  let enemyLevel = enemy.getComponent("level");
+  let monsterDamage = getMonsterAttackValue(enemyLevel);
+  let playerDamage = getPlayerAttackValue(enemyLevel);
+  let currentWeaponComp = player.getComponent('currentWeapon');
+  let weaponIndex = currentWeaponComp.weaponIndex;
+  let weaponName = weapons[weaponIndex].name;
   eventEmitter.emit('playerDamaged', monsterDamage);
   enemyHealth -= playerDamage;
   monsterHealthText.innerText = enemyHealth;
   text.innerText = "The " + enemyName + " attacks for " + monsterDamage + ".";
-  text.innerText += " You attack the " + enemyName + " with your " + player.currentWeapon.name + " for " + playerDamage + ".";
-  console.log("Attack called");
+  text.innerText += " You attack the " + enemyName + " with your " + weaponName + " for " + playerDamage + ".";
+  console.log("Attack called " + weaponIndex);
   if (enemyHealth <= 0) {
     if (enemyName === "Dragon") {
       winGame();
@@ -55,9 +64,9 @@ eventEmitter.on('attack', () => {
 */
 eventEmitter.on('fightSmall', () => {
   fighting = smallMonsters[Math.floor(Math.random() * 3)];
-  goFight();
+  eventEmitter.emit('goFight');
   console.log("Slime button clicked");
-})
+});
 
 /**
  * Starts a fight with a random medium-difficulty monster.
@@ -66,8 +75,8 @@ eventEmitter.on('fightSmall', () => {
  */
 eventEmitter.on('fightMedium', () => {
   fighting = mediumMonsters[Math.floor(Math.random() * 3)];
-  goFight();
-})
+  eventEmitter.emit('goFight');
+});
 
 /**
  * Starts a fight with a random boss monster.
@@ -76,7 +85,7 @@ eventEmitter.on('fightMedium', () => {
 */
 eventEmitter.on('fightBoss', () => {
   fighting = bossMonsters[0];
-  goFight();
+  eventEmitter.emit('goFight');
 })
 
 /**
@@ -84,17 +93,17 @@ eventEmitter.on('fightBoss', () => {
  * Subtracts a random value based on player XP to add variability.
 */
 function getMonsterAttackValue(level) {
-  let xp = player.xp;
-  let hit = (level * 5) - (Math.floor(Math.random() * xp));
-  console.log(hit);
+  let xpComp = player.getComponent("xp");
+  let hit = 1 + (level * 5) - (Math.floor(Math.random() * xpComp.xp));
+  console.log(xpComp.xp);
   return hit;
 }
 
 // gets attack value of the player
 function getPlayerAttackValue(level) {
-  let xp = player.xp;
-  let hit = (level * 15) + (Math.floor(Math.random() * xp));
-  console.log(hit);
+  let xpComp = player.getComponent("xp");
+  let hit = 1 + (level * 15) + (Math.floor(Math.random() * xpComp.xp));
+  console.log(xpComp.xp);
   return hit;
 }
   
@@ -113,9 +122,11 @@ eventEmitter.on('dodge', () => {
 */
 function defeatMonster() {
   let goldReward = (Math.floor(fighting.level * 6.7));
+  let gold = player.getComponent("gold");
+  let xp = player.getComponent("xp");
   eventEmitter.emit('addGold', goldReward);
   eventEmitter.emit('addXp', fighting.level);
-  goldText.innerText = gold;
-  xpText.innerText = xp;
+  goldText.innerText = gold.gold;
+  xpText.innerText = xp.xp;
   eventEmitter.emit('update', (locations[4]));
 }

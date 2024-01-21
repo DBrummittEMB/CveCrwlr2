@@ -1,11 +1,11 @@
 import { eventEmitter } from './eventEmitter.js';
-import { nameComponent, healthComponent, levelComponent, imageUrlComponent, xpComponent, goldComponent, strengthComponent, intelligenceComponent, currentWeaponComponent } from './entityComponent.js';
+import { nameComponent, healthComponent, levelComponent, imageUrlComponent, xpComponent, goldComponent, strengthComponent, intelligenceComponent, currentWeaponComponent, inventoryComponent } from './entityComponent.js';
+import { weapons } from './item.js';
 const text = document.querySelector("#text");
 export const xpText = document.querySelector("#xpText");
 export const healthText = document.querySelector("#healthText");
 export const goldText = document.querySelector("#goldText");
-export const monsterNameText = document.querySelector("#monsterName");
-export const monsterHealthText = document.querySelector("#monsterHealth");
+
 export const image = document.querySelector("#image");
 
 // Entity
@@ -57,25 +57,29 @@ export let player = entityManager.createEntity({
   'health': new healthComponent(100),
   'level': new levelComponent(1),
   'xp': new xpComponent(0),
-  'gold': new goldComponent(50),
+  'gold': new goldComponent(200),
   'imageUrl': new imageUrlComponent("images/player.png"),
   'strength': new strengthComponent(10),
   'intelligence': new intelligenceComponent(10),
-  'currentWeapon': new currentWeaponComponent(0)
+  'currentWeapon': new currentWeaponComponent(0),
+  'inventory': new inventoryComponent()
 })
-console.log(player);
+player.getComponent('inventory').items.push(weapons[0].name);
+//console.log(player);
 
 /* Handle player stats logic */
 eventEmitter.on('addXp',(amount) => {
   let xpComp = player.getComponent('xp');
+  let xpAmt = xpComp.xp + amount;
   xpComp.xp += amount;
-  console.log(`Player gained ${amount} xp. Current xp: ${xpComp}`);
+  console.log(`Player gained ${amount} xp. Current xp: ${xpAmt}`);
   eventEmitter.emit("xpUpdated");
 });
 eventEmitter.on('subtractXp', (amount) => {
   let xpComp = player.getComponent('xp');
+  let xpAmt = xpComp.xp;
   xpComp.xp -= amount;
-  console.log(`Player lost ${amount} xp. Current xp: ${xpComp}`);
+  console.log(`Player lost ${amount} xp. Current xp: ${xpAmt}`);
   eventEmitter.emit("xpUpdated");
 });
 
@@ -104,42 +108,47 @@ eventEmitter.on('playerDamaged', (damageAmount) => {
 eventEmitter.on('addGold', (amount) => {
   let goldComp = player.getComponent('gold');
   goldComp.gold += amount;
-  eventEmitter.emit("goldUpdated");
+  goldText.innerText = goldComp.gold;
 });
 eventEmitter.on('subtractGold', (amount) => {
   let goldComp = player.getComponent('gold');
   //console.log(goldComp.gold);
   goldComp.gold -= amount;
-  eventEmitter.emit("goldUpdated");
+  goldText.innerText = goldComp.gold;
 });
 
 // Changing weapons
 eventEmitter.on('weaponUp',() => {
   let weaponComp = player.getComponent('currentWeapon');
+  let inventory = player.getComponent('inventory').items;
+  console.log('weaponUp listener called');
   if (weaponComp.weaponIndex < weapons.length - 1) {
+    console.log(player)
     weaponComp.weaponIndex++;
     let newWeapon = weapons[weaponComp.weaponIndex].name;
     text.innerText = "You now have a " + newWeapon + ".";
     inventory.push(newWeapon);
     text.innerText += " In your inventory you have: " + inventory;
-    console.log("weaponUp");
+    console.log(inventory);
   } else {
     text.innerText = "You already have the most powerful weapon!";
   }
 });
-export function weaponDown() {
+eventEmitter.on('weaponDown',() => {
   let weaponComp = player.getComponent('currentWeapon');
-  if (inventory.length > 0 && weaponComp.weaponIndex > 0) {
-    weaponComp.weaponIndex--;
+  let inventory = player.getComponent('inventory').items;
+  if (inventory.length > 1 && weaponComp.weaponIndex > 1) {
+    weaponComp.weaponIndex.shift;
   } else {
-    text.innerText = "Don't sell your only weapon!";
+    text.innerText = "You don't have any weapons in your inventory!";
   }
-}
+});
 
 /* End of player stats logic section */
 
 export function restart() {
-  entityManager.removeEntity(player.id);
+  let playerID = player.getComponent('id');
+  entityManager.removeEntity(playerID);
   player = entityManager.createEntity({
     'name': new nameComponent("player"),
     'health': new healthComponent(100),
@@ -149,8 +158,10 @@ export function restart() {
     'imageUrl': new imageUrlComponent("images/player.png"),
     'strength': new strengthComponent(10),
     'intelligence': new intelligenceComponent(10),
-    'currentWeapon': new currentWeaponComponent(0)
-  })
+    'currentWeapon': new currentWeaponComponent(0),
+    'inventory': new inventoryComponent()
+  });
+  player.getComponent('inventory').items.push(weapons[0].name);
   eventEmitter.emit("restart");
   console.log("restart function called");
 }

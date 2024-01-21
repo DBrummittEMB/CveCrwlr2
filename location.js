@@ -2,9 +2,43 @@ import { eventEmitter } from './eventEmitter.js';
 import { restart, player } from './script.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
-import { weapons } from './item.js';
+export const monsterNameText = document.querySelector("#monsterName");
+export const monsterHealthText = document.querySelector("#monsterHealth");
+export const monsterText = document.querySelector("#monsterText");
+export const monsterHealthStat = document.querySelector("#monsterHealthStat");
 
-
+function health() {
+  let healthComponent = player.getComponent('health');
+  console.log('healthComponent called');
+  return healthComponent.currentHealth;
+}
+function gold() {
+  let goldComponent = player.getComponent('gold');
+  console.log('goldComponent called');
+  return goldComponent.gold;
+}
+function inventory() {
+  let inventoryComponent = player.getComponent('inventory');
+  console.log(inventoryComponent.items);
+  return inventoryComponent.items;
+}
+function xp() {
+  let xpComponent = player.getComponent('xp');
+  console.log('xpComponent called');
+  return xpComponent.xp;
+}
+function fightSmall() {
+  eventEmitter.emit('fightSmall');
+}
+function fightMedium() {
+  eventEmitter.emit('fightMedium');
+}
+function attack() {
+  eventEmitter.emit('attack');
+}
+function dodge() {
+  eventEmitter.emit('dodge');
+}
 
 export const locations = [
     {
@@ -26,7 +60,7 @@ export const locations = [
     {
       name: "cave",
       "button text": ["Fight small", "Fight medium", "Go to town square"],
-      "button functions": [eventEmitter.emit('fightSmall'), eventEmitter.emit('fightMedium'), goTown],
+      "button functions": [fightSmall , fightMedium, goTown],
       text: "You enter the cave. You see some monsters.",
       imageUrl: "/imgs/cave.png",
       image: true
@@ -34,7 +68,7 @@ export const locations = [
     {
       name: "fight",
       "button text": ["Attack", "Item(coming soon)", "Run"],
-      "button functions": [eventEmitter.emit('attack'), eventEmitter.emit('dodge'), goTown],
+      "button functions": [attack, dodge, goTown],
       text: "You are fighting a monster.",
       image: true
     },
@@ -49,7 +83,7 @@ export const locations = [
       name: "stats",
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
       "button functions": [goTown, goTown, easterEgg],
-      text: `Health: ${player.health} | Gold: ${player.gold} | Weapon: ${weapons[player.currentWeapon]}`,
+      text: `Health: ${health()} | Gold: ${gold()} | Weapon: ${inventory()} | Experience: ${xp()}`,
       image: false
     },
     {
@@ -122,21 +156,22 @@ eventEmitter.on('update', (location) => {
   text.innerText = location.text;
   console.log("update called")
   if (location.image == false) {
-    monsterStats.style.display = "none";
-    const monsterImage = document.getElementById("image");
-    monsterImage.style.display = "none";
+    imageContainer.style.display = "none";
+    const image = document.getElementById("image");
+    image.style.display = "none";
   } else if (location.image == true) {
+    imageContainer.style.display = "block";
+    const image = document.getElementById("image");
+    image.style.display = "block";
+    image.src = location.imageUrl;
+  }
+  if (location.name == "fight") {
     monsterStats.style.display = "block";
-    const monsterImage = document.getElementById("image");
-    monsterImage.style.display = "block";
-    monsterImage.src = location.imageUrl;
+  } else {
+    monsterStats.style.display = "none";
   }
 });
   
-eventEmitter.on('goldUpdated', () => { 
-  let goldComp = player.getComponent('gold');
-  goldText.innerText = goldComp.gold;
- });
 eventEmitter.on('restart', () => update(locations[9]));
 
 /**
@@ -163,9 +198,17 @@ export function goStore() {
   console.log("Store function called");
 }
 /**
- * Updates the UI with the store location data.
+ * Updates the UI with the stats location data.
  */
 export function goStats() {
+  let healthComp = player.getComponent('health').currentHealth;
+  let goldComp = player.getComponent('gold').gold;
+  let xpComp = player.getComponent('xp').xp;
+  let inventoryComp = player.getComponent('inventory').items.join(', ');
+
+  // Update the text property of the stats location
+  locations[5].text = `Health: ${healthComp} | Gold: ${goldComp} | Weapon: ${inventoryComp} | Experience: ${xpComp}`;
+
   eventEmitter.emit('update', (locations[5]) );
   console.log("Stats function called");
 }
