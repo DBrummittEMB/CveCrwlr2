@@ -2,7 +2,7 @@ Character Choice Screen:
 	- Currently has 2 buttons to choose from 2 different characters. Modify to show both character choices and thier starting stats. Also an image of each. the stats should probably be in a new array similar to how monsters are handled. Potentially many characters could be created with different starting equipment and stats and images.
 
 Stats Screen:
-	- Modify to properly show stats laid out int 2 rows. The first section will be an image of the character the player chose along with the current stats (hp/hp, gold, strength, etc.). The next section will contain stats such as:
+	- Modify to properly show stats laid out int 2 collumns. The first section will be an image of the character the player chose along with the current stats (hp/hp, gold, strength, etc.). The next section will contain stats such as:
 		- a list of monsters killed and how many
 		- Total damage done
 		- Total clicks
@@ -26,3 +26,8 @@ Text Outputs:
 
 Dynamic U.I. Updates:
 	- Set up event listeners for automatic U.I. updating, most likely using the 'update' event. Set up the U.I. to update reflecting the choice of characters.
+	- Should be mostly done, double check for universal implementation.
+
+Combat:
+	- New combat system needs to be designed and implemented. This will include new stats. Add a use magic button to choose from spells. Possibly a context menu for attack to choose from attacks. Add a button to use items.
+	- Add a red slash image across the monster when the player hits.

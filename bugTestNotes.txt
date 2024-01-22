@@ -4,7 +4,7 @@ Sell Weapon: ##### Done #####
 --------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------
-u.i.:
+u.i.:############################## DONE ##############################
 	-Gold amount isn't accurate at startup and isn't updated to the accurate amount until it is interacted with. ------Marked as done. Hard code starting amount in html for now, add setting up listeners to functionality update list.
 	-Monster stats are not showing up. -----Done, created new div for images
 	-Restyle the u.i.
@@ -86,5 +86,7 @@ Win Functionality is broken:##################### DONE #####################
     -buttons don't work.
 ----------------------------------------------------------------------------------------------------
 
-Inventory is not being reset:
+----------------------------------------------------------------------------------------------------
+Inventory is not being reset:#################### DONE ####################
   - When restarting a game the inventory component of the player is not being reset. most likely a data structure issue.
+  --------------------------------------------------------------------------------------------------
