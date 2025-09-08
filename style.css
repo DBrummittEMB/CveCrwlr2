@@ -61,3 +61,12 @@ body {
   padding: 5px; /* Optional: adds some space around the image */
   background-color: black; /* Optional: background color for the image area */
 }
+
+#characterPreview {
+  width: 200px; /* Match main game image size */
+  height: 200px; /* Maintain aspect ratio consistent with game screen */
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  margin: 0 auto; /* Center preview within its container */
+  display: none; /* Hidden by default; shown when selecting character */
+}
