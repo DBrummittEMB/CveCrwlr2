@@ -3,6 +3,11 @@ import { player, xpText, healthText, goldText, text, image, imageContainer, mons
 import { characterTemplates } from './playerTemplate.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
+// Preload character images so they're cached before the selection screen is shown
+characterTemplates.forEach(t => {
+  const img = new Image();
+  img.src = t.imageUrl;
+});
 export const monsterNameText = document.querySelector("#monsterName");
 export const monsterHealthText = document.querySelector("#monsterHealth");
 export const monsterText = document.querySelector("#monsterText");
