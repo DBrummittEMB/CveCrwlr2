@@ -166,9 +166,6 @@ function createButtons(location) {
   });
 }
   
-  // initialize UI
-  eventEmitter.emit('update', locations[9]);
-  
 /**
  * Updates the UI based on the given location object.
  * 
@@ -199,6 +196,9 @@ eventEmitter.on('update', (location) => {
     monsterStats.style.display = "none";
   }
 });
+
+// initialize UI after registering the update listener
+eventEmitter.emit('update', locations[9]);
 
 /**
  * Updates the UI with the town location data.
