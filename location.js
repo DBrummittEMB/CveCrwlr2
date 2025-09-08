@@ -161,7 +161,8 @@ function createButtons(location) {
   location['button text'].forEach((text, index) => {
       const button = document.createElement('button');
       button.innerText = text;
-      button.onclick = location['button functions'][index];
+      button.id = `button${index + 1}`;
+      button.addEventListener('click', location['button functions'][index]);
       buttonContainer.appendChild(button);
   });
 }
@@ -199,8 +200,6 @@ eventEmitter.on('update', (location) => {
 
 // initialize UI after registering the update listener
 eventEmitter.emit('update', locations[9]);
-document.getElementById('button1')
-        ?.addEventListener('click', goPickCharacter);
 
 /**
  * Updates the UI with the town location data.
