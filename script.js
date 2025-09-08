@@ -1,6 +1,7 @@
 import { eventEmitter } from './eventEmitter.js';
 import { nameComponent, healthComponent, levelComponent, imageUrlComponent, xpComponent, goldComponent, strengthComponent, intelligenceComponent, currentWeaponComponent, inventoryComponent } from './entityComponent.js';
 import { weapons } from './item.js';
+import { characterTemplates, currentTemplate } from './playerTemplate.js';
 
 export const text = document.querySelector("#text");
 export const xpText = document.querySelector("#xpText");
@@ -79,6 +80,66 @@ player.getComponent('inventory').items.push(weapons[0].name);
 entityManager.entities.forEach(entity => {
   console.log(entity);
 });
+
+
+/**
+ * Initialize the existing player entity with stats from a template.
+ * Updates entity components and relevant UI elements.
+ *
+ * @param {Object} template - Character template containing starting values.
+ */
+export function initializePlayer(template) {
+  if (template.name) {
+    player.getComponent('name').name = template.name;
+  }
+  if (template.imageUrl) {
+    player.getComponent('imageUrl').imageUrl = template.imageUrl;
+    image.src = template.imageUrl;
+  }
+  if (template.health) {
+    const healthComp = player.getComponent('health');
+    healthComp.currentHealth = template.health.currentHealth;
+    healthComp.maxHealth = template.health.currentHealth;
+    healthText.innerText = healthComp.currentHealth;
+  }
+  if (template.strength) {
+    player.getComponent('strength').strength = template.strength.strength;
+  }
+  if (template.intelligence) {
+    player.getComponent('intelligence').intelligence = template.intelligence.intelligence;
+  }
+  if (template.gold) {
+    const goldComp = player.getComponent('gold');
+    goldComp.gold = template.gold.gold;
+    goldText.innerText = goldComp.gold;
+  }
+  if (template.xp) {
+    const xpComp = player.getComponent('xp');
+    xpComp.xp = template.xp.xp;
+    xpText.innerText = xpComp.xp;
+  }
+  if (template.inventory) {
+    const inventoryComp = player.getComponent('inventory');
+    inventoryComp.items = [...template.inventory.items];
+    const weaponComp = player.getComponent('currentWeapon');
+    const index = weapons.findIndex(w => w.name === inventoryComp.items[0]);
+    weaponComp.weaponIndex = index !== -1 ? index : 0;
+  }
+}
+
+/**
+ * Selects a character template and initializes the player.
+ * Then starts the game in the town location.
+ *
+ * @param {number} index - Index of the character template to select.
+ */
+export function selectCharacter(index) {
+  Object.assign(currentTemplate, characterTemplates[index]);
+  initializePlayer(currentTemplate);
+  import('./location.js').then(module => {
+    eventEmitter.emit('update', module.locations[0]);
+  });
+}
 
 
 /* Handle player stats logic */
