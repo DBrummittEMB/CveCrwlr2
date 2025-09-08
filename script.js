@@ -2,6 +2,7 @@ import { eventEmitter } from './eventEmitter.js';
 import { nameComponent, healthComponent, levelComponent, imageUrlComponent, xpComponent, goldComponent, strengthComponent, intelligenceComponent, currentWeaponComponent, inventoryComponent } from './entityComponent.js';
 import { weapons } from './item.js';
 import { characterTemplates, currentTemplate } from './playerTemplate.js';
+import { preloadImages, getImageUrl } from './imageLoader.js';
 
 export const text = document.querySelector("#text");
 export const xpText = document.querySelector("#xpText");
@@ -11,6 +12,9 @@ export const image = document.querySelector("#image");
 export const monsterStats = document.querySelector("#monsterStats");
 export const imageContainer = document.querySelector("#imageContainer");
 export const characterPreview = document.querySelector("#characterPreview");
+
+// Preload all game images once the window has loaded
+window.addEventListener('load', preloadImages);
 
 // XP required for each level. Adjust the formula to tweak progression.
 // Given a current level, returns the XP needed to reach the next level.
@@ -95,7 +99,7 @@ export function initializePlayer(template) {
   }
   if (template.imageUrl) {
     player.getComponent('imageUrl').imageUrl = template.imageUrl;
-    image.src = template.imageUrl;
+    image.src = getImageUrl(template.imageUrl);
   }
   if (template.health) {
     const healthComp = player.getComponent('health');

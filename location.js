@@ -3,6 +3,7 @@ import { player, xpText, healthText, goldText, text, image, imageContainer, mons
 import { characterTemplates } from './playerTemplate.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
+import { getImageUrl } from './imageLoader.js';
 // Preload character images so they're cached before the selection screen is shown
 characterTemplates.forEach(t => {
   const img = new Image();
@@ -244,7 +245,7 @@ eventEmitter.on('update', (location) => {
   } else if (location.image == true) {
     imageContainer.style.display = "block";
     image.style.display = "block";
-    image.src = location.imageUrl;
+    image.src = getImageUrl(location.imageUrl);
   }
   if (location.name == "fight") {
     monsterStats.style.display = "block";
