@@ -22,11 +22,11 @@ CveCrwlr is a simple browser-based adventure game. This guide explains how anyon
 
 ## How to Play
 1. On the home screen, click **Start** to begin.
-2. Use the buttons to explore:
+2. Use the in-game buttons to explore:
    - **Go to store** – buy health or weapons and sell your current weapon.
    - **Go to cave** – fight small or medium monsters for experience and gold.
    - **Stats / Inventory** – check your health, gold, experience, and items.
-   - **Fight Boss** – challenge the boss when you are ready.
+   - **Fight Boss** – challenge the boss when you're ready.
 3. During combat, choose **Attack** to damage the monster, **Item** (coming soon), or **Run** to return to town.
 4. If you defeat a monster, you earn experience and gold. If your health reaches zero, the **REPLAY?** buttons let you start over.
 
