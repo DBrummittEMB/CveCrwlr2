@@ -40,7 +40,7 @@ eventEmitter.on('goFight', () => {
 eventEmitter.on('attack', () => {
   let enemyLevel = enemy.getComponent("level");
   let monsterDamage = getMonsterAttackValue(enemyLevel);
-  let playerDamage = getPlayerAttackValue(enemyLevel);
+  let playerDamage = getPlayerAttackValue();
   let currentWeaponComp = player.getComponent('currentWeapon');
   let weaponIndex = currentWeaponComp.weaponIndex;
   let weaponName = weapons[weaponIndex].name;
@@ -103,10 +103,12 @@ function getMonsterAttackValue(level) {
 }
 
 // gets attack value of the player
-function getPlayerAttackValue(level) {
+function getPlayerAttackValue() {
   let xpComp = player.getComponent("xp");
-  let hit = 1 + (level * 15) + (Math.floor(Math.random() * xpComp.xp));
-  console.log(xpComp.xp);
+  let strengthComp = player.getComponent("strength");
+  let weaponComp = player.getComponent("currentWeapon");
+  let weaponPower = weapons[weaponComp.weaponIndex].power;
+  let hit = strengthComp.strength + weaponPower + Math.floor(Math.random() * xpComp.xp);
   return hit;
 }
   
