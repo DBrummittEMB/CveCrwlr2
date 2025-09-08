@@ -11,7 +11,7 @@ export const characterTemplates = [
     intelligence: { intelligence: 5 },
     gold: { gold: 100 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[3].name] },
+    inventory: { items: [weapons[0].name] },
   },
   {
     name: 'Wizard',
@@ -21,7 +21,7 @@ export const characterTemplates = [
     intelligence: { intelligence: 25 },
     gold: { gold: 75 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[1].name] },
+    inventory: { items: [weapons[0].name] },
   },
   {
     name: 'Rogue',
@@ -31,7 +31,7 @@ export const characterTemplates = [
     intelligence: { intelligence: 10 },
     gold: { gold: 60 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[2].name] },
+    inventory: { items: [weapons[0].name] },
   },
 ];
 
