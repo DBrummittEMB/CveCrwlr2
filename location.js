@@ -133,6 +133,20 @@ export const locations = [
       text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
       imageUrl: "/imgs/openScreen.png",
       image: true
+    },
+    {
+      name: "settings",
+      "button text": ["Back"],
+      "button functions": [goHomeScreen],
+      text: "Settings are coming soon.",
+      image: false
+    },
+    {
+      name: "changelog",
+      "button text": ["Back"],
+      "button functions": [goHomeScreen],
+      text: "Changelog:\n- Added Settings and Changelog screens.",
+      image: false
     }
   ];
 
@@ -249,9 +263,11 @@ export function goPickCharacter() {
 }
 
 export function goSettings() {
-
+  eventEmitter.emit('update', (locations[11]) );
+  console.log("Settings function called");
 }
 
 export function goChangelog() {
-
+  eventEmitter.emit('update', (locations[12]) );
+  console.log("Changelog function called");
 }
