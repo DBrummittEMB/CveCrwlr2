@@ -10,6 +10,7 @@ export const goldText = document.querySelector("#goldText");
 export const image = document.querySelector("#image");
 export const monsterStats = document.querySelector("#monsterStats");
 export const imageContainer = document.querySelector("#imageContainer");
+export const characterPreview = document.querySelector("#characterPreview");
 
 // XP required for each level. Adjust the formula to tweak progression.
 // Given a current level, returns the XP needed to reach the next level.

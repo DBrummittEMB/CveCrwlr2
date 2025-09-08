@@ -1,5 +1,5 @@
 import { eventEmitter } from './eventEmitter.js';
-import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats, selectCharacter } from './script.js';
+import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats, selectCharacter, characterPreview } from './script.js';
 import { characterTemplates } from './playerTemplate.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
@@ -155,14 +155,14 @@ export function generatePickCharacterLocation() {
   const summaries = characterTemplates
     .map(t => `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, INT ${t.intelligence.intelligence}`)
     .join('\n');
+  characterPreview.src = buttonImages[0];
   return {
     name: 'pickCharacter',
     'button text': buttonText,
     'button functions': buttonFunctions,
     'button images': buttonImages,
     text: `Choose your character:\n${summaries}`,
-    image: true,
-    imageUrl: buttonImages[0]
+    image: false
   };
 }
 
@@ -181,7 +181,7 @@ function createButtons(location) {
       button.addEventListener('click', location['button functions'][index]);
     if (location['button images'] && location['button images'][index]) {
       const showImage = () => {
-        image.src = location['button images'][index];
+        characterPreview.src = location['button images'][index];
       };
       button.addEventListener('mouseenter', showImage);
       button.addEventListener('focus', showImage);
@@ -207,6 +207,15 @@ eventEmitter.on('update', (location) => {
   xpText.innerText = xpComponent.xp;
   healthText.innerText = healthComponent.currentHealth;
   console.log("update called")
+  if (location.name === 'pickCharacter') {
+    characterPreview.style.display = 'block';
+    if (location['button images'] && location['button images'][0]) {
+      characterPreview.src = location['button images'][0];
+    }
+  } else {
+    characterPreview.style.display = 'none';
+    characterPreview.src = '';
+  }
   if (location.image == false) {
     imageContainer.style.display = "none";
     image.style.display = "none";
