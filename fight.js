@@ -4,6 +4,7 @@ import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { player, entityManager, text, goldText, xpText, image, healthText } from './script.js';
 import { nameComponent, healthComponent } from './entityComponent.js';
+import { getImageUrl } from './imageLoader.js';
 
 
 let fighting;
@@ -34,7 +35,7 @@ eventEmitter.on('goFight', () => {
   monsterNameText.innerText = enemyName.name;
   monsterHealthText.innerText = enemyHealth.currentHealth;
 
-  image.src = fighting.imageUrl;
+  image.src = getImageUrl(fighting.imageUrl);
   image.style.display = "block";
 });
 eventEmitter.on('attack', () => {
