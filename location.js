@@ -179,11 +179,14 @@ function createButtons(location) {
       button.innerText = text;
       button.id = `button${index + 1}`;
       button.addEventListener('click', location['button functions'][index]);
-      if (location['button images'] && location['button images'][index]) {
-        button.addEventListener('mouseenter', () => {
-          image.src = location['button images'][index];
-        });
-      }
+    if (location['button images'] && location['button images'][index]) {
+      const showImage = () => {
+        image.src = location['button images'][index];
+      };
+      button.addEventListener('mouseenter', showImage);
+      button.addEventListener('focus', showImage);
+      button.addEventListener('touchstart', showImage);
+    }
       buttonContainer.appendChild(button);
   });
 }
