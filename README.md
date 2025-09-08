@@ -4,6 +4,7 @@ CveCrwlr is a simple browser-based adventure game. This guide explains how anyon
 
 ## Prerequisites
 - A modern web browser such as Chrome, Firefox, or Edge.
+- Python 3 (needed to run the launcher script).
 - (Optional) Git if you prefer cloning the repository instead of downloading a ZIP file.
 
 ## Setup
@@ -14,8 +15,10 @@ CveCrwlr is a simple browser-based adventure game. This guide explains how anyon
      git clone <repository-url>
      ```
      Then open the newly created `CveCrwlr2` folder.
-2. **Open the game**
-   - Double-click `index.html` in the project folder. Your browser will open and display the home screen of the game. No server or additional software is required.
+2. **Launch the game**
+   - **Windows:** double-click `launch_game.bat`.
+   - **Mac/Linux or command line:** run `python launch_game.py`.
+   - The script starts a local server and opens the game in your default browser.
 
 ## How to Play
 1. On the home screen, click **Start** to begin.
