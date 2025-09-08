@@ -59,7 +59,7 @@ export let player = entityManager.createEntity({
   'health': new healthComponent(100),
   'level': new levelComponent(1),
   'xp': new xpComponent(0),
-  'gold': new goldComponent(200),
+  'gold': new goldComponent(50),
   'imageUrl': new imageUrlComponent("images/player.png"),
   'strength': new strengthComponent(10),
   'intelligence': new intelligenceComponent(10),

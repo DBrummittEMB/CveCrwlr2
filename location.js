@@ -163,8 +163,8 @@ function createButtons(location) {
   });
 }
   
-  // initialize buttons
-  createButtons(locations[9]);
+  // initialize UI
+  eventEmitter.emit('update', locations[9]);
   
 /**
  * Updates the UI based on the given location object.
