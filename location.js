@@ -1,5 +1,5 @@
 import { eventEmitter } from './eventEmitter.js';
-import {  player, xpText, healthText, goldText } from './script.js';
+import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats } from './script.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 export const monsterNameText = document.querySelector("#monsterName");
@@ -169,11 +169,9 @@ eventEmitter.on('update', (location) => {
   console.log("update called")
   if (location.image == false) {
     imageContainer.style.display = "none";
-    const image = document.getElementById("image");
     image.style.display = "none";
   } else if (location.image == true) {
     imageContainer.style.display = "block";
-    const image = document.getElementById("image");
     image.style.display = "block";
     image.src = location.imageUrl;
   }

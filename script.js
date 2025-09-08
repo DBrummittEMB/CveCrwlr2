@@ -1,12 +1,14 @@
 import { eventEmitter } from './eventEmitter.js';
 import { nameComponent, healthComponent, levelComponent, imageUrlComponent, xpComponent, goldComponent, strengthComponent, intelligenceComponent, currentWeaponComponent, inventoryComponent } from './entityComponent.js';
 import { weapons } from './item.js';
-const text = document.querySelector("#text");
+
+export const text = document.querySelector("#text");
 export const xpText = document.querySelector("#xpText");
 export const healthText = document.querySelector("#healthText");
 export const goldText = document.querySelector("#goldText");
-
 export const image = document.querySelector("#image");
+export const monsterStats = document.querySelector("#monsterStats");
+export const imageContainer = document.querySelector("#imageContainer");
 
 // Entity
 export class Entity {
