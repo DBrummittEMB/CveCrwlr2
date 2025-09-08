@@ -114,6 +114,12 @@ button:focus-visible {
   outline-offset: 0;
 }
 
+@media (max-width: 400px) {
+  :root {
+    --scale: calc(100vw / 400);
+  }
+}
+
 @media (min-width: 800px) {
   :root {
     --scale: 2;
