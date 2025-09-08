@@ -1,9 +1,14 @@
 import { eventEmitter } from './eventEmitter.js';
-import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats, selectCharacter } from './script.js';
+import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats, selectCharacter, characterPreview } from './script.js';
 import { characterTemplates } from './playerTemplate.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { getImageUrl } from './imageLoader.js';
+// Preload character images so they're cached before the selection screen is shown
+characterTemplates.forEach(t => {
+  const img = new Image();
+  img.src = t.imageUrl;
+});
 export const monsterNameText = document.querySelector("#monsterName");
 export const monsterHealthText = document.querySelector("#monsterHealth");
 export const monsterText = document.querySelector("#monsterText");
@@ -149,15 +154,19 @@ export const locations = [
 export function generatePickCharacterLocation() {
   const buttonText = characterTemplates.map(t => t.name);
   const buttonFunctions = characterTemplates.map((_, index) => () => selectCharacter(index));
+  const buttonImages = characterTemplates.map(t => t.imageUrl);
   buttonText.push('Back');
   buttonFunctions.push(goHomeScreen);
+  buttonImages.push(null);
   const summaries = characterTemplates
     .map(t => `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, INT ${t.intelligence.intelligence}`)
     .join('\n');
+  characterPreview.src = buttonImages[0];
   return {
     name: 'pickCharacter',
     'button text': buttonText,
     'button functions': buttonFunctions,
+    'button images': buttonImages,
     text: `Choose your character:\n${summaries}`,
     image: false
   };
@@ -176,6 +185,31 @@ function createButtons(location) {
       button.innerText = text;
       button.id = `button${index + 1}`;
       button.addEventListener('click', location['button functions'][index]);
+    if (location['button images'] && location['button images'][index]) {
+      const buttonImage = location['button images'][index];
+
+      const showImage = () => {
+        characterPreview.src = buttonImage;
+        characterPreview.alt = text;
+        image.src = buttonImage;
+        image.alt = text;
+      };
+
+      const revertImage = () => {
+        const defaultSrc = location.imageUrl || 'imgs/openScreen.png';
+        characterPreview.src = defaultSrc;
+        characterPreview.alt = defaultSrc;
+        image.src = defaultSrc;
+        image.alt = defaultSrc;
+      };
+
+      button.addEventListener('mouseenter', showImage);
+      button.addEventListener('focus', showImage);
+      button.addEventListener('touchstart', showImage);
+      button.addEventListener('mouseleave', revertImage);
+      button.addEventListener('blur', revertImage);
+      button.addEventListener('touchend', revertImage);
+    }
       buttonContainer.appendChild(button);
   });
 }
@@ -196,6 +230,15 @@ eventEmitter.on('update', (location) => {
   xpText.innerText = xpComponent.xp;
   healthText.innerText = healthComponent.currentHealth;
   console.log("update called")
+  if (location.name === 'pickCharacter') {
+    characterPreview.style.display = 'block';
+    if (location['button images'] && location['button images'][0]) {
+      characterPreview.src = location['button images'][0];
+    }
+  } else {
+    characterPreview.style.display = 'none';
+    characterPreview.src = '';
+  }
   if (location.image == false) {
     imageContainer.style.display = "none";
     image.style.display = "none";

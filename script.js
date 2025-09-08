@@ -11,6 +11,7 @@ export const goldText = document.querySelector("#goldText");
 export const image = document.querySelector("#image");
 export const monsterStats = document.querySelector("#monsterStats");
 export const imageContainer = document.querySelector("#imageContainer");
+export const characterPreview = document.querySelector("#characterPreview");
 
 // Preload all game images once the window has loaded
 window.addEventListener('load', preloadImages);
