@@ -6,6 +6,8 @@ export const monsterNameText = document.querySelector("#monsterName");
 export const monsterHealthText = document.querySelector("#monsterHealth");
 export const monsterText = document.querySelector("#monsterText");
 export const monsterHealthStat = document.querySelector("#monsterHealthStat");
+const imageContainer = document.getElementById('imageContainer');
+export const monsterStats = document.getElementById('monsterStats');
 
 function health() {
   let healthComponent = player.getComponent('health');
