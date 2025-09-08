@@ -1,5 +1,6 @@
 import { eventEmitter } from './eventEmitter.js';
-import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats } from './script.js';
+import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats, selectCharacter } from './script.js';
+import { characterTemplates } from './playerTemplate.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 export const monsterNameText = document.querySelector("#monsterName");
@@ -129,14 +130,6 @@ export const locations = [
       image: true
     },
     {
-      name: "pickCharacter",
-      "button text": ["Character 1", "Character 2", "Back"],
-      "button functions": [goTown, goTown, goHomeScreen],
-      text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
-        imageUrl: "imgs/openScreen.png",
-      image: true
-    },
-    {
       name: "settings",
       "button text": ["Back"],
       "button functions": [goHomeScreen],
@@ -151,6 +144,25 @@ export const locations = [
       image: false
     }
   ];
+
+export function generatePickCharacterLocation() {
+  const buttonText = characterTemplates.map(t => t.name);
+  const buttonFunctions = characterTemplates.map((_, index) => () => selectCharacter(index));
+  buttonText.push('Back');
+  buttonFunctions.push(goHomeScreen);
+  const summaries = characterTemplates
+    .map(t => `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, INT ${t.intelligence.intelligence}`)
+    .join('\n');
+  return {
+    name: 'pickCharacter',
+    'button text': buttonText,
+    'button functions': buttonFunctions,
+    text: `Choose your character:\n${summaries}`,
+    image: false
+  };
+}
+
+export let pickCharacterLocation = generatePickCharacterLocation();
 
 function createButtons(location) {
   // Remove all existing buttons
@@ -261,16 +273,17 @@ export function goHomeScreen() {
 }
 
 export function goPickCharacter() {
-  eventEmitter.emit('update', (locations[10]) );
+  pickCharacterLocation = generatePickCharacterLocation();
+  eventEmitter.emit('update', pickCharacterLocation);
   console.log("Pick character function called");
 }
 
 export function goSettings() {
-  eventEmitter.emit('update', (locations[11]) );
+  eventEmitter.emit('update', (locations[10]) );
   console.log("Settings function called");
 }
 
 export function goChangelog() {
-  eventEmitter.emit('update', (locations[12]) );
+  eventEmitter.emit('update', (locations[11]) );
   console.log("Changelog function called");
 }
