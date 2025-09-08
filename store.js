@@ -1,4 +1,4 @@
-import { player } from './script.js';
+import { player, text } from './script.js';
 import { eventEmitter } from './eventEmitter.js';
 import { weapons } from './item.js';
 

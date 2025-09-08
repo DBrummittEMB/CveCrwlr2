@@ -2,7 +2,7 @@ import { locations, monsterHealthText, monsterNameText } from './location.js';
 import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
-import { player, entityManager } from './script.js';
+import { player, entityManager, text, goldText, xpText, monsterStats, image } from './script.js';
 
 
 let fighting;
@@ -29,9 +29,8 @@ eventEmitter.on('goFight', () => {
   monsterNameText.innerText = enemyName;
   monsterHealthText.innerText = enemyHealth;
 
-  const monsterImage = document.getElementById('image');
-  monsterImage.src = fighting.imageUrl;
-  monsterImage.style.display = "block";
+  image.src = fighting.imageUrl;
+  image.style.display = "block";
 });
 eventEmitter.on('attack', () => {
   let enemyLevel = enemy.getComponent("level");
@@ -111,7 +110,7 @@ function getPlayerAttackValue(level) {
  * Updates the text to indicate the player dodged the attack.
 */
 eventEmitter.on('dodge', () => {
-  text.innerText = "You dodge the attack from the " + monsters[fighting].name + ".";
+  text.innerText = `You dodge the attack from the ${fighting.name}.`;
 });
 
 /**
