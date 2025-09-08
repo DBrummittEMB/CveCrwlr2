@@ -27,14 +27,15 @@ export function buyHealth() {
 export function buyWeapon() {
   let goldComponent = player.getComponent('gold');
   let weaponComp = player.getComponent('currentWeapon');
-  let inventoryComponent = player.getComponent('inventory');
 
-  // Check if player can afford the next weapon
-  if (goldComponent.gold >= 30) {
-      // Upgrade weapon
-      eventEmitter.emit('subtractGold', 30);
-      eventEmitter.emit('weaponUp');
-   } else {
+  // Ensure a stronger weapon is available before purchasing
+  if (weaponComp.weaponIndex >= weapons.length - 1) {
+    text.innerText = "You already have the most powerful weapon!";
+  } else if (goldComponent.gold >= 30) {
+    // Upgrade weapon
+    eventEmitter.emit('subtractGold', 30);
+    eventEmitter.emit('weaponUp');
+  } else {
     text.innerText = "You do not have enough gold to buy a weapon.";
   }
 }

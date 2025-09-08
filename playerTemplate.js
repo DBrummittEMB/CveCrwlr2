@@ -11,17 +11,17 @@ export const characterTemplates = [
     intelligence: { intelligence: 5 },
     gold: { gold: 100 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[3].name] },
+    inventory: { items: [weapons[0].name] },
   },
   {
-    name: 'Mage',
-    imageUrl: 'imgs/mage.png',
+    name: 'Wizard',
+    imageUrl: 'imgs/wizard.png',
     health: { currentHealth: 80 },
     strength: { strength: 5 },
     intelligence: { intelligence: 25 },
     gold: { gold: 75 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[1].name] },
+    inventory: { items: [weapons[0].name] },
   },
   {
     name: 'Rogue',
@@ -31,7 +31,7 @@ export const characterTemplates = [
     intelligence: { intelligence: 10 },
     gold: { gold: 60 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[2].name] },
+    inventory: { items: [weapons[0].name] },
   },
 ];
 
