@@ -185,12 +185,29 @@ function createButtons(location) {
       button.id = `button${index + 1}`;
       button.addEventListener('click', location['button functions'][index]);
     if (location['button images'] && location['button images'][index]) {
+      const buttonImage = location['button images'][index];
+
       const showImage = () => {
-        characterPreview.src = location['button images'][index];
+        characterPreview.src = buttonImage;
+        characterPreview.alt = text;
+        image.src = buttonImage;
+        image.alt = text;
       };
+
+      const revertImage = () => {
+        const defaultSrc = location.imageUrl || 'imgs/openScreen.png';
+        characterPreview.src = defaultSrc;
+        characterPreview.alt = defaultSrc;
+        image.src = defaultSrc;
+        image.alt = defaultSrc;
+      };
+
       button.addEventListener('mouseenter', showImage);
       button.addEventListener('focus', showImage);
       button.addEventListener('touchstart', showImage);
+      button.addEventListener('mouseleave', revertImage);
+      button.addEventListener('blur', revertImage);
+      button.addEventListener('touchend', revertImage);
     }
       buttonContainer.appendChild(button);
   });
