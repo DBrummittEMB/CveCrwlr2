@@ -2,7 +2,7 @@ import { locations, monsterHealthText, monsterNameText, monsterStats } from './l
 import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
-import { player, entityManager, text, goldText, xpText, image } from './script.js';
+import { player, entityManager, text, goldText, xpText, image, healthText } from './script.js';
 import { nameComponent, healthComponent } from './entityComponent.js';
 
 
@@ -116,6 +116,28 @@ function getPlayerAttackValue(level) {
 */
 eventEmitter.on('dodge', () => {
   text.innerText = `You dodge the attack from the ${fighting.name}.`;
+});
+
+/**
+ * Handles using an item during a fight.
+ * Currently supports using health potions to restore player health.
+ */
+eventEmitter.on('useItem', () => {
+  let inventory = player.getComponent('inventory').items;
+  let healthComp = player.getComponent('health');
+  let potionIndex = inventory.indexOf('health potion');
+
+  if (potionIndex !== -1) {
+    inventory.splice(potionIndex, 1);
+    const healAmount = 30;
+    const healed = Math.min(healAmount, healthComp.maxHealth - healthComp.currentHealth);
+    healthComp.currentHealth += healed;
+    healthText.innerText = healthComp.currentHealth;
+    text.innerText = `You use a health potion and recover ${healed} health.`;
+    eventEmitter.emit('healthUpdated');
+  } else {
+    text.innerText = "You don't have any health potions.";
+  }
 });
 
 /**
