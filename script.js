@@ -143,8 +143,12 @@ eventEmitter.on('weaponUp',() => {
 eventEmitter.on('weaponDown',() => {
   let weaponComp = player.getComponent('currentWeapon');
   let inventory = player.getComponent('inventory').items;
-  if (inventory.length > 1 && weaponComp.weaponIndex > 1) {
-    weaponComp.weaponIndex.shift;
+  if (inventory.length > 1 && weaponComp.weaponIndex > 0) {
+    inventory.pop();
+    weaponComp.weaponIndex--;
+    let newWeapon = weapons[weaponComp.weaponIndex].name;
+    text.innerText = "You now have a " + newWeapon + ".";
+    text.innerText += " In your inventory you have: " + inventory;
   } else {
     text.innerText = "You don't have any weapons in your inventory!";
   }
