@@ -56,7 +56,7 @@ export const locations = [
       "button text": ["Go to store", "Go to cave", "Stats", "Inventory", "Fight Boss"],
       "button functions": [goStore, goCave, goStats, goInventory, fightBoss],
       text: "You are in the town square. You see a sign that says \"Store.\"",
-      imageUrl: "/imgs/townSquare.png",
+      imageUrl: "imgs/townSquare.png",
       image: true
     },
     {
@@ -64,7 +64,7 @@ export const locations = [
       "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Sell Weapon", "Go to town square"],
       "button functions": [buyHealth, buyWeapon, sellWeapon, goTown],
       text: "You enter the store.",
-      imageUrl: "/imgs/shop.png",
+      imageUrl: "imgs/shop.png",
       image: true
     },
     {
@@ -72,7 +72,7 @@ export const locations = [
       "button text": ["Fight small", "Fight medium", "Go to town square"],
       "button functions": [fightSmall , fightMedium, goTown],
       text: "You enter the cave. You see some monsters.",
-      imageUrl: "/imgs/cave.png",
+      imageUrl: "imgs/cave.png",
       image: true
     },
     {
@@ -101,7 +101,7 @@ export const locations = [
       "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
       "button functions": [restart, restart, restart],
       text: "ded.",
-      imageUrl: "/imgs/gameOver.png",
+      imageUrl: "imgs/gameOver.png",
       image: true
     },
     {
@@ -109,7 +109,7 @@ export const locations = [
       "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
       "button functions": [restart, restart, restart],
       text: "Winner Winner Chicken Dinner!.",
-      imageUrl: "/imgs/win.png",
+      imageUrl: "imgs/win.png",
       image: true
     },
     {
@@ -125,7 +125,7 @@ export const locations = [
       "button text": ["Start", "Settings", "Change log"],
       "button functions": [goPickCharacter, goSettings, goChangelog],
       text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
-      imageUrl: "/imgs/openScreen.png",
+        imageUrl: "imgs/openScreen.png",
       image: true
     },
     {
@@ -133,7 +133,7 @@ export const locations = [
       "button text": ["Character 1", "Character 2", "Back"],
       "button functions": [goTown, goTown, goHomeScreen],
       text: "Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!",
-      imageUrl: "/imgs/openScreen.png",
+        imageUrl: "imgs/openScreen.png",
       image: true
     },
     {
