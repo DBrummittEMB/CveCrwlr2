@@ -43,6 +43,9 @@ function attack() {
 function dodge() {
   eventEmitter.emit('dodge');
 }
+function useItem() {
+  eventEmitter.emit('useItem');
+}
 function restart() {
   eventEmitter.emit('restart', player);
 }
@@ -74,8 +77,8 @@ export const locations = [
     },
     {
       name: "fight",
-      "button text": ["Attack", "Item(coming soon)", "Run"],
-      "button functions": [attack, dodge, goTown],
+      "button text": ["Attack", "Use Item", "Run"],
+      "button functions": [attack, useItem, goTown],
       text: "You are fighting a monster.",
       image: true
     },
