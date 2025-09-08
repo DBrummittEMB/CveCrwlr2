@@ -160,7 +160,8 @@ function createButtons(location) {
   // Create new buttons based on the location's data
   location['button text'].forEach((text, index) => {
       const button = document.createElement('button');
-      button.innerText = text;
+      // Use textContent for broader compatibility (e.g., jsdom)
+      button.textContent = text;
       button.onclick = location['button functions'][index];
       buttonContainer.appendChild(button);
   });
@@ -177,10 +178,11 @@ eventEmitter.on('update', (location) => {
   let xpComponent = player.getComponent('xp');
   let healthComponent = player.getComponent('health');
   let goldComponent = player.getComponent('gold');
-  text.innerText = location.text;
-  goldText.innerText = goldComponent.gold;
-  xpText.innerText = xpComponent.xp;
-  healthText.innerText = healthComponent.currentHealth;
+  // Update on-screen stats using textContent for consistency
+  text.textContent = location.text;
+  goldText.textContent = goldComponent.gold;
+  xpText.textContent = xpComponent.xp;
+  healthText.textContent = healthComponent.currentHealth;
   console.log("update called")
   if (location.image == false) {
     imageContainer.style.display = "none";
