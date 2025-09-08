@@ -2,7 +2,8 @@ import { locations, monsterHealthText, monsterNameText, monsterStats } from './l
 import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
-import { player, entityManager, text, goldText, xpText, monsterStats, image } from './script.js';
+import { player, entityManager, text, goldText, xpText, image } from './script.js';
+import { nameComponent, healthComponent } from './entityComponent.js';
 
 
 let fighting;
@@ -22,12 +23,16 @@ let enemyName;
 
 eventEmitter.on('goFight', () => {
   eventEmitter.emit('update', (locations[3]));
-  enemy = entityManager.createEntity(fighting);
+  enemy = entityManager.createEntity({
+    ...fighting,
+    name: new nameComponent(fighting.name),
+    health: new healthComponent(fighting.health)
+  });
   enemyHealth = enemy.getComponent("health");
   enemyName = enemy.getComponent("name");
   monsterStats.style.display = "block";
-  monsterNameText.innerText = enemyName;
-  monsterHealthText.innerText = enemyHealth;
+  monsterNameText.innerText = enemyName.name;
+  monsterHealthText.innerText = enemyHealth.currentHealth;
 
   image.src = fighting.imageUrl;
   image.style.display = "block";
@@ -40,13 +45,13 @@ eventEmitter.on('attack', () => {
   let weaponIndex = currentWeaponComp.weaponIndex;
   let weaponName = weapons[weaponIndex].name;
   eventEmitter.emit('playerDamaged', monsterDamage);
-  enemyHealth -= playerDamage;
-  monsterHealthText.innerText = enemyHealth;
-  text.innerText = "The " + enemyName + " attacks for " + monsterDamage + ".";
-  text.innerText += " You attack the " + enemyName + " with your " + weaponName + " for " + playerDamage + ".";
+  enemyHealth.currentHealth -= playerDamage;
+  monsterHealthText.innerText = enemyHealth.currentHealth;
+  text.innerText = "The " + enemyName.name + " attacks for " + monsterDamage + ".";
+  text.innerText += " You attack the " + enemyName.name + " with your " + weaponName + " for " + playerDamage + ".";
   console.log("Attack called " + weaponIndex);
-  if (enemyHealth <= 0) {
-    if (enemyName === "Dragon") {
+  if (enemyHealth.currentHealth <= 0) {
+    if (enemyName.name === "Dragon") {
       eventEmitter.emit('winGame');
     } else {
       defeatMonster();
