@@ -199,6 +199,8 @@ eventEmitter.on('update', (location) => {
 
 // initialize UI after registering the update listener
 eventEmitter.emit('update', locations[9]);
+document.getElementById('button1')
+        ?.addEventListener('click', goPickCharacter);
 
 /**
  * Updates the UI with the town location data.
