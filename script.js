@@ -10,6 +10,12 @@ export const image = document.querySelector("#image");
 export const monsterStats = document.querySelector("#monsterStats");
 export const imageContainer = document.querySelector("#imageContainer");
 
+// XP required for each level. Adjust the formula to tweak progression.
+// Given a current level, returns the XP needed to reach the next level.
+export function getXpForNextLevel(level) {
+  return level * 100;
+}
+
 // Entity
 export class Entity {
   constructor(id) {
@@ -89,6 +95,30 @@ eventEmitter.on('subtractXp', (amount) => {
   xpComp.xp -= amount;
   console.log(`Player lost ${amount} xp. Current xp: ${xpAmt}`);
   eventEmitter.emit("xpUpdated");
+});
+
+// Handle level ups and update displayed XP whenever it changes
+eventEmitter.on('xpUpdated', () => {
+  let xpComp = player.getComponent('xp');
+  let levelComp = player.getComponent('level');
+  xpText.innerText = xpComp.xp;
+
+  // Check if player has enough XP to level up
+  let nextLevelXp = getXpForNextLevel(levelComp.level);
+  if (xpComp.xp >= nextLevelXp) {
+    levelComp.level++;
+
+    // Scale player stats on level up
+    let healthComp = player.getComponent('health');
+    healthComp.maxHealth += 10;
+    healthComp.currentHealth = healthComp.maxHealth;
+    healthText.innerText = healthComp.currentHealth;
+
+    let strengthComp = player.getComponent('strength');
+    strengthComp.strength += 2;
+
+    text.innerText = `You leveled up! You are now level ${levelComp.level}.`;
+  }
 });
 
 // Health handling
