@@ -52,9 +52,10 @@ body {
 }
 
 #image {
-  width: 100%; /* Makes the image responsive, adjusting to the container's width */
-  max-height: 200px;
-  width: auto;
+  width: 200px; /* Fixed size to preserve pixel art sharpness */
+  height: 200px; /* Fixed size to preserve pixel art sharpness */
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
   margin: 0 auto; /* Centers the image within its container */
   border: 1px solid black; /* Optional: adds a border around the image */
   padding: 5px; /* Optional: adds some space around the image */
