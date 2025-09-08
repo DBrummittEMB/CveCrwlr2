@@ -14,8 +14,8 @@ export const characterTemplates = [
     inventory: { items: [weapons[3].name] },
   },
   {
-    name: 'Mage',
-    imageUrl: 'imgs/mage.png',
+    name: 'Wizard',
+    imageUrl: 'imgs/wizard.png',
     health: { currentHealth: 80 },
     strength: { strength: 5 },
     intelligence: { intelligence: 25 },

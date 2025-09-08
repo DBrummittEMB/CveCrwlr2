@@ -148,8 +148,10 @@ export const locations = [
 export function generatePickCharacterLocation() {
   const buttonText = characterTemplates.map(t => t.name);
   const buttonFunctions = characterTemplates.map((_, index) => () => selectCharacter(index));
+  const buttonImages = characterTemplates.map(t => t.imageUrl);
   buttonText.push('Back');
   buttonFunctions.push(goHomeScreen);
+  buttonImages.push(null);
   const summaries = characterTemplates
     .map(t => `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, INT ${t.intelligence.intelligence}`)
     .join('\n');
@@ -157,8 +159,10 @@ export function generatePickCharacterLocation() {
     name: 'pickCharacter',
     'button text': buttonText,
     'button functions': buttonFunctions,
+    'button images': buttonImages,
     text: `Choose your character:\n${summaries}`,
-    image: false
+    image: true,
+    imageUrl: buttonImages[0]
   };
 }
 
@@ -175,6 +179,11 @@ function createButtons(location) {
       button.innerText = text;
       button.id = `button${index + 1}`;
       button.addEventListener('click', location['button functions'][index]);
+      if (location['button images'] && location['button images'][index]) {
+        button.addEventListener('mouseenter', () => {
+          image.src = location['button images'][index];
+        });
+      }
       buttonContainer.appendChild(button);
   });
 }
