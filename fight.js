@@ -3,6 +3,7 @@ import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { player, entityManager, text, goldText, xpText, image } from './script.js';
+import { nameComponent, healthComponent } from './entityComponent.js';
 
 
 let fighting;
@@ -22,7 +23,11 @@ let enemyName;
 
 eventEmitter.on('goFight', () => {
   eventEmitter.emit('update', (locations[3]));
-  enemy = entityManager.createEntity(fighting);
+  enemy = entityManager.createEntity({
+    ...fighting,
+    name: new nameComponent(fighting.name),
+    health: new healthComponent(fighting.health)
+  });
   enemyHealth = enemy.getComponent("health");
   enemyName = enemy.getComponent("name");
   monsterStats.style.display = "block";
