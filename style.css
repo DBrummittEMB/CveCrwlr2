@@ -161,20 +161,3 @@ button:focus-visible {
   }
 }
 
-@media (min-width: 800px) {
-  :root {
-    --scale: 2;
-  }
-}
-
-@media (min-width: 1200px) {
-  :root {
-    --scale: 3;
-  }
-}
-
-@media (min-width: 1600px) {
-  :root {
-    --scale: 4;
-  }
-}
