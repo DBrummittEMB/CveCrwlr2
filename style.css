@@ -14,6 +14,10 @@ button,
 
 body {
   background-color: darkblue;
+  background-image: url('imgs/backgrounds/starfield.svg');
+  background-repeat: repeat;
+  background-size: calc(16px * var(--scale)) calc(16px * var(--scale));
+  image-rendering: pixelated;
   color: white;
 }
 
@@ -24,9 +28,14 @@ body {
 }
 
 #gameContainer {
-  width: calc(400px * var(--scale));
-  height: calc(500px * var(--scale));
+  width: calc(400px * var(--scale) + 8px);
+  height: calc(500px * var(--scale) + 8px);
   margin: 0 auto;
+  border: 4px solid transparent;
+  border-image: url('imgs/backgrounds/frame.svg') 4;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  overflow: hidden;
 }
 
 #game {
@@ -148,7 +157,7 @@ button:focus-visible {
 
 @media (max-width: 400px) {
   :root {
-    --scale: calc(100vw / 400);
+    --scale: calc((100vw - 8px) / 400);
   }
 }
 
