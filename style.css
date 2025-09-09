@@ -13,6 +13,10 @@ button,
 }
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   background-color: darkblue;
   background-image: url('imgs/backgrounds/starfield.svg');
   background-repeat: repeat;
