@@ -1,7 +1,7 @@
 body,
 button,
 .pixel-button,
-#stats,
+#hud,
 #controls,
 #monsterStats,
 #text {
@@ -45,10 +45,40 @@ body {
   padding: 5px;
 }
 
-#stats {
+#hud {
+  display: flex;
+  gap: 8px;
   border: 1px black solid;
   color: black;
   padding: 5px;
+}
+
+.hud-section {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+}
+
+.hud-icon {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+.hud-health {
+  background-color: red;
+  color: white;
+}
+
+.hud-coins {
+  background-color: gold;
+  color: black;
+}
+
+.hud-xp {
+  background-color: blue;
+  color: white;
 }
 
 #monsterStats {
