@@ -20,6 +20,8 @@
 - Use descriptive commit messages summarizing the change.
 
 ## Visual Style Guide
+- Keep the game as a simple text-based clicker with no animations.
+- Evoke nostalgia for Windows 95, 1980s text-based PC RPGs, and early 1990s retro tech.
 - Embrace a retro pixel-art aesthetic throughout the game.
 - Use 'Press Start 2P', cursive as the primary font for text and UI elements.
 - Set the body background to dark blue and use black panels with white text for game areas.
