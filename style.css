@@ -9,7 +9,7 @@ button,
 }
 
 :root {
-  --scale: 1;
+  --scale: clamp(0.5, min(calc((100vw - 8px) / 400), calc((100vh - 8px) / 500)), 6);
 }
 
 body {
