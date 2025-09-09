@@ -33,6 +33,7 @@ body {
   margin: 0 auto;
   border: 4px solid transparent;
   border-image: url('imgs/backgrounds/frame.svg') 4;
+  box-sizing: border-box;
   image-rendering: pixelated;
 }
 
