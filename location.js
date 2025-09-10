@@ -148,6 +148,13 @@ export const locations = [
       "button functions": [goHomeScreen],
       text: "Changelog:\n- Added Settings and Changelog screens.",
       image: false
+    },
+    {
+      name: 'inventory',
+      'button text': ['Go to town square'],
+      'button functions': [goTown],
+      text: '',
+      image: false
     }
   ];
 
@@ -296,11 +303,16 @@ export function goStats() {
   console.log("Stats function called");
 }
 /**
- * Updates the UI with the store location data.
+ * Updates the UI with the inventory location data.
  */
 export function goInventory() {
-  eventEmitter.emit('update', (locations[5]) );
-  console.log("Inventory function called");
+  let inventoryLoc = locations.find(l => l.name === 'inventory');
+  let items = player.getComponent('inventory').items;
+  inventoryLoc.text = items.length
+    ? 'In your inventory you have: ' + items.join(', ')
+    : 'Your inventory is empty.';
+  eventEmitter.emit('update', inventoryLoc);
+  console.log('Inventory function called');
 }
   
 /**
