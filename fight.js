@@ -67,9 +67,9 @@ eventEmitter.on('attack', () => {
  * Calls goFight() to update the UI for the fight.
 */
 eventEmitter.on('fightSmall', () => {
-  fighting = smallMonsters[Math.floor(Math.random() * 3)];
+  fighting = smallMonsters[Math.floor(Math.random() * smallMonsters.length)];
   eventEmitter.emit('goFight');
-  console.log("Slime button clicked");
+  console.log('Slime button clicked');
 });
 
 /**
@@ -78,7 +78,7 @@ eventEmitter.on('fightSmall', () => {
  * Calls goFight() to update the UI for the fight.
  */
 eventEmitter.on('fightMedium', () => {
-  fighting = mediumMonsters[Math.floor(Math.random() * 3)];
+  fighting = mediumMonsters[Math.floor(Math.random() * mediumMonsters.length)];
   eventEmitter.emit('goFight');
 });
 
@@ -88,9 +88,9 @@ eventEmitter.on('fightMedium', () => {
  * Calls goFight() to update the UI for the fight.
 */
 eventEmitter.on('fightBoss', () => {
-  fighting = bossMonsters[0];
+  fighting = bossMonsters[Math.floor(Math.random() * bossMonsters.length)];
   eventEmitter.emit('goFight');
-})
+});
 
 /**
  * Calculates the attack damage value for a monster based on its level.
