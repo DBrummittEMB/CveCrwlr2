@@ -9,6 +9,7 @@ export const xpText = document.querySelector("#xpText");
 export const healthText = document.querySelector("#healthText");
 export const goldText = document.querySelector("#goldText");
 export const image = document.querySelector("#image");
+export const levelText = document.querySelector('#levelText');
 export const monsterStats = document.querySelector("#monsterStats");
 export const imageContainer = document.querySelector("#imageContainer");
 export const characterPreview = document.querySelector("#characterPreview");
@@ -124,6 +125,11 @@ export function initializePlayer(template) {
     const index = weapons.findIndex(w => w.name === inventoryComp.items[0]);
     weaponComp.weaponIndex = index !== -1 ? index : 0;
   }
+  const levelComp = player.getComponent('level');
+  if (template.level) {
+    levelComp.level = template.level.level;
+  }
+  levelText.innerText = levelComp.level;
 }
 
 /**
@@ -174,6 +180,7 @@ eventEmitter.on('xpUpdated', () => {
     strengthComp.strength += 2;
 
     text.innerText = `You leveled up! You are now level ${levelComp.level}.`;
+    levelText.innerText = levelComp.level;
   }
 });
 
