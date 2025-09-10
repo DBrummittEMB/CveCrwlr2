@@ -41,3 +41,7 @@ export let currentTemplate = characterTemplates[0];
 // Provide a default export for compatibility with existing code expecting a default player.
 export const defaultPlayer = characterTemplates[0];
 
+export function setCurrentTemplate(template) {
+  currentTemplate = template;
+}
+
