@@ -4,22 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <title>CveCrwlr</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body>
+<div id="gameContainer">
 <div id="game">
-  <div id="stats">
-    <span class="stat">XP: <strong><span id="xpText">0</span></strong></span>
-    <span class="stat">Level: <strong><span id="levelText">0</span></strong></span>
-    <span class="stat">Health: <strong><span id="healthText">100</span></strong></span>
-    <span class="stat">Gold: <strong><span id="goldText">50</span></strong></span>
-    <span class="stat">Score: <strong><span id="scoreText">0</span></strong></span>
+  <div id="hud">
+    <div class="hud-section hud-health">
+      <img src="imgs/health.svg" class="hud-icon" alt="health icon">
+      <span>Health: <strong><span id="healthText">100</span></strong></span>
+    </div>
+    <div class="hud-section hud-coins">
+      <img src="imgs/coin.svg" class="hud-icon" alt="coin icon">
+      <span>Gold: <strong><span id="goldText">50</span></strong></span>
+    </div>
+    <div class="hud-section hud-xp">
+      <img src="imgs/xp.svg" class="hud-icon" alt="xp icon">
+      <span>XP: <strong><span id="xpText">0</span></strong></span>
+    </div>
+    <div class="hud-section">
+      <span>Level: <strong><span id="levelText">0</span></strong></span>
+    </div>
+    <div class="hud-section">
+      <span>Score: <strong><span id="scoreText">0</span></strong></span>
+    </div>
   </div>
   <div id="controls">
-    <button id="button1">Start</button>
-    <button id="button2">Settings</button>
-    <button id="button3">Change Log</button>
+    <button id="button1" class="pixel-button">Start</button>
+    <button id="button2" class="pixel-button">Settings</button>
+    <button id="button3" class="pixel-button">Change Log</button>
   </div>
   <div id="imageContainer">
     <img id="image" src="imgs/openScreen.png" alt="image">
@@ -30,6 +46,7 @@
     <span class="stat">Health: <strong><span id="monsterHealth"></span></strong></span>
   </div>
   <div id="text">Welcome to CveCrwlr! Kill the stuff! Get the Levels! Beat the game!</div>
+</div>
 </div>
 
 
