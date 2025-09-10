@@ -168,26 +168,24 @@ eventEmitter.on('subtractXp', (amount) => {
 
 // Handle level ups and update displayed XP whenever it changes
 eventEmitter.on('xpUpdated', () => {
-  let xpComp = player.getComponent('xp');
-  let levelComp = player.getComponent('level');
+  const xpComp = player.getComponent('xp');
+  const levelComp = player.getComponent('level');
   xpText.innerText = xpComp.xp;
 
-  // Check if player has enough XP to level up
-  let nextLevelXp = getXpForNextLevel(levelComp.level);
-  if (xpComp.xp >= nextLevelXp) {
+  // Handle scenarios where accumulated XP grants multiple levels.
+  while (xpComp.xp >= getXpForNextLevel(levelComp.level)) {
     levelComp.level++;
 
-    // Scale player stats on level up
-    let healthComp = player.getComponent('health');
+    const healthComp = player.getComponent('health');
     healthComp.maxHealth += 10;
     healthComp.currentHealth = healthComp.maxHealth;
     eventEmitter.emit('healthUpdated');
 
-    let strengthComp = player.getComponent('strength');
+    const strengthComp = player.getComponent('strength');
     strengthComp.strength += 2;
 
-    text.innerText = `You leveled up! You are now level ${levelComp.level}.`;
     levelText.innerText = levelComp.level;
+    text.innerText = `You leveled up! You are now level ${levelComp.level}.`;
   }
 });
 
