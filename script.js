@@ -1,7 +1,11 @@
 import { eventEmitter } from './eventEmitter.js';
 import { nameComponent, healthComponent, levelComponent, imageUrlComponent, xpComponent, goldComponent, strengthComponent, intelligenceComponent, currentWeaponComponent, inventoryComponent } from './entityComponent.js';
 import { weapons } from './item.js';
-import { characterTemplates, currentTemplate } from './playerTemplate.js';
+import {
+  characterTemplates,
+  currentTemplate,
+  setCurrentTemplate,
+} from './playerTemplate.js';
 import { preloadImages, getImageUrl } from './imageLoader.js';
 
 export const text = document.querySelector("#text");
@@ -139,7 +143,10 @@ export function initializePlayer(template) {
  * @param {number} index - Index of the character template to select.
  */
 export function selectCharacter(index) {
-  Object.assign(currentTemplate, characterTemplates[index]);
+  const template = typeof structuredClone === 'function'
+    ? structuredClone(characterTemplates[index])
+    : JSON.parse(JSON.stringify(characterTemplates[index]));
+  setCurrentTemplate(template);
   initializePlayer(currentTemplate);
   import('./location.js').then(module => {
     eventEmitter.emit('update', module.locations[0]);
