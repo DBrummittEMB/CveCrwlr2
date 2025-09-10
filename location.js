@@ -5,6 +5,7 @@ import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { getImageUrl } from './imageLoader.js';
 import { weapons } from './item.js';
+import { debugLog } from './debug.js';
 // Preload character images so they're cached before the selection screen is shown
 characterTemplates.forEach(t => {
   const img = new Image();
@@ -18,12 +19,10 @@ export { monsterStats };
 
 function health() {
   let healthComponent = player.getComponent('health');
-  //console.log('healthComponent called');
   return healthComponent.currentHealth;
 }
 function gold() {
   let goldComponent = player.getComponent('gold');
-  //console.log('goldComponent called');
   return goldComponent.gold;
 }
 function equippedWeapon() {
@@ -32,7 +31,6 @@ function equippedWeapon() {
 }
 function xp() {
   let xpComponent = player.getComponent('xp');
-  //console.log('xpComponent called');
   return xpComponent.xp;
 }
 function fightSmall() {
@@ -238,7 +236,7 @@ eventEmitter.on('update', (location) => {
   goldText.innerText = goldComponent.gold;
   xpText.innerText = xpComponent.xp;
   healthText.innerText = healthComponent.currentHealth;
-  console.log("update called")
+  debugLog('update called');
   if (location.name === 'pickCharacter') {
     characterPreview.style.display = 'block';
     if (location['button images'] && location['button images'][0]) {
@@ -272,7 +270,7 @@ eventEmitter.emit('update', locations[9]);
 export function goTown() {
   eventEmitter.emit('goTown');
   eventEmitter.emit('update', (locations[0]) );
-  console.log('Town function called');
+  debugLog('Town function called');
 }
   
 /**
@@ -280,7 +278,7 @@ export function goTown() {
  */
 export function goCave() {
   eventEmitter.emit('update', (locations[2]) );
-  console.log("Cave function called");
+  debugLog('Cave function called');
 }
   
 /**
@@ -288,7 +286,7 @@ export function goCave() {
  */
 export function goStore() {
   eventEmitter.emit('update', (locations[1]) );
-  console.log("Store function called");
+  debugLog('Store function called');
 }
 /**
  * Updates the UI with the stats location data.
@@ -304,7 +302,7 @@ export function goStats() {
     `Weapon: ${weaponName} | Experience: ${xpComp}`;
 
   eventEmitter.emit('update', locations[5]);
-  console.log('Stats function called');
+  debugLog('Stats function called');
 }
 /**
  * Updates the UI with the inventory location data.
@@ -316,7 +314,7 @@ export function goInventory() {
     ? 'In your inventory you have: ' + items.join(', ')
     : 'Your inventory is empty.';
   eventEmitter.emit('update', inventoryLoc);
-  console.log('Inventory function called');
+  debugLog('Inventory function called');
 }
   
 /**
@@ -324,26 +322,26 @@ export function goInventory() {
  */
 export function easterEgg() {
   eventEmitter.emit('update', (locations[8]) );
-  console.log("Easter egg function called");
+  debugLog('Easter egg function called');
 }
 
 export function goHomeScreen() {
   eventEmitter.emit('update', (locations[9]) );
-  console.log("Home screen function called");
+  debugLog('Home screen function called');
 }
 
 export function goPickCharacter() {
   pickCharacterLocation = generatePickCharacterLocation();
   eventEmitter.emit('update', pickCharacterLocation);
-  console.log("Pick character function called");
+  debugLog('Pick character function called');
 }
 
 export function goSettings() {
   eventEmitter.emit('update', (locations[10]) );
-  console.log("Settings function called");
+  debugLog('Settings function called');
 }
 
 export function goChangelog() {
   eventEmitter.emit('update', (locations[11]) );
-  console.log("Changelog function called");
+  debugLog('Changelog function called');
 }

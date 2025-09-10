@@ -2,6 +2,7 @@ import { locations, } from './location.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { currentTemplate } from './playerTemplate.js';
 import { initializePlayer } from './script.js';
+import { debugLog } from './debug.js';
 
 eventEmitter.on('winGame', () => {
     eventEmitter.emit('update', (locations[7]));
@@ -22,7 +23,7 @@ eventEmitter.on('lose', () => {
 eventEmitter.on('restart', () => {
   initializePlayer(currentTemplate);
   eventEmitter.emit('update', locations[0]);
-  console.log("restart function called");
+  debugLog('restart function called');
 });
 
   /**
