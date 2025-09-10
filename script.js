@@ -79,12 +79,6 @@ export let player = entityManager.createEntity({
   'inventory': new inventoryComponent()
 })
 player.getComponent('inventory').items.push(weapons[0].name);
-//console.log(player);
-//console.log(player.id);
-// Log entities 
-entityManager.entities.forEach(entity => {
-  console.log(entity);
-});
 
 
 /**
@@ -150,17 +144,13 @@ export function selectCharacter(index) {
 /* Handle player stats logic */
 eventEmitter.on('addXp',(amount) => {
   let xpComp = player.getComponent('xp');
-  let xpAmt = xpComp.xp + amount;
   xpComp.xp += amount;
-  console.log(`Player gained ${amount} xp. Current xp: ${xpAmt}`);
-  eventEmitter.emit("xpUpdated");
+  eventEmitter.emit('xpUpdated');
 });
 eventEmitter.on('subtractXp', (amount) => {
   let xpComp = player.getComponent('xp');
-  let xpAmt = xpComp.xp;
   xpComp.xp -= amount;
-  console.log(`Player lost ${amount} xp. Current xp: ${xpAmt}`);
-  eventEmitter.emit("xpUpdated");
+  eventEmitter.emit('xpUpdated');
 });
 
 // Handle level ups and update displayed XP whenever it changes
@@ -190,20 +180,24 @@ eventEmitter.on('xpUpdated', () => {
 // Health handling
 eventEmitter.on('addHealth', (amount) => {
   let healthComp = player.getComponent('health');
-  console.log(healthComp.currentHealth);
-  healthComp.currentHealth += amount;
-  console.log(`Player gained ${amount} health. Current health: ${healthComp.currentHealth}`);
-  healthText.innerText = healthComp.currentHealth;
-  eventEmitter.emit("healthUpdated");
+  let newHealth = Math.min(healthComp.currentHealth + amount, healthComp.maxHealth);
+  if (newHealth !== healthComp.currentHealth) {
+    healthComp.currentHealth = newHealth;
+    healthText.innerText = healthComp.currentHealth;
+    eventEmitter.emit('healthUpdated');
+  }
 });
 eventEmitter.on('playerDamaged', (damageAmount) => {
   let healthComp = player.getComponent('health');
-  healthComp.currentHealth -= damageAmount;
-  console.log(`Player took ${damageAmount} damage. Current health: ${healthComp.currentHealth}`);
-  healthText.innerText = healthComp.currentHealth;
+  let newHealth = healthComp.currentHealth - damageAmount;
+  if (newHealth !== healthComp.currentHealth) {
+    healthComp.currentHealth = newHealth;
+    healthText.innerText = healthComp.currentHealth;
+    eventEmitter.emit('healthUpdated');
+  }
 
   if (healthComp.currentHealth <= 0) {
-    eventEmitter.emit('lose'); // Call lose function if health drops to 0 or below
+    eventEmitter.emit('lose');
   }
 });
 
@@ -216,7 +210,6 @@ eventEmitter.on('addGold', (amount) => {
 });
 eventEmitter.on('subtractGold', (amount) => {
   let goldComp = player.getComponent('gold');
-  //console.log(goldComp.gold);
   goldComp.gold -= amount;
   goldText.innerText = goldComp.gold;
 });
@@ -225,15 +218,12 @@ eventEmitter.on('subtractGold', (amount) => {
 eventEmitter.on('weaponUp',() => {
   let weaponComp = player.getComponent('currentWeapon');
   let inventory = player.getComponent('inventory').items;
-  console.log('weaponUp listener called');
   if (weaponComp.weaponIndex < weapons.length - 1) {
-    console.log(player)
     weaponComp.weaponIndex++;
     let newWeapon = weapons[weaponComp.weaponIndex].name;
     text.innerText = "You now have a " + newWeapon + ".";
     inventory.push(newWeapon);
     text.innerText += " In your inventory you have: " + inventory;
-    console.log(inventory);
   } else {
     text.innerText = "You already have the most powerful weapon!";
   }
