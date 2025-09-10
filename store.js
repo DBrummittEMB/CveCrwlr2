@@ -55,5 +55,5 @@ export function sellWeapon() {
     text.innerText += ' In your inventory you have: ' + inventoryComponent;
   } else {
     text.innerText = "Don't sell your only weapon!";
-  }
+  };
 }
