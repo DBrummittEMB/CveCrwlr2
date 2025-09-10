@@ -143,17 +143,23 @@ eventEmitter.on('useItem', () => {
   let healthComp = player.getComponent('health');
   let potionIndex = inventory.indexOf('health potion');
 
-  if (potionIndex !== -1) {
-    inventory.splice(potionIndex, 1);
-    const healAmount = 30;
-    const healed = Math.min(healAmount, healthComp.maxHealth - healthComp.currentHealth);
-    healthComp.currentHealth += healed;
-    healthText.innerText = healthComp.currentHealth;
-    text.innerText = `You use a health potion and recover ${healed} health.`;
-    eventEmitter.emit('healthUpdated');
-  } else {
+  if (potionIndex === -1) {
     text.innerText = "You don't have any health potions.";
+    return;
   }
+
+  if (healthComp.currentHealth >= healthComp.maxHealth) {
+    text.innerText = 'Your health is already full.';
+    return;
+  }
+
+  inventory.splice(potionIndex, 1);
+  const healAmount = 30;
+  const healed = Math.min(healAmount, healthComp.maxHealth - healthComp.currentHealth);
+  healthComp.currentHealth += healed;
+  healthText.innerText = healthComp.currentHealth;
+  text.innerText = `You use a health potion and recover ${healed} health.`;
+  eventEmitter.emit('healthUpdated');
 });
 
 /**
