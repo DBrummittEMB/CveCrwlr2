@@ -72,6 +72,7 @@ eventEmitter.on('attack', () => {
 
 eventEmitter.on('goTown', clearEnemy);
 eventEmitter.on('winGame', clearEnemy);
+eventEmitter.on('lose', clearEnemy);
 
 
 /**
