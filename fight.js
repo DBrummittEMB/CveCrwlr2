@@ -3,7 +3,7 @@ import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { player, entityManager, text, goldText, xpText, image } from './script.js';
-import { nameComponent, healthComponent } from './entityComponent.js';
+import { nameComponent, healthComponent, levelComponent, imageUrlComponent } from './entityComponent.js';
 import { getImageUrl } from './imageLoader.js';
 
 
@@ -33,23 +33,25 @@ function clearEnemy() {
 }
 
 eventEmitter.on('goFight', () => {
-  eventEmitter.emit('update', (locations[3]));
+  eventEmitter.emit('update', locations[3]);
   enemy = entityManager.createEntity({
-    ...fighting,
     name: new nameComponent(fighting.name),
-    health: new healthComponent(fighting.health)
+    health: new healthComponent(fighting.health),
+    level: new levelComponent(fighting.level),
+    imageUrl: new imageUrlComponent(fighting.imageUrl)
   });
-  enemyHealth = enemy.getComponent("health");
-  enemyName = enemy.getComponent("name");
-  monsterStats.style.display = "block";
+  enemyHealth = enemy.getComponent('health');
+  enemyName = enemy.getComponent('name');
+  const enemyImageUrl = enemy.getComponent('imageUrl').imageUrl;
+  monsterStats.style.display = 'block';
   monsterNameText.innerText = enemyName.name;
   monsterHealthText.innerText = enemyHealth.currentHealth;
 
-  image.src = getImageUrl(fighting.imageUrl);
-  image.style.display = "block";
+  image.src = getImageUrl(enemyImageUrl);
+  image.style.display = 'block';
 });
 eventEmitter.on('attack', () => {
-  let enemyLevel = enemy.getComponent("level");
+  let enemyLevel = enemy.getComponent('level').level;
   let monsterDamage = getMonsterAttackValue(enemyLevel);
   let playerDamage = getPlayerAttackValue();
   let currentWeaponComp = player.getComponent('currentWeapon');
