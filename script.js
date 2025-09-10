@@ -160,11 +160,6 @@ eventEmitter.on('addXp',(amount) => {
   xpComp.xp += amount;
   eventEmitter.emit('xpUpdated');
 });
-eventEmitter.on('subtractXp', (amount) => {
-  let xpComp = player.getComponent('xp');
-  xpComp.xp -= amount;
-  eventEmitter.emit('xpUpdated');
-});
 
 // Handle level ups and update displayed XP whenever it changes
 eventEmitter.on('xpUpdated', () => {
