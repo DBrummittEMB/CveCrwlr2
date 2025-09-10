@@ -2,7 +2,7 @@ import { locations, monsterHealthText, monsterNameText, monsterStats } from './l
 import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
-import { player, entityManager, text, goldText, xpText, image, healthText } from './script.js';
+import { player, entityManager, text, goldText, xpText, image } from './script.js';
 import { nameComponent, healthComponent } from './entityComponent.js';
 import { getImageUrl } from './imageLoader.js';
 
@@ -157,7 +157,6 @@ eventEmitter.on('useItem', () => {
   const healAmount = 30;
   const healed = Math.min(healAmount, healthComp.maxHealth - healthComp.currentHealth);
   healthComp.currentHealth += healed;
-  healthText.innerText = healthComp.currentHealth;
   text.innerText = `You use a health potion and recover ${healed} health.`;
   eventEmitter.emit('healthUpdated');
 });

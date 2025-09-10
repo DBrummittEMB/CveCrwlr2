@@ -181,7 +181,7 @@ eventEmitter.on('xpUpdated', () => {
     let healthComp = player.getComponent('health');
     healthComp.maxHealth += 10;
     healthComp.currentHealth = healthComp.maxHealth;
-    healthText.innerText = healthComp.currentHealth;
+    eventEmitter.emit('healthUpdated');
 
     let strengthComp = player.getComponent('strength');
     strengthComp.strength += 2;
@@ -192,12 +192,15 @@ eventEmitter.on('xpUpdated', () => {
 });
 
 // Health handling
+eventEmitter.on('healthUpdated', () => {
+  const healthComp = player.getComponent('health');
+  healthText.innerText = healthComp.currentHealth;
+});
 eventEmitter.on('addHealth', (amount) => {
   let healthComp = player.getComponent('health');
   let newHealth = Math.min(healthComp.currentHealth + amount, healthComp.maxHealth);
   if (newHealth !== healthComp.currentHealth) {
     healthComp.currentHealth = newHealth;
-    healthText.innerText = healthComp.currentHealth;
     eventEmitter.emit('healthUpdated');
   }
 });
@@ -209,7 +212,6 @@ eventEmitter.on('playerDamaged', (damageAmount) => {
   );
   if (newHealth !== healthComp.currentHealth) {
     healthComp.currentHealth = newHealth;
-    healthText.innerText = healthComp.currentHealth;
     eventEmitter.emit('healthUpdated');
   }
 
