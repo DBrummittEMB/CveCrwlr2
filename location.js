@@ -4,6 +4,7 @@ import { characterTemplates } from './playerTemplate.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { getImageUrl } from './imageLoader.js';
+import { weapons } from './item.js';
 // Preload character images so they're cached before the selection screen is shown
 characterTemplates.forEach(t => {
   const img = new Image();
@@ -25,10 +26,9 @@ function gold() {
   //console.log('goldComponent called');
   return goldComponent.gold;
 }
-function inventory() {
-  let inventoryComponent = player.getComponent('inventory');
-  //console.log(inventoryComponent.items);
-  return inventoryComponent.items;
+function equippedWeapon() {
+  let weaponComp = player.getComponent('currentWeapon');
+  return weapons[weaponComp.weaponIndex].name;
 }
 function xp() {
   let xpComponent = player.getComponent('xp');
@@ -100,7 +100,9 @@ export const locations = [
       name: "stats",
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
       "button functions": [goTown, goTown, easterEgg],
-      text: `Health: ${health()} | Gold: ${gold()} | Weapon: ${inventory()} | Experience: ${xp()}`,
+      text:
+        `Health: ${health()} | Gold: ${gold()} | ` +
+        `Weapon: ${equippedWeapon()} | Experience: ${xp()}`,
       image: false
     },
     {
@@ -147,6 +149,13 @@ export const locations = [
       "button text": ["Back"],
       "button functions": [goHomeScreen],
       text: "Changelog:\n- Added Settings and Changelog screens.",
+      image: false
+    },
+    {
+      name: 'inventory',
+      'button text': ['Go to town square'],
+      'button functions': [goTown],
+      text: '',
       image: false
     }
   ];
@@ -287,20 +296,26 @@ export function goStats() {
   let healthComp = player.getComponent('health').currentHealth;
   let goldComp = player.getComponent('gold').gold;
   let xpComp = player.getComponent('xp').xp;
-  let inventoryComp = player.getComponent('inventory').items.join(', ');
+  let weaponName = equippedWeapon();
 
-  // Update the text property of the stats location
-  locations[5].text = `Health: ${healthComp} | Gold: ${goldComp} | Weapon: ${inventoryComp} | Experience: ${xpComp}`;
+  locations[5].text =
+    `Health: ${healthComp} | Gold: ${goldComp} | ` +
+    `Weapon: ${weaponName} | Experience: ${xpComp}`;
 
-  eventEmitter.emit('update', (locations[5]) );
-  console.log("Stats function called");
+  eventEmitter.emit('update', locations[5]);
+  console.log('Stats function called');
 }
 /**
- * Updates the UI with the store location data.
+ * Updates the UI with the inventory location data.
  */
 export function goInventory() {
-  eventEmitter.emit('update', (locations[5]) );
-  console.log("Inventory function called");
+  let inventoryLoc = locations.find(l => l.name === 'inventory');
+  let items = player.getComponent('inventory').items;
+  inventoryLoc.text = items.length
+    ? 'In your inventory you have: ' + items.join(', ')
+    : 'Your inventory is empty.';
+  eventEmitter.emit('update', inventoryLoc);
+  console.log('Inventory function called');
 }
   
 /**
