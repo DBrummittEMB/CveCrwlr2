@@ -8,13 +8,16 @@ import { weapons } from './item.js';
  */
 export function buyHealth() {
   let goldComponent = player.getComponent('gold');
+  let healthComponent = player.getComponent('health');
+  if (healthComponent.currentHealth >= healthComponent.maxHealth) {
+    text.innerText = 'Your health is already full.';
+    return;
+  }
   if (goldComponent.gold >= 10) {
-    console.log(goldComponent.gold);
     eventEmitter.emit('subtractGold', 10);
     eventEmitter.emit('addHealth', 10);
   } else {
-    text.innerText = "You do not have enough gold to buy health.";
-    // Handle insufficient gold
+    text.innerText = 'You do not have enough gold to buy health.';
   }
 }
 
