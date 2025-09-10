@@ -46,11 +46,11 @@ eventEmitter.on('attack', () => {
   let weaponIndex = currentWeaponComp.weaponIndex;
   let weaponName = weapons[weaponIndex].name;
   eventEmitter.emit('playerDamaged', monsterDamage);
-  enemyHealth.currentHealth -= playerDamage;
+  enemyHealth.currentHealth = Math.max(0, enemyHealth.currentHealth - playerDamage);
   monsterHealthText.innerText = enemyHealth.currentHealth;
-  text.innerText = "The " + enemyName.name + " attacks for " + monsterDamage + ".";
-  text.innerText += " You attack the " + enemyName.name + " with your " + weaponName + " for " + playerDamage + ".";
-  console.log("Attack called " + weaponIndex);
+  text.innerText = 'The ' + enemyName.name + ' attacks for ' + monsterDamage + '.';
+  text.innerText += ' You attack the ' + enemyName.name +
+    ' with your ' + weaponName + ' for ' + playerDamage + '.';
   if (enemyHealth.currentHealth <= 0) {
     if (enemyName.name === "Dragon") {
       eventEmitter.emit('winGame');
@@ -69,7 +69,6 @@ eventEmitter.on('attack', () => {
 eventEmitter.on('fightSmall', () => {
   fighting = smallMonsters[Math.floor(Math.random() * smallMonsters.length)];
   eventEmitter.emit('goFight');
-  console.log('Slime button clicked');
 });
 
 /**
@@ -97,10 +96,11 @@ eventEmitter.on('fightBoss', () => {
  * Subtracts a random value based on player XP to add variability.
 */
 function getMonsterAttackValue(level) {
-  let xpComp = player.getComponent("xp");
-  let hit = 1 + (level * 5) - (Math.floor(Math.random() * xpComp.xp));
-  console.log(xpComp.xp);
-  return hit;
+  let xpComp = player.getComponent('xp');
+  let baseDamage = 1 + level * 5;
+  let reduction = Math.min(baseDamage, Math.floor(Math.random() * xpComp.xp));
+  let hit = baseDamage - reduction;
+  return Math.max(0, hit);
 }
 
 // gets attack value of the player

@@ -189,7 +189,10 @@ eventEmitter.on('addHealth', (amount) => {
 });
 eventEmitter.on('playerDamaged', (damageAmount) => {
   let healthComp = player.getComponent('health');
-  let newHealth = healthComp.currentHealth - damageAmount;
+  let newHealth = Math.max(
+    0,
+    Math.min(healthComp.currentHealth - damageAmount, healthComp.maxHealth)
+  );
   if (newHealth !== healthComp.currentHealth) {
     healthComp.currentHealth = newHealth;
     healthText.innerText = healthComp.currentHealth;
