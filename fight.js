@@ -22,6 +22,16 @@ let enemy;
 let enemyHealth;
 let enemyName;
 
+function clearEnemy() {
+  if (enemy) {
+    entityManager.removeEntity(enemy.id);
+    enemy = null;
+    enemyHealth = null;
+    enemyName = null;
+    fighting = null;
+  }
+}
+
 eventEmitter.on('goFight', () => {
   eventEmitter.emit('update', (locations[3]));
   enemy = entityManager.createEntity({
@@ -60,10 +70,13 @@ eventEmitter.on('attack', () => {
   }
 });
 
+eventEmitter.on('goTown', clearEnemy);
+eventEmitter.on('winGame', clearEnemy);
+
 
 /**
  * Starts a fight with a random small monster.
- * Sets the fighting variable to a random small monster index. 
+ * Sets the fighting variable to a random small monster index.
  * Calls goFight() to update the UI for the fight.
 */
 eventEmitter.on('fightSmall', () => {
@@ -156,5 +169,6 @@ function defeatMonster() {
   eventEmitter.emit('addXp', fighting.level);
   goldText.innerText = gold.gold;
   xpText.innerText = xp.xp;
+  clearEnemy();
   eventEmitter.emit('update', (locations[4]));
 }

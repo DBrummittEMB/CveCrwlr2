@@ -270,8 +270,9 @@ eventEmitter.emit('update', locations[9]);
  * Updates the UI with the town location data.
  */
 export function goTown() {
+  eventEmitter.emit('goTown');
   eventEmitter.emit('update', (locations[0]) );
-  console.log("Town function called");
+  console.log('Town function called');
 }
   
 /**
