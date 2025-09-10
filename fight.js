@@ -56,6 +56,10 @@ eventEmitter.on('attack', () => {
   let weaponIndex = currentWeaponComp.weaponIndex;
   let weaponName = weapons[weaponIndex].name;
   eventEmitter.emit('playerDamaged', monsterDamage);
+  // Guard against enemy being cleared if the player dies during this attack
+  if (!enemy || !enemyHealth || !enemyName) {
+    return;
+  }
   enemyHealth.currentHealth = Math.max(0, enemyHealth.currentHealth - playerDamage);
   monsterHealthText.innerText = enemyHealth.currentHealth;
   text.innerText = 'The ' + enemyName.name + ' attacks for ' + monsterDamage + '.';
