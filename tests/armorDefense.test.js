@@ -25,14 +25,17 @@ beforeEach(() => {
   healthComp.currentHealth = 100;
   const armorComp = player.getComponent('currentArmor');
   armorComp.armorIndex = 1;
+  const defenseComp = player.getComponent('defense');
+  defenseComp.defense = 0;
 });
 
 test('playerDamaged subtracts armor defense from damage', () => {
   const healthComp = player.getComponent('health');
   const armorComp = player.getComponent('currentArmor');
+  const defenseComp = player.getComponent('defense');
   const damage = 20;
-  const defense = armor[armorComp.armorIndex].defense;
-  const expectedHealth = healthComp.currentHealth - Math.max(0, damage - defense);
+  const totalDefense = defenseComp.defense + armor[armorComp.armorIndex].defense;
+  const expectedHealth = healthComp.currentHealth - Math.max(0, damage - totalDefense);
   eventEmitter.emit('playerDamaged', damage);
   expect(healthComp.currentHealth).toBe(expectedHealth);
 });

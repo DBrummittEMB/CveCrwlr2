@@ -265,3 +265,15 @@ export const mediumMonsters = [
       health: 100,
       imageUrl: "imgs/celestialSeraphImage.png"
     }];
+
+function addDefaultDefense(monsters) {
+  monsters.forEach(monster => {
+    if (typeof monster.defense !== 'number') {
+      monster.defense = 0;
+    }
+  });
+}
+
+addDefaultDefense(smallMonsters);
+addDefaultDefense(mediumMonsters);
+addDefaultDefense(bossMonsters);

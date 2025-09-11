@@ -7,6 +7,7 @@ import {
   xpComponent,
   goldComponent,
   strengthComponent,
+  defenseComponent,
   intelligenceComponent,
   currentWeaponComponent,
   currentArmorComponent,
@@ -107,6 +108,7 @@ export let player = entityManager.createEntity({
   'gold': new goldComponent(50),
   'imageUrl': new imageUrlComponent("images/player.png"),
   'strength': new strengthComponent(10),
+  'defense': new defenseComponent(0),
   'intelligence': new intelligenceComponent(10),
   'currentWeapon': new currentWeaponComponent(0),
   'currentArmor': new currentArmorComponent(-1),
@@ -137,6 +139,9 @@ export function initializePlayer(template) {
   }
   if (template.strength) {
     player.getComponent('strength').strength = template.strength.strength;
+  }
+  if (template.defense) {
+    player.getComponent('defense').defense = template.defense.defense;
   }
   if (template.intelligence) {
     player.getComponent('intelligence').intelligence = template.intelligence.intelligence;
@@ -251,8 +256,11 @@ eventEmitter.on('addHealth', (amount) => {
 eventEmitter.on('playerDamaged', (damageAmount) => {
   let healthComp = player.getComponent('health');
   let armorComp = player.getComponent('currentArmor');
-  let defense = armorComp.armorIndex >= 0 ? armor[armorComp.armorIndex].defense : 0;
-  let adjustedDamage = Math.max(0, damageAmount - defense);
+  let defenseComp = player.getComponent('defense');
+  let baseDefense = defenseComp ? defenseComp.defense : 0;
+  let armorDefense = armorComp.armorIndex >= 0 ? armor[armorComp.armorIndex].defense : 0;
+  let totalDefense = baseDefense + armorDefense;
+  let adjustedDamage = Math.max(0, damageAmount - totalDefense);
   let newHealth = Math.max(
     0,
     Math.min(healthComp.currentHealth - adjustedDamage, healthComp.maxHealth)

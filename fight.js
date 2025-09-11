@@ -3,7 +3,13 @@ import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { player, entityManager, text, goldText, image } from './script.js';
-import { nameComponent, healthComponent, levelComponent, imageUrlComponent } from './entityComponent.js';
+import {
+  nameComponent,
+  healthComponent,
+  levelComponent,
+  imageUrlComponent,
+  defenseComponent
+} from './entityComponent.js';
 import { getImageUrl } from './imageLoader.js';
 
 
@@ -38,7 +44,8 @@ eventEmitter.on('goFight', () => {
     name: new nameComponent(fighting.name),
     health: new healthComponent(fighting.health),
     level: new levelComponent(fighting.level),
-    imageUrl: new imageUrlComponent(fighting.imageUrl)
+    imageUrl: new imageUrlComponent(fighting.imageUrl),
+    defense: new defenseComponent(fighting.defense ?? 0)
   });
   enemyHealth = enemy.getComponent('health');
   enemyName = enemy.getComponent('name');
@@ -62,11 +69,14 @@ eventEmitter.on('attack', () => {
   if (!enemy || !enemyHealth || !enemyName) {
     return;
   }
-  enemyHealth.currentHealth = Math.max(0, enemyHealth.currentHealth - playerDamage);
+  let enemyDefenseComp = enemy.getComponent('defense');
+  let enemyDefense = enemyDefenseComp ? enemyDefenseComp.defense : 0;
+  let damageToEnemy = Math.max(0, playerDamage - enemyDefense);
+  enemyHealth.currentHealth = Math.max(0, enemyHealth.currentHealth - damageToEnemy);
   monsterHealthText.innerText = enemyHealth.currentHealth;
   text.innerText = 'The ' + enemyName.name + ' attacks for ' + monsterDamage + '.';
   text.innerText += ' You attack the ' + enemyName.name +
-    ' with your ' + weaponName + ' for ' + playerDamage + '.';
+    ' with your ' + weaponName + ' for ' + damageToEnemy + '.';
   if (enemyHealth.currentHealth <= 0) {
     if (enemyName.name === "Dragon") {
       eventEmitter.emit('winGame');
