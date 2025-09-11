@@ -45,7 +45,12 @@ export class currentWeaponComponent {
     }
 }
 export class inventoryComponent {
-    constructor() {
-        this.items = [];
-    }
+  constructor() {
+    this.items = {
+      weapons: [],
+      armor: [],
+      accessories: [],
+      consumables: []
+    };
+  }
 }

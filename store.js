@@ -49,14 +49,14 @@ export function buyWeapon() {
  * the sold weapon name and remaining inventory.
  */
 export function sellWeapon() {
-  let inventoryComponent = player.getComponent('inventory').items;
-  if (inventoryComponent.length > 1) {
-    let soldWeapon = inventoryComponent[inventoryComponent.length - 1];
+  let inventory = player.getComponent('inventory').items.weapons;
+  if (inventory.length > 1) {
+    let soldWeapon = inventory[inventory.length - 1];
     eventEmitter.emit('addGold', 20);
     eventEmitter.emit('weaponDown');
     text.innerText = 'You sold a ' + soldWeapon + '.';
-    text.innerText += ' In your inventory you have: ' + inventoryComponent;
+    text.innerText += ' In your inventory you have: ' + inventory.join(', ');
   } else {
     text.innerText = "Don't sell your only weapon!";
-  };
+  }
 }

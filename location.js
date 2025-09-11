@@ -327,8 +327,14 @@ export function goStats() {
 export function goInventory() {
   let inventoryLoc = locations.find(l => l.name === 'inventory');
   let items = player.getComponent('inventory').items;
-  inventoryLoc.text = items.length
-    ? 'In your inventory you have: ' + items.join(', ')
+  let { weapons, armor, accessories, consumables } = items;
+  let parts = [];
+  if (weapons.length) parts.push('Weapons: ' + weapons.join(', '));
+  if (armor.length) parts.push('Armor: ' + armor.join(', '));
+  if (accessories.length) parts.push('Accessories: ' + accessories.join(', '));
+  if (consumables.length) parts.push('Consumables: ' + consumables.join(', '));
+  inventoryLoc.text = parts.length
+    ? 'In your inventory you have: ' + parts.join('; ')
     : 'Your inventory is empty.';
   eventEmitter.emit('update', inventoryLoc);
   debugLog('Inventory function called');
