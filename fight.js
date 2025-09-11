@@ -1,6 +1,6 @@
 import { locations, monsterHealthText, monsterNameText, monsterStats } from './location.js';
-import { weapons, } from './item.js';
-import { eventEmitter, } from './eventEmitter.js';
+import { weapons } from './item.js';
+import { eventEmitter } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
 import { player, entityManager, text, goldText, image } from './script.js';
 import {

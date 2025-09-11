@@ -1,5 +1,5 @@
-import { locations, } from './location.js';
-import { eventEmitter, } from './eventEmitter.js';
+import { locations } from './location.js';
+import { eventEmitter } from './eventEmitter.js';
 import { currentTemplate } from './playerTemplate.js';
 import { initializePlayer } from './script.js';
 import { debugLog } from './debug.js';
