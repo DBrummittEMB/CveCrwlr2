@@ -131,7 +131,7 @@ export const locations = [
     {
       name: "stats",
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
-      "button functions": [goTown, goTown, easterEgg],
+      "button functions": [goTown, goTown, goTown],
       text:
         `Health: ${health()} | Gold: ${gold()} | ` +
         `Weapon: ${equippedWeapon()} | Experience: ${xp()}`,
