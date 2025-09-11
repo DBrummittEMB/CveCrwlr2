@@ -1,6 +1,6 @@
 import { player, text } from './script.js';
 import { eventEmitter } from './eventEmitter.js';
-import { weapons, armor } from './item.js';
+import { weapons, armor, accessories } from './item.js';
 
 /**
  * Subtracts gold from the player's total and adds health,
@@ -53,6 +53,23 @@ export function buyArmor() {
     eventEmitter.emit('armorUp');
   } else {
     text.innerText = 'You do not have enough gold to buy armor.';
+  }
+}
+
+export function buyAccessory(index) {
+  let goldComponent = player.getComponent('gold');
+  let accessory = accessories[index];
+  if (!accessory) {
+    text.innerText = 'That accessory does not exist.';
+    return;
+  }
+  if (player.getComponent('inventory').items.accessories.includes(accessory.name)) {
+    text.innerText = 'You already have ' + accessory.name + '.';
+  } else if (goldComponent.gold >= accessory.cost) {
+    eventEmitter.emit('subtractGold', accessory.cost);
+    eventEmitter.emit('addAccessory', index);
+  } else {
+    text.innerText = 'You do not have enough gold to buy ' + accessory.name + '.';
   }
 }
 

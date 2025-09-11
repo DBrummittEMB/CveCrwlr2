@@ -36,3 +36,27 @@ export const armor = [
   }
 ];
 
+export const accessories = [
+  {
+    name: 'ring of vitality',
+    healthBonus: 20,
+    cost: 50
+  },
+  {
+    name: 'gloves of strength',
+    strengthBonus: 5,
+    cost: 50
+  },
+  {
+    name: 'boots of swiftness',
+    agilityBonus: 5,
+    cost: 50
+  },
+  {
+    name: 'necklace of fortitude',
+    defenseBonus: 5,
+    cost: 50
+  }
+];
+
+

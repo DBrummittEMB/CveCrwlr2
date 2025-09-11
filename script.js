@@ -9,11 +9,12 @@ import {
   strengthComponent,
   defenseComponent,
   intelligenceComponent,
+  agilityComponent,
   currentWeaponComponent,
   currentArmorComponent,
   inventoryComponent
 } from './entityComponent.js';
-import { weapons, armor } from './item.js';
+import { weapons, armor, accessories } from './item.js';
 import {
   characterTemplates,
   currentTemplate,
@@ -110,6 +111,7 @@ export let player = entityManager.createEntity({
   'strength': new strengthComponent(10),
   'defense': new defenseComponent(0),
   'intelligence': new intelligenceComponent(10),
+  'agility': new agilityComponent(10),
   'currentWeapon': new currentWeaponComponent(0),
   'currentArmor': new currentArmorComponent(-1),
   'inventory': new inventoryComponent()
@@ -142,6 +144,9 @@ export function initializePlayer(template) {
   }
   if (template.defense) {
     player.getComponent('defense').defense = template.defense.defense;
+  }
+  if (template.agility) {
+    player.getComponent('agility').agility = template.agility.agility;
   }
   if (template.intelligence) {
     player.getComponent('intelligence').intelligence = template.intelligence.intelligence;
@@ -327,5 +332,36 @@ eventEmitter.on('armorUp', () => {
   } else {
     text.innerText = 'You already have the best armor!';
   }
+});
+
+eventEmitter.on('addAccessory', index => {
+  let accessory = accessories[index];
+  let inventory = player.getComponent('inventory').items.accessories;
+  if (!accessory) {
+    text.innerText = 'That accessory does not exist.';
+    return;
+  }
+  if (inventory.includes(accessory.name)) {
+    text.innerText = 'You already have ' + accessory.name + '.';
+    return;
+  }
+  inventory.push(accessory.name);
+  if (accessory.healthBonus) {
+    let healthComp = player.getComponent('health');
+    healthComp.maxHealth += accessory.healthBonus;
+    healthComp.currentHealth += accessory.healthBonus;
+    eventEmitter.emit('healthUpdated');
+  }
+  if (accessory.strengthBonus) {
+    player.getComponent('strength').strength += accessory.strengthBonus;
+  }
+  if (accessory.agilityBonus) {
+    player.getComponent('agility').agility += accessory.agilityBonus;
+  }
+  if (accessory.defenseBonus) {
+    player.getComponent('defense').defense += accessory.defenseBonus;
+  }
+  text.innerText = 'You equipped ' + accessory.name + '.';
+  text.innerText += ' In your inventory you have: ' + inventory.join(', ');
 });
 
