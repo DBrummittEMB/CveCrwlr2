@@ -44,6 +44,11 @@ export class intelligenceComponent {
     this.intelligence = intelligence;
   }
 }
+export class agilityComponent {
+  constructor(agility) {
+    this.agility = agility;
+  }
+}
 export class currentWeaponComponent {
   constructor(weaponIndex) {
     this.weaponIndex = weaponIndex;

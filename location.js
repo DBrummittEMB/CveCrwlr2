@@ -14,10 +14,10 @@ import {
   xpBarFill
 } from './script.js';
 import { characterTemplates } from './playerTemplate.js';
-import { buyHealth, buyWeapon, buyArmor, sellWeapon } from './store.js';
+import { buyHealth, buyWeapon, buyArmor, buyAccessory, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { getImageUrl } from './imageLoader.js';
-import { weapons } from './item.js';
+import { weapons, accessories } from './item.js';
 import { debugLog } from './debug.js';
 // Preload character images so they're cached before the selection screen is shown
 characterTemplates.forEach(t => {
@@ -68,6 +68,13 @@ function restart() {
   eventEmitter.emit('restart', player);
 }
 
+const accessoryButtonText = accessories.map(
+  a => `Buy ${a.name} (${a.cost} gold)`
+);
+const accessoryButtonFunctions = accessories.map(
+  (_, index) => () => buyAccessory(index)
+);
+
 export const locations = [
     {
       name: "town square",
@@ -83,10 +90,18 @@ export const locations = [
         'Buy 10 health (10 gold)',
         'Buy weapon (30 gold)',
         'Buy armor (40 gold)',
+        ...accessoryButtonText,
         'Sell Weapon',
         'Go to town square'
       ],
-      "button functions": [buyHealth, buyWeapon, buyArmor, sellWeapon, goTown],
+      "button functions": [
+        buyHealth,
+        buyWeapon,
+        buyArmor,
+        ...accessoryButtonFunctions,
+        sellWeapon,
+        goTown
+      ],
       text: 'You enter the store.',
       imageUrl: 'imgs/shop.png',
       image: true
