@@ -22,9 +22,26 @@ export function buyHealth() {
 }
 
 /**
+ * Buys a health potion for later use.
+ * Subtracts gold and adds a potion to the player's consumables.
+ */
+export function buyHealthPotion() {
+  let goldComponent = player.getComponent('gold');
+  let inventory = player.getComponent('inventory').items.consumables;
+  const cost = 15;
+  if (goldComponent.gold >= cost) {
+    eventEmitter.emit('subtractGold', cost);
+    inventory.push('health potion');
+    text.innerText = 'You bought a health potion.';
+  } else {
+    text.innerText = 'You do not have enough gold to buy a health potion.';
+  }
+}
+
+/**
  * Buys a new weapon by subtracting gold, upgrading the weapon,
  * updating the gold text, setting the new weapon name, adding to inventory,
- * updating the text and logging. Checks if the current weapon is already 
+ * updating the text and logging. Checks if the current weapon is already
  * the most powerful and updates text and button if so.
 */
 export function buyWeapon() {
