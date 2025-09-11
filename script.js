@@ -180,10 +180,11 @@ eventEmitter.on('addXp',(amount) => {
 eventEmitter.on('xpUpdated', () => {
   const xpComp = player.getComponent('xp');
   const levelComp = player.getComponent('level');
-  xpText.innerText = xpComp.xp;
+  let requiredXp = getXpForNextLevel(levelComp.level);
 
   // Handle scenarios where accumulated XP grants multiple levels.
-  while (xpComp.xp >= getXpForNextLevel(levelComp.level)) {
+  while (xpComp.xp >= requiredXp) {
+    xpComp.xp -= requiredXp;
     levelComp.level++;
 
     const healthComp = player.getComponent('health');
@@ -196,7 +197,9 @@ eventEmitter.on('xpUpdated', () => {
 
     levelText.innerText = levelComp.level;
     text.innerText = `You leveled up! You are now level ${levelComp.level}.`;
+    requiredXp = getXpForNextLevel(levelComp.level);
   }
+  xpText.innerText = xpComp.xp;
 });
 
 // Health handling
