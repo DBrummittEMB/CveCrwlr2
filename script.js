@@ -99,7 +99,7 @@ export let player = entityManager.createEntity({
   'currentWeapon': new currentWeaponComponent(0),
   'inventory': new inventoryComponent()
 })
-player.getComponent('inventory').items.push(weapons[0].name);
+player.getComponent('inventory').items.weapons.push(weapons[0].name);
 
 
 /**
@@ -140,9 +140,16 @@ export function initializePlayer(template) {
   }
   if (template.inventory) {
     const inventoryComp = player.getComponent('inventory');
-    inventoryComp.items = [...template.inventory.items];
+    inventoryComp.items = {
+      weapons: [...template.inventory.items.weapons],
+      armor: [...template.inventory.items.armor],
+      accessories: [...template.inventory.items.accessories],
+      consumables: [...template.inventory.items.consumables]
+    };
     const weaponComp = player.getComponent('currentWeapon');
-    const index = weapons.findIndex(w => w.name === inventoryComp.items[0]);
+    const index = weapons.findIndex(
+      w => w.name === inventoryComp.items.weapons[0]
+    );
     weaponComp.weaponIndex = index !== -1 ? index : 0;
   }
   const levelComp = player.getComponent('level');
@@ -255,26 +262,26 @@ eventEmitter.on('subtractGold', (amount) => {
 // Changing weapons
 eventEmitter.on('weaponUp',() => {
   let weaponComp = player.getComponent('currentWeapon');
-  let inventory = player.getComponent('inventory').items;
+  let inventory = player.getComponent('inventory').items.weapons;
   if (weaponComp.weaponIndex < weapons.length - 1) {
     weaponComp.weaponIndex++;
     let newWeapon = weapons[weaponComp.weaponIndex].name;
-    text.innerText = "You now have a " + newWeapon + ".";
+    text.innerText = 'You now have a ' + newWeapon + '.';
     inventory.push(newWeapon);
-    text.innerText += " In your inventory you have: " + inventory;
+    text.innerText += ' In your inventory you have: ' + inventory.join(', ');
   } else {
-    text.innerText = "You already have the most powerful weapon!";
+    text.innerText = 'You already have the most powerful weapon!';
   }
 });
 eventEmitter.on('weaponDown',() => {
   let weaponComp = player.getComponent('currentWeapon');
-  let inventory = player.getComponent('inventory').items;
+  let inventory = player.getComponent('inventory').items.weapons;
   if (inventory.length > 1 && weaponComp.weaponIndex > 0) {
     inventory.pop();
     weaponComp.weaponIndex--;
     let newWeapon = weapons[weaponComp.weaponIndex].name;
-    text.innerText = "You now have a " + newWeapon + ".";
-    text.innerText += " In your inventory you have: " + inventory;
+    text.innerText = 'You now have a ' + newWeapon + '.';
+    text.innerText += ' In your inventory you have: ' + inventory.join(', ');
   } else {
     text.innerText = "You don't have any weapons in your inventory!";
   }

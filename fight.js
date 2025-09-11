@@ -146,7 +146,7 @@ eventEmitter.on('dodge', () => {
  * Currently supports using health potions to restore player health.
  */
 eventEmitter.on('useItem', () => {
-  let inventory = player.getComponent('inventory').items;
+  let inventory = player.getComponent('inventory').items.consumables;
   let healthComp = player.getComponent('health');
   let potionIndex = inventory.indexOf('health potion');
 
