@@ -14,7 +14,14 @@ import {
   xpBarFill
 } from './script.js';
 import { characterTemplates } from './playerTemplate.js';
-import { buyHealth, buyWeapon, buyArmor, buyAccessory, sellWeapon } from './store.js';
+import {
+  buyHealth,
+  buyHealthPotion,
+  buyWeapon,
+  buyArmor,
+  buyAccessory,
+  sellWeapon
+} from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { getImageUrl } from './imageLoader.js';
 import { weapons, accessories } from './item.js';
@@ -88,6 +95,7 @@ export const locations = [
       name: "store",
       "button text": [
         'Buy 10 health (10 gold)',
+        'Buy health potion (15 gold)',
         'Buy weapon (30 gold)',
         'Buy armor (40 gold)',
         ...accessoryButtonText,
@@ -96,6 +104,7 @@ export const locations = [
       ],
       "button functions": [
         buyHealth,
+        buyHealthPotion,
         buyWeapon,
         buyArmor,
         ...accessoryButtonFunctions,

@@ -26,6 +26,7 @@ The town square is the central hub. From here you can:
 ## Store
 The store offers goods and services:
 - **Buy 10 health (10 gold)**: restores health up to your maximum.
+- **Buy health potion (15 gold)**: adds a potion to your inventory for later use.
 - **Buy weapon (30 gold)**: upgrades to the next weapon tier.
 - **Buy armor (40 gold)**: equips stronger armor for extra defense.
 - **Buy accessories**: each accessory gives permanent bonuses such as extra health or
