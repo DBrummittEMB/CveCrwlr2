@@ -2,7 +2,7 @@ import { locations, monsterHealthText, monsterNameText, monsterStats } from './l
 import { weapons, } from './item.js';
 import { eventEmitter, } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
-import { player, entityManager, text, goldText, xpText, image } from './script.js';
+import { player, entityManager, text, goldText, image } from './script.js';
 import { nameComponent, healthComponent, levelComponent, imageUrlComponent } from './entityComponent.js';
 import { getImageUrl } from './imageLoader.js';
 
@@ -175,12 +175,10 @@ eventEmitter.on('useItem', () => {
 */
 function defeatMonster() {
   let goldReward = (Math.floor(fighting.level * 6.7));
-  let gold = player.getComponent("gold");
-  let xp = player.getComponent("xp");
+  let gold = player.getComponent('gold');
   eventEmitter.emit('addGold', goldReward);
   eventEmitter.emit('addXp', fighting.level);
   goldText.innerText = gold.gold;
-  xpText.innerText = xp.xp;
   clearEnemy();
   eventEmitter.emit('update', (locations[4]));
 }
