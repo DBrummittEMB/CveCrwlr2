@@ -58,6 +58,10 @@ eventEmitter.on('goFight', () => {
   image.style.display = 'block';
 });
 eventEmitter.on('attack', () => {
+  if (!enemy) {
+    text.innerText = 'There is no enemy to attack.';
+    return;
+  }
   let enemyLevel = enemy.getComponent('level').level;
   let monsterDamage = getMonsterAttackValue(enemyLevel);
   let playerDamage = getPlayerAttackValue();
@@ -148,6 +152,10 @@ function getPlayerAttackValue() {
  * Updates the text to indicate the player dodged the attack.
 */
 eventEmitter.on('dodge', () => {
+  if (!fighting) {
+    text.innerText = 'You dodge nothing.';
+    return;
+  }
   text.innerText = `You dodge the attack from the ${fighting.name}.`;
 });
 
