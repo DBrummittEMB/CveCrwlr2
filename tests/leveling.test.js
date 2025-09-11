@@ -2,6 +2,8 @@ import { eventEmitter } from '../eventEmitter.js';
 
 let getXpForNextLevel;
 let player;
+let baseHealth;
+let baseStrength;
 
 beforeAll(async () => {
   document.body.innerHTML = `
@@ -17,6 +19,10 @@ beforeAll(async () => {
     <div id='xpBarFill'></div>
   `;
   ({ getXpForNextLevel, player } = await import('../script.js'));
+  const healthComp = player.getComponent('health');
+  const strengthComp = player.getComponent('strength');
+  baseHealth = healthComp.maxHealth;
+  baseStrength = strengthComp.strength;
 });
 
 beforeEach(() => {
@@ -24,6 +30,11 @@ beforeEach(() => {
   xpComp.xp = 0;
   const levelComp = player.getComponent('level');
   levelComp.level = 1;
+  const healthComp = player.getComponent('health');
+  healthComp.maxHealth = baseHealth;
+  healthComp.currentHealth = baseHealth;
+  const strengthComp = player.getComponent('strength');
+  strengthComp.strength = baseStrength;
 });
 
 test('getXpForNextLevel returns increasing values', () => {
