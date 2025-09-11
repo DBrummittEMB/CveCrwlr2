@@ -18,6 +18,7 @@
 - Run `npm test` (or any available test suite) and ensure it passes before committing.
 - Commit only relevant source files; do not commit build artifacts or dependencies.
 - Use descriptive commit messages summarizing the change.
+- When game mechanics change, update USERMANUAL.md to reflect the new behavior.
 
 ## Visual Style Guide
 - Keep the game as a simple text-based clicker with no animations.
