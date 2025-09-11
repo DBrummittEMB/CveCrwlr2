@@ -1,6 +1,6 @@
 import { player, text } from './script.js';
 import { eventEmitter } from './eventEmitter.js';
-import { weapons } from './item.js';
+import { weapons, armor } from './item.js';
 
 /**
  * Subtracts gold from the player's total and adds health,
@@ -40,6 +40,19 @@ export function buyWeapon() {
     eventEmitter.emit('weaponUp');
   } else {
     text.innerText = "You do not have enough gold to buy a weapon.";
+  }
+}
+
+export function buyArmor() {
+  let goldComponent = player.getComponent('gold');
+  let armorComp = player.getComponent('currentArmor');
+  if (armorComp.armorIndex >= armor.length - 1) {
+    text.innerText = 'You already have the best armor!';
+  } else if (goldComponent.gold >= 40) {
+    eventEmitter.emit('subtractGold', 40);
+    eventEmitter.emit('armorUp');
+  } else {
+    text.innerText = 'You do not have enough gold to buy armor.';
   }
 }
 
