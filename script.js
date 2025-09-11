@@ -250,9 +250,12 @@ eventEmitter.on('addHealth', (amount) => {
 });
 eventEmitter.on('playerDamaged', (damageAmount) => {
   let healthComp = player.getComponent('health');
+  let armorComp = player.getComponent('currentArmor');
+  let defense = armorComp.armorIndex >= 0 ? armor[armorComp.armorIndex].defense : 0;
+  let adjustedDamage = Math.max(0, damageAmount - defense);
   let newHealth = Math.max(
     0,
-    Math.min(healthComp.currentHealth - damageAmount, healthComp.maxHealth)
+    Math.min(healthComp.currentHealth - adjustedDamage, healthComp.maxHealth)
   );
   if (newHealth !== healthComp.currentHealth) {
     healthComp.currentHealth = newHealth;
