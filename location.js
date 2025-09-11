@@ -1,5 +1,18 @@
 import { eventEmitter } from './eventEmitter.js';
-import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats, selectCharacter, characterPreview } from './script.js';
+import {
+  player,
+  xpText,
+  healthText,
+  goldText,
+  text,
+  image,
+  imageContainer,
+  monsterStats,
+  selectCharacter,
+  characterPreview,
+  getXpForNextLevel,
+  xpBarFill
+} from './script.js';
 import { characterTemplates } from './playerTemplate.js';
 import { buyHealth, buyWeapon, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
@@ -232,9 +245,13 @@ eventEmitter.on('update', (location) => {
   let xpComponent = player.getComponent('xp');
   let healthComponent = player.getComponent('health');
   let goldComponent = player.getComponent('gold');
+  let levelComponent = player.getComponent('level');
+  let requiredXp = getXpForNextLevel(levelComponent.level);
   text.innerText = location.text;
   goldText.innerText = goldComponent.gold;
-  xpText.innerText = xpComponent.xp;
+  xpText.innerText = `${xpComponent.xp}/${requiredXp}`;
+  let progress = (xpComponent.xp / requiredXp) * 100;
+  xpBarFill.style.width = `${progress}%`;
   healthText.innerText = healthComponent.currentHealth;
   debugLog('update called');
   if (location.name === 'pickCharacter') {

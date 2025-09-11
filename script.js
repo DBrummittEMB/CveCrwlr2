@@ -9,7 +9,7 @@ import {
 import { preloadImages, getImageUrl } from './imageLoader.js';
 
 export const text = document.querySelector("#text");
-export const xpText = document.querySelector("#xpText");
+export const xpText = document.querySelector('#xpText');
 export const healthText = document.querySelector("#healthText");
 export const goldText = document.querySelector("#goldText");
 export const image = document.querySelector("#image");
@@ -17,6 +17,7 @@ export const levelText = document.querySelector('#levelText');
 export const monsterStats = document.querySelector("#monsterStats");
 export const imageContainer = document.querySelector("#imageContainer");
 export const characterPreview = document.querySelector("#characterPreview");
+export const xpBarFill = document.querySelector('#xpBarFill');
 
 /**
  * Update the global scale based on the window size.
@@ -132,10 +133,10 @@ export function initializePlayer(template) {
     goldComp.gold = template.gold.gold;
     goldText.innerText = goldComp.gold;
   }
+
+  const xpComp = player.getComponent('xp');
   if (template.xp) {
-    const xpComp = player.getComponent('xp');
     xpComp.xp = template.xp.xp;
-    xpText.innerText = xpComp.xp;
   }
   if (template.inventory) {
     const inventoryComp = player.getComponent('inventory');
@@ -149,6 +150,11 @@ export function initializePlayer(template) {
     levelComp.level = template.level.level;
   }
   levelText.innerText = levelComp.level;
+
+  const requiredXp = getXpForNextLevel(levelComp.level);
+  xpText.innerText = `${xpComp.xp}/${requiredXp}`;
+  const progress = (xpComp.xp / requiredXp) * 100;
+  xpBarFill.style.width = `${progress}%`;
 }
 
 /**
@@ -199,7 +205,9 @@ eventEmitter.on('xpUpdated', () => {
     text.innerText = `You leveled up! You are now level ${levelComp.level}.`;
     requiredXp = getXpForNextLevel(levelComp.level);
   }
-  xpText.innerText = xpComp.xp;
+  xpText.innerText = `${xpComp.xp}/${requiredXp}`;
+  const progress = (xpComp.xp / requiredXp) * 100;
+  xpBarFill.style.width = `${progress}%`;
 });
 
 // Health handling
