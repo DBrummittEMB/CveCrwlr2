@@ -35,10 +35,11 @@ window.addEventListener('resize', updateScale);
 // Preload all game images once the window has loaded
 window.addEventListener('load', preloadImages);
 
-// XP required for each level. Adjust the formula to tweak progression.
-// Given a current level, returns the XP needed to reach the next level.
+// XP required for each level using a mildly exponential progression curve.
+// Formula: Math.floor(100 * Math.pow(level, 1.2)).
+// Adjust the multiplier (100) or exponent (1.2) to tweak progression.
 export function getXpForNextLevel(level) {
-  return level * 100;
+  return Math.floor(100 * Math.pow(level, 1.2));
 }
 
 // Entity
