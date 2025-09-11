@@ -34,6 +34,11 @@ export class strengthComponent {
     this.strength = strength;
   }
 }
+export class defenseComponent {
+  constructor(defense) {
+    this.defense = defense;
+  }
+}
 export class intelligenceComponent {
   constructor(intelligence) {
     this.intelligence = intelligence;
