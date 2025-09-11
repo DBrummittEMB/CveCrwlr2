@@ -1,6 +1,18 @@
 import { eventEmitter } from './eventEmitter.js';
-import { nameComponent, healthComponent, levelComponent, imageUrlComponent, xpComponent, goldComponent, strengthComponent, intelligenceComponent, currentWeaponComponent, inventoryComponent } from './entityComponent.js';
-import { weapons } from './item.js';
+import {
+  nameComponent,
+  healthComponent,
+  levelComponent,
+  imageUrlComponent,
+  xpComponent,
+  goldComponent,
+  strengthComponent,
+  intelligenceComponent,
+  currentWeaponComponent,
+  currentArmorComponent,
+  inventoryComponent
+} from './entityComponent.js';
+import { weapons, armor } from './item.js';
 import {
   characterTemplates,
   currentTemplate,
@@ -97,8 +109,9 @@ export let player = entityManager.createEntity({
   'strength': new strengthComponent(10),
   'intelligence': new intelligenceComponent(10),
   'currentWeapon': new currentWeaponComponent(0),
+  'currentArmor': new currentArmorComponent(-1),
   'inventory': new inventoryComponent()
-})
+  });
 player.getComponent('inventory').items.weapons.push(weapons[0].name);
 
 
@@ -151,6 +164,11 @@ export function initializePlayer(template) {
       w => w.name === inventoryComp.items.weapons[0]
     );
     weaponComp.weaponIndex = index !== -1 ? index : 0;
+    const armorComp = player.getComponent('currentArmor');
+    const armorIndex = inventoryComp.items.armor.length ? armor.findIndex(
+      a => a.name === inventoryComp.items.armor[0]
+    ) : -1;
+    armorComp.armorIndex = armorIndex !== -1 ? armorIndex : -1;
   }
   const levelComp = player.getComponent('level');
   if (template.level) {
@@ -232,9 +250,12 @@ eventEmitter.on('addHealth', (amount) => {
 });
 eventEmitter.on('playerDamaged', (damageAmount) => {
   let healthComp = player.getComponent('health');
+  let armorComp = player.getComponent('currentArmor');
+  let defense = armorComp.armorIndex >= 0 ? armor[armorComp.armorIndex].defense : 0;
+  let adjustedDamage = Math.max(0, damageAmount - defense);
   let newHealth = Math.max(
     0,
-    Math.min(healthComp.currentHealth - damageAmount, healthComp.maxHealth)
+    Math.min(healthComp.currentHealth - adjustedDamage, healthComp.maxHealth)
   );
   if (newHealth !== healthComp.currentHealth) {
     healthComp.currentHealth = newHealth;
@@ -286,3 +307,17 @@ eventEmitter.on('weaponDown',() => {
     text.innerText = "You don't have any weapons in your inventory!";
   }
 });
+eventEmitter.on('armorUp', () => {
+  let armorComp = player.getComponent('currentArmor');
+  let inventory = player.getComponent('inventory').items.armor;
+  if (armorComp.armorIndex < armor.length - 1) {
+    armorComp.armorIndex++;
+    let newArmor = armor[armorComp.armorIndex].name;
+    text.innerText = 'You equipped ' + newArmor + '.';
+    inventory.push(newArmor);
+    text.innerText += ' In your inventory you have: ' + inventory.join(', ');
+  } else {
+    text.innerText = 'You already have the best armor!';
+  }
+});
+

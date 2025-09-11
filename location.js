@@ -14,7 +14,7 @@ import {
   xpBarFill
 } from './script.js';
 import { characterTemplates } from './playerTemplate.js';
-import { buyHealth, buyWeapon, sellWeapon } from './store.js';
+import { buyHealth, buyWeapon, buyArmor, sellWeapon } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { getImageUrl } from './imageLoader.js';
 import { weapons } from './item.js';
@@ -79,10 +79,16 @@ export const locations = [
     },
     {
       name: "store",
-      "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Sell Weapon", "Go to town square"],
-      "button functions": [buyHealth, buyWeapon, sellWeapon, goTown],
-      text: "You enter the store.",
-      imageUrl: "imgs/shop.png",
+      "button text": [
+        'Buy 10 health (10 gold)',
+        'Buy weapon (30 gold)',
+        'Buy armor (40 gold)',
+        'Sell Weapon',
+        'Go to town square'
+      ],
+      "button functions": [buyHealth, buyWeapon, buyArmor, sellWeapon, goTown],
+      text: 'You enter the store.',
+      imageUrl: 'imgs/shop.png',
       image: true
     },
     {
