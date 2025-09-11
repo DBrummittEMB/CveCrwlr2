@@ -174,11 +174,12 @@ eventEmitter.on('useItem', () => {
  * Transitions to the next location.
 */
 function defeatMonster() {
-  let goldReward = (Math.floor(fighting.level * 6.7));
+  let goldReward = Math.floor(fighting.level * 6.7);
   let gold = player.getComponent('gold');
   eventEmitter.emit('addGold', goldReward);
-  eventEmitter.emit('addXp', fighting.level);
+  const xpReward = Math.ceil(fighting.level * 5);
+  eventEmitter.emit('addXp', xpReward);
   goldText.innerText = gold.gold;
   clearEnemy();
-  eventEmitter.emit('update', (locations[4]));
+  eventEmitter.emit('update', locations[4]);
 }
