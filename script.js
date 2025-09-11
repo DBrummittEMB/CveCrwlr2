@@ -18,6 +18,20 @@ export const monsterStats = document.querySelector("#monsterStats");
 export const imageContainer = document.querySelector("#imageContainer");
 export const characterPreview = document.querySelector("#characterPreview");
 
+/**
+ * Update the global scale based on the window size.
+ */
+function updateScale() {
+  const scale = Math.min(
+    (window.innerWidth - 8) / 400,
+    (window.innerHeight - 8) / 500
+  );
+  document.documentElement.style.setProperty('--scale', scale);
+}
+
+window.addEventListener('load', updateScale);
+window.addEventListener('resize', updateScale);
+
 // Preload all game images once the window has loaded
 window.addEventListener('load', preloadImages);
 
