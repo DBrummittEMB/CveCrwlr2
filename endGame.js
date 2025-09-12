@@ -20,13 +20,15 @@ eventEmitter.on('lose', () => {
     loseImage.style.display = "block";
   });
 
-eventEmitter.on('restart', () => {
+eventEmitter.on('restart', resetPlayer);
+
+/**
+ * Resets the player stats and inventory to starting values,
+ * and updates the UI to the town view.
+ */
+export function resetPlayer() {
   initializePlayer(currentTemplate);
   eventEmitter.emit('update', locations[0]);
   debugLog('restart function called');
-});
+}
 
-  /**
-   * Resets the player stats and inventory to starting values, 
-   * and updates the UI to the town view.
-   */
