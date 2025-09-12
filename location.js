@@ -229,12 +229,22 @@ function createButtons(location) {
   const buttonContainer = document.getElementById('controls');
   buttonContainer.innerHTML = '';
 
-  // Create new buttons based on the location's data
-  location['button text'].forEach((text, index) => {
-      const button = document.createElement('button');
-      button.innerText = text;
-      button.id = `button${index + 1}`;
-      button.addEventListener('click', location['button functions'][index]);
+  const texts = location['button text'] || [];
+  const functions = location['button functions'] || [];
+  const limit = Math.min(texts.length, functions.length);
+
+  if (texts.length !== functions.length) {
+    console.warn(
+      `Button text (${texts.length}) and functions (${functions.length}) length mismatch`
+    );
+  }
+
+  for (let index = 0; index < limit; index++) {
+    const text = texts[index];
+    const button = document.createElement('button');
+    button.innerText = text;
+    button.id = `button${index + 1}`;
+    button.addEventListener('click', functions[index]);
     if (location['button images'] && location['button images'][index]) {
       const buttonImage = location['button images'][index];
 
@@ -260,8 +270,8 @@ function createButtons(location) {
       button.addEventListener('blur', revertImage);
       button.addEventListener('touchend', revertImage);
     }
-      buttonContainer.appendChild(button);
-  });
+    buttonContainer.appendChild(button);
+  }
 }
   
 /**
