@@ -23,9 +23,14 @@ import {
   sellWeapon
 } from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
-import { getImageUrl } from './imageLoader.js';
-import { weapons, accessories } from './item.js';
-import { debugLog } from './debug.js';
+  import { getImageUrl } from './imageLoader.js';
+  import {
+    weapons as weaponData,
+    armor as armorData,
+    accessories as accessoryData,
+    consumables as consumableData
+  } from './item.js';
+  import { debugLog } from './debug.js';
 // Preload character images so they're cached before the selection screen is shown
 characterTemplates.forEach(t => {
   const img = new Image();
@@ -47,7 +52,7 @@ function gold() {
 }
 function equippedWeapon() {
   let weaponComp = player.getComponent('currentWeapon');
-  return weapons[weaponComp.weaponIndex].name;
+  return weaponData[weaponComp.weaponIndex].name;
 }
 function xp() {
   let xpComponent = player.getComponent('xp');
@@ -72,10 +77,10 @@ function restart() {
   eventEmitter.emit('restart', player);
 }
 
-const accessoryButtonText = accessories.map(
+const accessoryButtonText = accessoryData.map(
   a => `Buy ${a.name} (${a.cost} gold)`
 );
-const accessoryButtonFunctions = accessories.map(
+const accessoryButtonFunctions = accessoryData.map(
   (_, index) => () => buyAccessory(index)
 );
 
@@ -88,9 +93,9 @@ export const locations = [
       imageUrl: "imgs/townSquare.png",
       image: true
     },
-    {
-      name: "store",
-      "button text": [
+      {
+        name: "store",
+        "button text": [
         'Buy 10 health (10 gold)',
         'Buy health potion (15 gold)',
         'Buy weapon (30 gold)',
@@ -99,19 +104,20 @@ export const locations = [
         'Sell Weapon',
         'Go to town square'
       ],
-      "button functions": [
-        buyHealth,
-        buyHealthPotion,
-        buyWeapon,
-        buyArmor,
-        ...accessoryButtonFunctions,
-        sellWeapon,
-        goTown
-      ],
-      text: 'You enter the store.',
-      imageUrl: 'imgs/shop.png',
-      image: true
-    },
+        "button functions": [
+          buyHealth,
+          buyHealthPotion,
+          buyWeapon,
+          buyArmor,
+          ...accessoryButtonFunctions,
+          sellWeapon,
+          goTown
+        ],
+        "button images": [],
+        text: 'You enter the store.',
+        imageUrl: 'imgs/shop.png',
+        image: true
+      },
     {
       name: "cave",
       "button text": ["Fight small", "Fight medium", "Go to town square"],
@@ -342,7 +348,25 @@ export function goCave() {
  * Updates the UI with the store location data.
  */
 export function goStore() {
-  eventEmitter.emit('update', (locations[1]) );
+  const store = locations[1];
+  const weaponComp = player.getComponent('currentWeapon');
+  const armorComp = player.getComponent('currentArmor');
+  const nextWeapon =
+    weaponData[Math.min(weaponComp.weaponIndex + 1, weaponData.length - 1)];
+  const nextArmor =
+    armorData[Math.min(armorComp.armorIndex + 1, armorData.length - 1)];
+
+  store['button images'] = [
+    getImageUrl('imgs/health.svg'),
+    getImageUrl(consumableData[0].icon),
+    getImageUrl(nextWeapon.icon),
+    getImageUrl(nextArmor.icon),
+    ...accessoryData.map(a => getImageUrl(a.icon)),
+    getImageUrl(weaponData[weaponComp.weaponIndex].icon),
+    null
+  ];
+
+  eventEmitter.emit('update', store);
   debugLog('Store function called');
 }
 /**
@@ -365,14 +389,42 @@ export function goStats() {
  * Updates the UI with the inventory location data.
  */
 export function goInventory() {
-  let inventoryLoc = locations.find(l => l.name === 'inventory');
-  let items = player.getComponent('inventory').items;
-  let { weapons, armor, accessories, consumables } = items;
-  let parts = [];
-  if (weapons.length) parts.push('Weapons: ' + weapons.join(', '));
-  if (armor.length) parts.push('Armor: ' + armor.join(', '));
-  if (accessories.length) parts.push('Accessories: ' + accessories.join(', '));
-  if (consumables.length) parts.push('Consumables: ' + consumables.join(', '));
+  const inventoryLoc = locations.find(l => l.name === 'inventory');
+  const items = player.getComponent('inventory').items;
+  const {
+    weapons: weaponNames,
+    armor: armorNames,
+    accessories: accessoryNames,
+    consumables: consumableNames
+  } = items;
+  const parts = [];
+
+  const iconContainer = document.getElementById('inventoryIcons');
+  iconContainer.innerHTML = '';
+
+  const addIcons = (names, pool) => {
+    names.forEach(name => {
+      const item = pool.find(i => i.name === name);
+      if (item?.icon) {
+        const img = document.createElement('img');
+        img.src = getImageUrl(item.icon);
+        img.alt = name;
+        img.className = 'item-icon';
+        iconContainer.appendChild(img);
+      }
+    });
+  };
+
+  addIcons(weaponNames, weaponData);
+  addIcons(armorNames, armorData);
+  addIcons(accessoryNames, accessoryData);
+  addIcons(consumableNames, consumableData);
+
+  if (weaponNames.length) parts.push('Weapons: ' + weaponNames.join(', '));
+  if (armorNames.length) parts.push('Armor: ' + armorNames.join(', '));
+  if (accessoryNames.length) parts.push('Accessories: ' + accessoryNames.join(', '));
+  if (consumableNames.length)
+    parts.push('Consumables: ' + consumableNames.join(', '));
   inventoryLoc.text = parts.length
     ? 'In your inventory you have: ' + parts.join('; ')
     : 'Your inventory is empty.';

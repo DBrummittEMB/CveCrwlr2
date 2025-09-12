@@ -70,3 +70,10 @@ export const accessories = [
     icon: 'imgs/items/necklace-of-fortitude.svg'
   }
 ];
+
+export const consumables = [
+  {
+    name: 'health potion',
+    icon: 'imgs/items/health-potion.svg'
+  }
+];

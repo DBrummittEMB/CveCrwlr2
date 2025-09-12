@@ -1,3 +1,5 @@
+import { weapons, armor, accessories, consumables } from './item.js';
+
 const imageCache = {};
 
 // Preload images from locations, monsters, and player templates
@@ -37,12 +39,18 @@ export async function preloadImages() {
     }
   });
 
-  // gather player template images
-  templateModule.characterTemplates.forEach(template => {
-    if (template.imageUrl) {
-      urls.push(template.imageUrl);
-    }
-  });
+    // gather player template images
+    templateModule.characterTemplates.forEach(template => {
+      if (template.imageUrl) {
+        urls.push(template.imageUrl);
+      }
+    });
+
+    [...weapons, ...armor, ...accessories, ...consumables].forEach(item => {
+      if (item.icon) {
+        urls.push(item.icon);
+      }
+    });
 
   // preload and cache images
   urls.forEach(url => {
