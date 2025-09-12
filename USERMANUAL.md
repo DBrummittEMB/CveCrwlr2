@@ -49,6 +49,7 @@ During combat:
 ## Inventory and Equipment
 The inventory screen lists all items you own. Items are grouped by type:
 - **Weapons** and **Armor**: increase your attack or defense when equipped.
+- If no armor is equipped, you receive no bonus defense.
 - **Accessories**: provide passive bonuses and stack with other gear.
 - **Consumables**: one-use items such as health potions.
 

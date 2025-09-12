@@ -263,7 +263,12 @@ eventEmitter.on('playerDamaged', (damageAmount) => {
   let armorComp = player.getComponent('currentArmor');
   let defenseComp = player.getComponent('defense');
   let baseDefense = defenseComp ? defenseComp.defense : 0;
-  let armorDefense = armorComp.armorIndex >= 0 ? armor[armorComp.armorIndex].defense : 0;
+  let armorDefense = 0;
+  if (armorComp.armorIndex >= 0 && armorComp.armorIndex < armor.length) {
+    armorDefense = armor[armorComp.armorIndex].defense;
+  } else {
+    armorComp.armorIndex = -1;
+  }
   let totalDefense = baseDefense + armorDefense;
   let adjustedDamage = Math.max(0, damageAmount - totalDefense);
   let newHealth = Math.max(

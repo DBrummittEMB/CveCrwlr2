@@ -39,3 +39,14 @@ test('playerDamaged subtracts armor defense from damage', () => {
   eventEmitter.emit('playerDamaged', damage);
   expect(healthComp.currentHealth).toBe(expectedHealth);
 });
+
+test('playerDamaged resets invalid armor index to default defense', () => {
+  const healthComp = player.getComponent('health');
+  const armorComp = player.getComponent('currentArmor');
+  armorComp.armorIndex = armor.length;
+  const damage = 20;
+  const expectedHealth = healthComp.currentHealth - damage;
+  eventEmitter.emit('playerDamaged', damage);
+  expect(healthComp.currentHealth).toBe(expectedHealth);
+  expect(armorComp.armorIndex).toBe(-1);
+});
