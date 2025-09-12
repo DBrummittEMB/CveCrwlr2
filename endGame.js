@@ -1,5 +1,5 @@
-import { locations, } from './location.js';
-import { eventEmitter, } from './eventEmitter.js';
+import { locations } from './location.js';
+import { eventEmitter } from './eventEmitter.js';
 import { currentTemplate } from './playerTemplate.js';
 import { initializePlayer } from './script.js';
 import { debugLog } from './debug.js';
@@ -20,13 +20,15 @@ eventEmitter.on('lose', () => {
     loseImage.style.display = "block";
   });
 
-eventEmitter.on('restart', () => {
+eventEmitter.on('restart', resetPlayer);
+
+/**
+ * Resets the player stats and inventory to starting values,
+ * and updates the UI to the town view.
+ */
+export function resetPlayer() {
   initializePlayer(currentTemplate);
   eventEmitter.emit('update', locations[0]);
   debugLog('restart function called');
-});
+}
 
-  /**
-   * Resets the player stats and inventory to starting values, 
-   * and updates the UI to the town view.
-   */

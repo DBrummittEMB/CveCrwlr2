@@ -2,11 +2,19 @@ const imageCache = {};
 
 // Preload images from locations, monsters, and player templates
 export async function preloadImages() {
-  const [locModule, monsterModule, templateModule] = await Promise.all([
-    import('./location.js'),
-    import('./monster.js'),
-    import('./playerTemplate.js')
-  ]);
+  let locModule;
+  let monsterModule;
+  let templateModule;
+  try {
+    [locModule, monsterModule, templateModule] = await Promise.all([
+      import('./location.js'),
+      import('./monster.js'),
+      import('./playerTemplate.js')
+    ]);
+  } catch (err) {
+    console.error('Error preloading image modules:', err);
+    return;
+  }
 
   const urls = [];
 
@@ -40,6 +48,9 @@ export async function preloadImages() {
   urls.forEach(url => {
     if (!imageCache[url]) {
       const img = new Image();
+      img.onerror = () => {
+        console.error('Failed to load image:', url);
+      };
       img.src = url;
       imageCache[url] = img;
     }
