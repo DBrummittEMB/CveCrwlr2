@@ -39,7 +39,8 @@ In the cave you can fight **small** or **medium** monsters. The **Fight Boss** b
 hub starts a battle with a boss.
 
 During combat:
-- **Attack**: damage the enemy based on your strength, weapon, and experience.
+- **Attack**: damage the enemy based on your strength and weapon. Attacks can miss if the
+  enemy's agility is higher than yours.
 - **Use Item**: consumes a health potion if you have one in your inventory.
 - **Run**: flee back to the town square.
 - Defeating monsters grants gold and experience. When experience reaches the requirement
@@ -57,5 +58,6 @@ The inventory screen lists all items you own. Items are grouped by type:
 - Save gold for weapon and armor upgrades before attempting tougher monsters.
 - Visit the store after battles to heal and manage inventory.
 - Keep an eye on your experience bar; leveling up increases your strength.
+- Agility makes you harder to hit and improves your accuracy in combat.
 
 Enjoy exploring the world of CveCrwlr and strive to defeat the final boss!

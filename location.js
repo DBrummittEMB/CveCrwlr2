@@ -65,9 +65,6 @@ function fightBoss() {
 function attack() {
   eventEmitter.emit('attack');
 }
-function dodge() {
-  eventEmitter.emit('dodge');
-}
 function useItem() {
   eventEmitter.emit('useItem');
 }
@@ -209,7 +206,10 @@ export function generatePickCharacterLocation() {
   buttonFunctions.push(goHomeScreen);
   buttonImages.push(null);
   const summaries = characterTemplates
-    .map(t => `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, INT ${t.intelligence.intelligence}`)
+    .map(t =>
+      `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, ` +
+      `INT ${t.intelligence.intelligence}`
+    )
     .join('\n');
   characterPreview.src = buttonImages[0];
   return {
