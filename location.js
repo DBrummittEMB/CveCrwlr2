@@ -1,10 +1,30 @@
 import { eventEmitter } from './eventEmitter.js';
-import { player, xpText, healthText, goldText, text, image, imageContainer, monsterStats, selectCharacter, characterPreview } from './script.js';
+import {
+  player,
+  xpText,
+  healthText,
+  goldText,
+  text,
+  image,
+  imageContainer,
+  monsterStats,
+  selectCharacter,
+  characterPreview,
+  getXpForNextLevel,
+  xpBarFill
+} from './script.js';
 import { characterTemplates } from './playerTemplate.js';
-import { buyHealth, buyWeapon, sellWeapon } from './store.js';
+import {
+  buyHealth,
+  buyHealthPotion,
+  buyWeapon,
+  buyArmor,
+  buyAccessory,
+  sellWeapon
+} from './store.js';
 import { pickTwo, pickEight } from './easterEgg.js';
 import { getImageUrl } from './imageLoader.js';
-import { weapons } from './item.js';
+import { weapons, accessories } from './item.js';
 import { debugLog } from './debug.js';
 // Preload character images so they're cached before the selection screen is shown
 characterTemplates.forEach(t => {
@@ -45,15 +65,19 @@ function fightBoss() {
 function attack() {
   eventEmitter.emit('attack');
 }
-function dodge() {
-  eventEmitter.emit('dodge');
-}
 function useItem() {
   eventEmitter.emit('useItem');
 }
 function restart() {
   eventEmitter.emit('restart', player);
 }
+
+const accessoryButtonText = accessories.map(
+  a => `Buy ${a.name} (${a.cost} gold)`
+);
+const accessoryButtonFunctions = accessories.map(
+  (_, index) => () => buyAccessory(index)
+);
 
 export const locations = [
     {
@@ -66,10 +90,26 @@ export const locations = [
     },
     {
       name: "store",
-      "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Sell Weapon", "Go to town square"],
-      "button functions": [buyHealth, buyWeapon, sellWeapon, goTown],
-      text: "You enter the store.",
-      imageUrl: "imgs/shop.png",
+      "button text": [
+        'Buy 10 health (10 gold)',
+        'Buy health potion (15 gold)',
+        'Buy weapon (30 gold)',
+        'Buy armor (40 gold)',
+        ...accessoryButtonText,
+        'Sell Weapon',
+        'Go to town square'
+      ],
+      "button functions": [
+        buyHealth,
+        buyHealthPotion,
+        buyWeapon,
+        buyArmor,
+        ...accessoryButtonFunctions,
+        sellWeapon,
+        goTown
+      ],
+      text: 'You enter the store.',
+      imageUrl: 'imgs/shop.png',
       image: true
     },
     {
@@ -90,14 +130,14 @@ export const locations = [
     {
       name: "killMonster",
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
-      "button functions": [goTown, goTown, easterEgg],
+      "button functions": [goTown, goTown, goTown],
       text: "The monster screams \"Arg!\" as it dies. You gain experience points and find gold.",
       image: false
     },
     {
       name: "stats",
       "button text": ["Go to town square", "Go to town square", "Go to town square"],
-      "button functions": [goTown, goTown, easterEgg],
+      "button functions": [goTown, goTown, goTown],
       text:
         `Health: ${health()} | Gold: ${gold()} | ` +
         `Weapon: ${equippedWeapon()} | Experience: ${xp()}`,
@@ -166,7 +206,10 @@ export function generatePickCharacterLocation() {
   buttonFunctions.push(goHomeScreen);
   buttonImages.push(null);
   const summaries = characterTemplates
-    .map(t => `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, INT ${t.intelligence.intelligence}`)
+    .map(t =>
+      `${t.name}: HP ${t.health.currentHealth}, STR ${t.strength.strength}, ` +
+      `INT ${t.intelligence.intelligence}`
+    )
     .join('\n');
   characterPreview.src = buttonImages[0];
   return {
@@ -186,12 +229,22 @@ function createButtons(location) {
   const buttonContainer = document.getElementById('controls');
   buttonContainer.innerHTML = '';
 
-  // Create new buttons based on the location's data
-  location['button text'].forEach((text, index) => {
-      const button = document.createElement('button');
-      button.innerText = text;
-      button.id = `button${index + 1}`;
-      button.addEventListener('click', location['button functions'][index]);
+  const texts = location['button text'] || [];
+  const functions = location['button functions'] || [];
+  const limit = Math.min(texts.length, functions.length);
+
+  if (texts.length !== functions.length) {
+    console.warn(
+      `Button text (${texts.length}) and functions (${functions.length}) length mismatch`
+    );
+  }
+
+  for (let index = 0; index < limit; index++) {
+    const text = texts[index];
+    const button = document.createElement('button');
+    button.innerText = text;
+    button.id = `button${index + 1}`;
+    button.addEventListener('click', functions[index]);
     if (location['button images'] && location['button images'][index]) {
       const buttonImage = location['button images'][index];
 
@@ -217,8 +270,8 @@ function createButtons(location) {
       button.addEventListener('blur', revertImage);
       button.addEventListener('touchend', revertImage);
     }
-      buttonContainer.appendChild(button);
-  });
+    buttonContainer.appendChild(button);
+  }
 }
   
 /**
@@ -232,9 +285,13 @@ eventEmitter.on('update', (location) => {
   let xpComponent = player.getComponent('xp');
   let healthComponent = player.getComponent('health');
   let goldComponent = player.getComponent('gold');
+  let levelComponent = player.getComponent('level');
+  let requiredXp = getXpForNextLevel(levelComponent.level);
   text.innerText = location.text;
   goldText.innerText = goldComponent.gold;
-  xpText.innerText = xpComponent.xp;
+  xpText.innerText = `${xpComponent.xp}/${requiredXp}`;
+  let progress = (xpComponent.xp / requiredXp) * 100;
+  xpBarFill.style.width = `${progress}%`;
   healthText.innerText = healthComponent.currentHealth;
   debugLog('update called');
   if (location.name === 'pickCharacter') {
@@ -246,15 +303,15 @@ eventEmitter.on('update', (location) => {
     characterPreview.style.display = 'none';
     characterPreview.src = '';
   }
-  if (location.image == false) {
+  if (location.image === false) {
     imageContainer.style.display = "none";
     image.style.display = "none";
-  } else if (location.image == true) {
+  } else if (location.image === true) {
     imageContainer.style.display = "block";
     image.style.display = "block";
     image.src = getImageUrl(location.imageUrl);
   }
-  if (location.name == "fight") {
+  if (location.name === 'fight') {
     monsterStats.style.display = "block";
   } else {
     monsterStats.style.display = "none";
@@ -310,8 +367,14 @@ export function goStats() {
 export function goInventory() {
   let inventoryLoc = locations.find(l => l.name === 'inventory');
   let items = player.getComponent('inventory').items;
-  inventoryLoc.text = items.length
-    ? 'In your inventory you have: ' + items.join(', ')
+  let { weapons, armor, accessories, consumables } = items;
+  let parts = [];
+  if (weapons.length) parts.push('Weapons: ' + weapons.join(', '));
+  if (armor.length) parts.push('Armor: ' + armor.join(', '));
+  if (accessories.length) parts.push('Accessories: ' + accessories.join(', '));
+  if (consumables.length) parts.push('Consumables: ' + consumables.join(', '));
+  inventoryLoc.text = parts.length
+    ? 'In your inventory you have: ' + parts.join('; ')
     : 'Your inventory is empty.';
   eventEmitter.emit('update', inventoryLoc);
   debugLog('Inventory function called');

@@ -1,9 +1,17 @@
 import { locations, monsterHealthText, monsterNameText, monsterStats } from './location.js';
-import { weapons, } from './item.js';
-import { eventEmitter, } from './eventEmitter.js';
+import { weapons } from './item.js';
+import { eventEmitter } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
-import { player, entityManager, text, goldText, xpText, image } from './script.js';
-import { nameComponent, healthComponent, levelComponent, imageUrlComponent } from './entityComponent.js';
+import { player, entityManager, text, goldText, image } from './script.js';
+import {
+  nameComponent,
+  healthComponent,
+  levelComponent,
+  imageUrlComponent,
+  defenseComponent,
+  strengthComponent,
+  agilityComponent
+} from './entityComponent.js';
 import { getImageUrl } from './imageLoader.js';
 
 
@@ -38,7 +46,10 @@ eventEmitter.on('goFight', () => {
     name: new nameComponent(fighting.name),
     health: new healthComponent(fighting.health),
     level: new levelComponent(fighting.level),
-    imageUrl: new imageUrlComponent(fighting.imageUrl)
+    imageUrl: new imageUrlComponent(fighting.imageUrl),
+    defense: new defenseComponent(fighting.defense ?? 0),
+    strength: new strengthComponent(fighting.power ?? fighting.level * 5),
+    agility: new agilityComponent(fighting.agility ?? fighting.level * 5)
   });
   enemyHealth = enemy.getComponent('health');
   enemyName = enemy.getComponent('name');
@@ -51,29 +62,47 @@ eventEmitter.on('goFight', () => {
   image.style.display = 'block';
 });
 eventEmitter.on('attack', () => {
-  let enemyLevel = enemy.getComponent('level').level;
-  let monsterDamage = getMonsterAttackValue(enemyLevel);
-  let playerDamage = getPlayerAttackValue();
-  let currentWeaponComp = player.getComponent('currentWeapon');
-  let weaponIndex = currentWeaponComp.weaponIndex;
-  let weaponName = weapons[weaponIndex].name;
-  eventEmitter.emit('playerDamaged', monsterDamage);
-  // Guard against enemy being cleared if the player dies during this attack
-  if (!enemy || !enemyHealth || !enemyName) {
+  if (!enemy) {
+    text.innerText = 'There is no enemy to attack.';
     return;
   }
-  enemyHealth.currentHealth = Math.max(0, enemyHealth.currentHealth - playerDamage);
-  monsterHealthText.innerText = enemyHealth.currentHealth;
-  text.innerText = 'The ' + enemyName.name + ' attacks for ' + monsterDamage + '.';
-  text.innerText += ' You attack the ' + enemyName.name +
-    ' with your ' + weaponName + ' for ' + playerDamage + '.';
-  if (enemyHealth.currentHealth <= 0) {
-    if (enemyName.name === "Dragon") {
-      eventEmitter.emit('winGame');
-    } else {
-      defeatMonster();
+  let playerAgility = player.getComponent('agility').agility;
+  let enemyAgility = enemy.getComponent('agility').agility;
+  let message = '';
+  if (doesHit(enemyAgility, playerAgility)) {
+    let monsterDamage = getMonsterAttackValue();
+    eventEmitter.emit('playerDamaged', monsterDamage);
+    if (!enemy || !enemyHealth || !enemyName) {
+      return;
     }
+    message += 'The ' + enemyName.name + ' attacks for ' + monsterDamage + '.';
+  } else {
+    message += 'The ' + enemyName.name + ' misses.';
   }
+  if (doesHit(playerAgility, enemyAgility)) {
+    let playerDamage = getPlayerAttackValue();
+    let weaponComp = player.getComponent('currentWeapon');
+    let weaponName = weapons[weaponComp.weaponIndex].name;
+    let enemyDefense = enemy.getComponent('defense').defense;
+    let damageToEnemy = Math.max(0, playerDamage - enemyDefense);
+    enemyHealth.currentHealth = Math.max(
+      0,
+      enemyHealth.currentHealth - damageToEnemy
+    );
+    monsterHealthText.innerText = enemyHealth.currentHealth;
+    message += ' You attack the ' + enemyName.name +
+      ' with your ' + weaponName + ' for ' + damageToEnemy + '.';
+    if (enemyHealth.currentHealth <= 0) {
+      if (enemyName.name === 'Dragon') {
+        eventEmitter.emit('winGame');
+      } else {
+        defeatMonster();
+      }
+    }
+  } else {
+    message += ' You miss the ' + enemyName.name + '.';
+  }
+  text.innerText = message;
 });
 
 eventEmitter.on('goTown', clearEnemy);
@@ -115,38 +144,32 @@ eventEmitter.on('fightBoss', () => {
  * Calculates the attack damage value for a monster based on its level.
  * Subtracts a random value based on player XP to add variability.
 */
-function getMonsterAttackValue(level) {
-  let xpComp = player.getComponent('xp');
-  let baseDamage = 1 + level * 5;
-  let reduction = Math.min(baseDamage, Math.floor(Math.random() * xpComp.xp));
-  let hit = baseDamage - reduction;
-  return Math.max(0, hit);
+function getMonsterAttackValue() {
+  let strengthComp = enemy.getComponent('strength');
+  let strength = strengthComp ? strengthComp.strength : 0;
+  return Math.floor(Math.random() * strength) + 1;
 }
 
 // gets attack value of the player
 function getPlayerAttackValue() {
-  let xpComp = player.getComponent("xp");
-  let strengthComp = player.getComponent("strength");
-  let weaponComp = player.getComponent("currentWeapon");
+  let strengthComp = player.getComponent('strength');
+  let weaponComp = player.getComponent('currentWeapon');
   let weaponPower = weapons[weaponComp.weaponIndex].power;
-  let hit = strengthComp.strength + weaponPower + Math.floor(Math.random() * xpComp.xp);
-  return hit;
+  let strength = strengthComp.strength;
+  return strength + weaponPower + Math.floor(Math.random() * (strength / 2));
+}
+
+function doesHit(attackerAgility, defenderAgility) {
+  let hitChance = attackerAgility / (attackerAgility + defenderAgility);
+  return Math.random() < hitChance;
 }
   
-/**
- * Handles dodging an attack during a fight.
- * Updates the text to indicate the player dodged the attack.
-*/
-eventEmitter.on('dodge', () => {
-  text.innerText = `You dodge the attack from the ${fighting.name}.`;
-});
-
 /**
  * Handles using an item during a fight.
  * Currently supports using health potions to restore player health.
  */
 eventEmitter.on('useItem', () => {
-  let inventory = player.getComponent('inventory').items;
+  let inventory = player.getComponent('inventory').items.consumables;
   let healthComp = player.getComponent('health');
   let potionIndex = inventory.indexOf('health potion');
 
@@ -174,13 +197,12 @@ eventEmitter.on('useItem', () => {
  * Transitions to the next location.
 */
 function defeatMonster() {
-  let goldReward = (Math.floor(fighting.level * 6.7));
-  let gold = player.getComponent("gold");
-  let xp = player.getComponent("xp");
+  let goldReward = Math.floor(fighting.level * 6.7);
+  let gold = player.getComponent('gold');
   eventEmitter.emit('addGold', goldReward);
-  eventEmitter.emit('addXp', fighting.level);
+  const xpReward = Math.ceil(fighting.level * 5);
+  eventEmitter.emit('addXp', xpReward);
   goldText.innerText = gold.gold;
-  xpText.innerText = xp.xp;
   clearEnemy();
-  eventEmitter.emit('update', (locations[4]));
+  eventEmitter.emit('update', locations[4]);
 }

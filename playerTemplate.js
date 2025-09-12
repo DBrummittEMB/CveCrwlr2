@@ -8,30 +8,57 @@ export const characterTemplates = [
     imageUrl: 'imgs/warrior.png',
     health: { currentHealth: 150 },
     strength: { strength: 20 },
+    defense: { defense: 10 },
+    agility: { agility: 10 },
     intelligence: { intelligence: 5 },
     gold: { gold: 100 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[0].name] },
+    inventory: {
+      items: {
+        weapons: [weapons[0].name],
+        armor: [],
+        accessories: [],
+        consumables: []
+      }
+    },
   },
   {
     name: 'Wizard',
     imageUrl: 'imgs/wizard.png',
     health: { currentHealth: 80 },
     strength: { strength: 5 },
+    defense: { defense: 5 },
+    agility: { agility: 12 },
     intelligence: { intelligence: 25 },
     gold: { gold: 75 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[0].name] },
+    inventory: {
+      items: {
+        weapons: [weapons[0].name],
+        armor: [],
+        accessories: [],
+        consumables: []
+      }
+    },
   },
   {
     name: 'Rogue',
     imageUrl: 'imgs/rogue.png',
     health: { currentHealth: 100 },
     strength: { strength: 15 },
+    defense: { defense: 8 },
+    agility: { agility: 18 },
     intelligence: { intelligence: 10 },
     gold: { gold: 60 },
     xp: { xp: 0 },
-    inventory: { items: [weapons[0].name] },
+    inventory: {
+      items: {
+        weapons: [weapons[0].name],
+        armor: [],
+        accessories: [],
+        consumables: []
+      }
+    },
   },
 ];
 
