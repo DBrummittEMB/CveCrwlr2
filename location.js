@@ -303,15 +303,15 @@ eventEmitter.on('update', (location) => {
     characterPreview.style.display = 'none';
     characterPreview.src = '';
   }
-  if (location.image == false) {
+  if (location.image === false) {
     imageContainer.style.display = "none";
     image.style.display = "none";
-  } else if (location.image == true) {
+  } else if (location.image === true) {
     imageContainer.style.display = "block";
     image.style.display = "block";
     image.src = getImageUrl(location.imageUrl);
   }
-  if (location.name == "fight") {
+  if (location.name === 'fight') {
     monsterStats.style.display = "block";
   } else {
     monsterStats.style.display = "none";
