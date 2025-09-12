@@ -41,6 +41,7 @@ export const monsterHealthText = document.querySelector("#monsterHealth");
 export const monsterText = document.querySelector("#monsterText");
 export const monsterHealthStat = document.querySelector("#monsterHealthStat");
 export { monsterStats };
+const inventoryIcons = document.getElementById('inventoryIcons');
 
 function health() {
   let healthComponent = player.getComponent('health');
@@ -317,12 +318,20 @@ eventEmitter.on('update', (location) => {
     image.style.display = "block";
     image.src = getImageUrl(location.imageUrl);
   }
-  if (location.name === 'fight') {
-    monsterStats.style.display = "block";
-  } else {
-    monsterStats.style.display = "none";
-  }
-});
+    if (location.name === 'fight') {
+      monsterStats.style.display = "block";
+    } else {
+      monsterStats.style.display = "none";
+    }
+    if (inventoryIcons) {
+      if (location.name === 'inventory') {
+        inventoryIcons.style.display = 'block';
+      } else {
+        inventoryIcons.innerHTML = '';
+        inventoryIcons.style.display = 'none';
+      }
+    }
+  });
 
 // initialize UI after registering the update listener
 eventEmitter.emit('update', locations[9]);
@@ -398,27 +407,27 @@ export function goInventory() {
     consumables: consumableNames
   } = items;
   const parts = [];
+  if (inventoryIcons) {
+    inventoryIcons.innerHTML = '';
 
-  const iconContainer = document.getElementById('inventoryIcons');
-  iconContainer.innerHTML = '';
+    const addIcons = (names, pool) => {
+      names.forEach(name => {
+        const item = pool.find(i => i.name === name);
+        if (item?.icon) {
+          const img = document.createElement('img');
+          img.src = getImageUrl(item.icon);
+          img.alt = name;
+          img.className = 'item-icon';
+          inventoryIcons.appendChild(img);
+        }
+      });
+    };
 
-  const addIcons = (names, pool) => {
-    names.forEach(name => {
-      const item = pool.find(i => i.name === name);
-      if (item?.icon) {
-        const img = document.createElement('img');
-        img.src = getImageUrl(item.icon);
-        img.alt = name;
-        img.className = 'item-icon';
-        iconContainer.appendChild(img);
-      }
-    });
-  };
-
-  addIcons(weaponNames, weaponData);
-  addIcons(armorNames, armorData);
-  addIcons(accessoryNames, accessoryData);
-  addIcons(consumableNames, consumableData);
+    addIcons(weaponNames, weaponData);
+    addIcons(armorNames, armorData);
+    addIcons(accessoryNames, accessoryData);
+    addIcons(consumableNames, consumableData);
+  }
 
   if (weaponNames.length) parts.push('Weapons: ' + weaponNames.join(', '));
   if (armorNames.length) parts.push('Armor: ' + armorNames.join(', '));
