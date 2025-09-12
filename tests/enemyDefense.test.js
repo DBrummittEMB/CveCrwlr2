@@ -48,8 +48,10 @@ test('enemy defense reduces player damage', () => {
 
   const playerDamage = strengthComp.strength + weapons[weaponComp.weaponIndex].power;
   const expectedHealth = 50 - Math.max(0, playerDamage - enemyDefenseComp.defense);
-
+  const realRandom = Math.random;
+  Math.random = () => 0;
   eventEmitter.emit('attack');
+  Math.random = realRandom;
   expect(enemyHealth.currentHealth).toBe(expectedHealth);
   eventEmitter.emit('goTown');
 });
