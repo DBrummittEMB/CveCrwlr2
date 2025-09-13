@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 let goStore;
 let locations;
 let eventEmitter;
@@ -45,10 +46,13 @@ test('store buttons show matching icons', () => {
 test('missing button images do not remove buttons', () => {
   goStore();
   const store = locations.find(l => l.name === 'store');
+  const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
   store['button images'].pop();
   eventEmitter.emit('update', store);
   const buttons = document.querySelectorAll('#controls button');
   const texts = store['button text'];
   expect(buttons.length).toBe(texts.length);
+  expect(warnSpy).not.toHaveBeenCalled();
+  warnSpy.mockRestore();
 });
 
