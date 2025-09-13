@@ -1,4 +1,4 @@
-import { player, text } from './script.js';
+import { text } from './script.js';
 import { eventEmitter } from './eventEmitter.js';
 
 export function pickTwo() {
