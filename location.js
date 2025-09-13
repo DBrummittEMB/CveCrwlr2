@@ -311,12 +311,14 @@ eventEmitter.on('update', (location) => {
     characterPreview.src = '';
   }
   if (location.image === false) {
-    imageContainer.style.display = "none";
-    image.style.display = "none";
+    imageContainer.style.display = 'none';
+    image.style.display = 'none';
   } else if (location.image === true) {
-    imageContainer.style.display = "block";
-    image.style.display = "block";
-    image.src = getImageUrl(location.imageUrl);
+    imageContainer.style.display = 'block';
+    image.style.display = 'block';
+    if (location.imageUrl) {
+      image.src = getImageUrl(location.imageUrl);
+    }
   }
     if (location.name === 'fight') {
       monsterStats.style.display = "block";
