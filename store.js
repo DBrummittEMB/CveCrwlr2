@@ -94,15 +94,18 @@ export function buyAccessory(index) {
 /**
  * Sells the most recently acquired weapon, adds its gold value,
  * downgrades the current weapon and updates the player text with
- * the sold weapon name and remaining inventory.
- */
+ * the sold weapon name, new weapon and remaining inventory.
+*/
 export function sellWeapon() {
   let inventory = player.getComponent('inventory').items.weapons;
   if (inventory.length > 1) {
+    let weaponComp = player.getComponent('currentWeapon');
     let soldWeapon = inventory[inventory.length - 1];
     eventEmitter.emit('addGold', 20);
     eventEmitter.emit('weaponDown');
+    let currentWeapon = weapons[weaponComp.weaponIndex].name;
     text.innerText = 'You sold a ' + soldWeapon + '.';
+    text.innerText += ' You now have a ' + currentWeapon + '.';
     text.innerText += ' In your inventory you have: ' + inventory.join(', ');
   } else {
     text.innerText = "Don't sell your only weapon!";

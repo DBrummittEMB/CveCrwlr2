@@ -1,6 +1,9 @@
 let buyArmor;
+let buyWeapon;
+let sellWeapon;
 let player;
 let armor;
+let weapons;
 
 beforeAll(async () => {
   document.body.innerHTML = `
@@ -15,9 +18,9 @@ beforeAll(async () => {
     <div id='characterPreview'></div>
     <div id='xpBarFill'></div>
   `;
-  ({ buyArmor } = await import('../store.js'));
+  ({ buyArmor, buyWeapon, sellWeapon } = await import('../store.js'));
   ({ player } = await import('../script.js'));
-  ({ armor } = await import('../item.js'));
+  ({ armor, weapons } = await import('../item.js'));
 });
 
 beforeEach(() => {
@@ -26,6 +29,9 @@ beforeEach(() => {
   const armorComp = player.getComponent('currentArmor');
   armorComp.armorIndex = -1;
   player.getComponent('inventory').items.armor = [];
+  const weaponComp = player.getComponent('currentWeapon');
+  weaponComp.weaponIndex = 0;
+  player.getComponent('inventory').items.weapons = [weapons[0].name];
 });
 
 test('buyArmor purchases next armor and subtracts gold', () => {
@@ -36,5 +42,14 @@ test('buyArmor purchases next armor and subtracts gold', () => {
   expect(goldComp.gold).toBe(60);
   expect(armorComp.armorIndex).toBe(0);
   expect(inventory[0]).toBe(armor[0].name);
+});
+
+test('sellWeapon downgrades weapon and updates inventory', () => {
+  buyWeapon();
+  sellWeapon();
+  const weaponComp = player.getComponent('currentWeapon');
+  const inventory = player.getComponent('inventory').items.weapons;
+  expect(weaponComp.weaponIndex).toBe(0);
+  expect(inventory).toEqual([weapons[0].name]);
 });
 
