@@ -144,8 +144,8 @@ eventEmitter.on('fightBoss', () => {
 });
 
 /**
- * Calculates the attack damage value for a monster based on its level.
- * Subtracts a random value based on player XP to add variability.
+ * Calculates the monster's attack damage as a random integer
+ * between 0 (inclusive) and its strength (exclusive).
 */
 function getMonsterAttackValue() {
   let strengthComp = enemy.getComponent('strength');
