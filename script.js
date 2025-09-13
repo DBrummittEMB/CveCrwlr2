@@ -322,7 +322,7 @@ eventEmitter.on('weaponDown',() => {
     text.innerText = 'You now have a ' + newWeapon + '.';
     text.innerText += ' In your inventory you have: ' + inventory.join(', ');
   } else {
-    text.innerText = "You don't have any weapons in your inventory!";
+    text.innerText = 'You can\'t downgrade your weapon.';
   }
 });
 eventEmitter.on('armorUp', () => {
