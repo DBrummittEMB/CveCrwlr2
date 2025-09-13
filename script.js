@@ -318,11 +318,6 @@ eventEmitter.on('weaponDown',() => {
   if (inventory.length > 1 && weaponComp.weaponIndex > 0) {
     inventory.pop();
     weaponComp.weaponIndex--;
-    let newWeapon = weapons[weaponComp.weaponIndex].name;
-    text.innerText = 'You now have a ' + newWeapon + '.';
-    text.innerText += ' In your inventory you have: ' + inventory.join(', ');
-  } else {
-    text.innerText = 'You can\'t downgrade your weapon.';
   }
 });
 eventEmitter.on('armorUp', () => {
