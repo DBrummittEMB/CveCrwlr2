@@ -18,15 +18,17 @@ export function pick(guess) {
   while (numbers.length < 10) {
     numbers.push(Math.floor(Math.random() * 11));
   }
-  text.innerText = 'You picked ' + guess + '. Here are the random numbers:\n';
+  let output = 'You picked ' + guess + '. Here are the random numbers:\n';
   for (let i = 0; i < 10; i++) {
-    text.innerText += numbers[i] + '\n';
+    output += numbers[i] + '\n';
   }
   if (numbers.indexOf(guess) !== -1) {
-    text.innerText += 'Correct! You win 20 gold!';
+    output += 'Correct! You win 20 gold!';
     eventEmitter.emit('addGold', 20);
   } else {
-    text.innerText += 'Wrong! You lose 10 health!';
+    output += 'Wrong! You lose 10 health!';
     eventEmitter.emit('playerDamaged', 10);
   }
+  text.innerText = output;
 }
+
