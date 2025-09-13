@@ -239,11 +239,7 @@ function createButtons(location) {
   const texts = location['button text'] || [];
   const functions = location['button functions'] || [];
   const images = location['button images'];
-  const limit = Math.min(
-    texts.length,
-    functions.length,
-    Array.isArray(images) ? images.length : Infinity
-  );
+  const limit = Math.min(texts.length, functions.length);
 
   if (texts.length !== functions.length) {
     console.warn(

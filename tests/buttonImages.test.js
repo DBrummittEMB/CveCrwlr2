@@ -1,5 +1,6 @@
 let goStore;
 let locations;
+let eventEmitter;
 
 beforeAll(async () => {
   global.Image = class {
@@ -20,6 +21,7 @@ beforeAll(async () => {
     <div id='monsterStats'></div>
   `;
   ({ goStore, locations } = await import('../location.js'));
+  ({ eventEmitter } = await import('../eventEmitter.js'));
 });
 
 test('store buttons show matching icons', () => {
@@ -39,3 +41,14 @@ test('store buttons show matching icons', () => {
     }
   });
 });
+
+test('missing button images do not remove buttons', () => {
+  goStore();
+  const store = locations.find(l => l.name === 'store');
+  store['button images'].pop();
+  eventEmitter.emit('update', store);
+  const buttons = document.querySelectorAll('#controls button');
+  const texts = store['button text'];
+  expect(buttons.length).toBe(texts.length);
+});
+
