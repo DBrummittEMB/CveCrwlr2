@@ -206,15 +206,18 @@ export function initializePlayer(template) {
  *
  * @param {number} index - Index of the character template to select.
  */
-export function selectCharacter(index) {
+export async function selectCharacter(index) {
   const template = typeof structuredClone === 'function'
     ? structuredClone(characterTemplates[index])
     : JSON.parse(JSON.stringify(characterTemplates[index]));
   setCurrentTemplate(template);
   initializePlayer(currentTemplate);
-  import('./location.js').then(module => {
+  try {
+    const module = await import('./location.js');
     eventEmitter.emit('update', module.locations[0]);
-  });
+  } catch (error) {
+    text.innerText = 'Failed to load game locations. Please try again later.';
+  }
 }
 
 
