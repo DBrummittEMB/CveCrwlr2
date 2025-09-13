@@ -41,3 +41,26 @@ test('monster with zero strength deals no damage', () => {
   expect(healthComp.currentHealth).toBe(100);
   eventEmitter.emit('goTown');
 });
+
+test('monster damage scales with strength', () => {
+  const healthComp = player.getComponent('health');
+  healthComp.maxHealth = 100;
+  healthComp.currentHealth = 100;
+  const strengthComp = player.getComponent('strength');
+  strengthComp.strength = 0;
+  const agilityComp = player.getComponent('agility');
+  agilityComp.agility = 0;
+  eventEmitter.emit('fightSmall');
+  const enemyEntity = entityManager.entities.find(
+    e => e.getComponent('name').name !== 'player'
+  );
+  enemyEntity.getComponent('strength').strength = 10;
+  enemyEntity.getComponent('agility').agility = 10;
+  const realRandom = Math.random;
+  const randomValues = [0, 0.7, 0];
+  Math.random = () => randomValues.shift();
+  eventEmitter.emit('attack');
+  Math.random = realRandom;
+  expect(healthComp.currentHealth).toBe(93);
+  eventEmitter.emit('goTown');
+});
