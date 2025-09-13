@@ -302,7 +302,7 @@ eventEmitter.on('addGold', (amount) => {
 });
 eventEmitter.on('subtractGold', (amount) => {
   let goldComp = player.getComponent('gold');
-  goldComp.gold -= amount;
+  goldComp.gold = Math.max(0, goldComp.gold - amount);
   goldText.innerText = goldComp.gold;
 });
 

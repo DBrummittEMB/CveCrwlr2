@@ -32,6 +32,7 @@ The store offers goods and services:
 - **Buy accessories**: each accessory gives permanent bonuses such as extra health or
   strength.
 - **Sell Weapon**: sells your most recently acquired weapon for 20 gold.
+- Spending more gold than you have reduces your balance to zero; it never goes negative.
 - **Go to town square**: return to the hub.
 
 Item buttons display icons for easier browsing.

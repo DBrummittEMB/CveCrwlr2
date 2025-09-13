@@ -4,6 +4,7 @@ let sellWeapon;
 let player;
 let armor;
 let weapons;
+let eventEmitter;
 
 beforeAll(async () => {
   document.body.innerHTML = `
@@ -21,6 +22,7 @@ beforeAll(async () => {
   ({ buyArmor, buyWeapon, sellWeapon } = await import('../store.js'));
   ({ player } = await import('../script.js'));
   ({ armor, weapons } = await import('../item.js'));
+  ({ eventEmitter } = await import('../eventEmitter.js'));
 });
 
 beforeEach(() => {
@@ -51,5 +53,12 @@ test('sellWeapon downgrades weapon and updates inventory', () => {
   const inventory = player.getComponent('inventory').items.weapons;
   expect(weaponComp.weaponIndex).toBe(0);
   expect(inventory).toEqual([weapons[0].name]);
+});
+
+test('subtracting more gold than available sets balance to zero', () => {
+  const goldComp = player.getComponent('gold');
+  goldComp.gold = 20;
+  eventEmitter.emit('subtractGold', 50);
+  expect(goldComp.gold).toBe(0);
 });
 
