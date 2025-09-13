@@ -173,3 +173,10 @@ button:focus-visible {
   outline-offset: 0;
 }
 
+.item-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  margin: 2px;
+}
+

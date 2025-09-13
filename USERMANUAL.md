@@ -34,6 +34,8 @@ The store offers goods and services:
 - **Sell Weapon**: sells your most recently acquired weapon for 20 gold.
 - **Go to town square**: return to the hub.
 
+Item buttons display icons for easier browsing.
+
 ## Cave and Combat
 In the cave you can fight **small** or **medium** monsters. The **Fight Boss** button on the
 hub starts a battle with a boss.
@@ -48,7 +50,7 @@ During combat:
 - If your health drops to zero you lose and can restart from the home screen.
 
 ## Inventory and Equipment
-The inventory screen lists all items you own. Items are grouped by type:
+The inventory screen lists all items you own. Items are grouped by type and show thumbnails:
 - **Weapons** and **Armor**: increase your attack or defense when equipped.
 - If no armor is equipped, you receive no bonus defense.
 - **Accessories**: provide passive bonuses and stack with other gear.
