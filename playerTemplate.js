@@ -6,7 +6,7 @@ export const characterTemplates = [
   {
     name: 'Warrior',
     imageUrl: 'imgs/warrior.png',
-    health: { currentHealth: 150 },
+    health: { currentHealth: 150, maxHealth: 150 },
     strength: { strength: 20 },
     defense: { defense: 10 },
     agility: { agility: 10 },
@@ -25,7 +25,7 @@ export const characterTemplates = [
   {
     name: 'Wizard',
     imageUrl: 'imgs/wizard.png',
-    health: { currentHealth: 80 },
+    health: { currentHealth: 80, maxHealth: 80 },
     strength: { strength: 5 },
     defense: { defense: 5 },
     agility: { agility: 12 },
@@ -44,7 +44,7 @@ export const characterTemplates = [
   {
     name: 'Rogue',
     imageUrl: 'imgs/rogue.png',
-    health: { currentHealth: 100 },
+    health: { currentHealth: 100, maxHealth: 100 },
     strength: { strength: 15 },
     defense: { defense: 8 },
     agility: { agility: 18 },

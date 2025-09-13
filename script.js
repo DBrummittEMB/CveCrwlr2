@@ -135,8 +135,16 @@ export function initializePlayer(template) {
   }
   if (template.health) {
     const healthComp = player.getComponent('health');
-    healthComp.currentHealth = template.health.currentHealth;
-    healthComp.maxHealth = template.health.currentHealth;
+    // Use template maxHealth when available; otherwise default to currentHealth.
+    const maxHealth =
+      template.health.maxHealth ?? template.health.currentHealth;
+    // Clamp provided currentHealth to the calculated maxHealth.
+    const currentHealth = Math.min(
+      template.health.currentHealth ?? maxHealth,
+      maxHealth
+    );
+    healthComp.maxHealth = maxHealth;
+    healthComp.currentHealth = currentHealth;
     healthText.innerText = healthComp.currentHealth;
   }
   if (template.strength) {
