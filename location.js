@@ -246,11 +246,8 @@ function createButtons(location) {
       `Button text (${texts.length}) and functions (${functions.length}) length mismatch`
     );
   }
-  if (
-    Array.isArray(images) &&
-    (images.length !== texts.length || images.length !== functions.length)
-  ) {
-    console.warn(`Button images (${images.length}) length mismatch`);
+  if (Array.isArray(images) && images.length > limit) {
+    console.warn(`Extra button images (${images.length - limit}) ignored`);
   }
 
   for (let index = 0; index < limit; index++) {
