@@ -45,6 +45,7 @@ During combat:
   enemy's agility is higher than yours.
 - **Use Item**: consumes a health potion if you have one in your inventory.
 - **Run**: flee back to the town square.
+- Monster attacks depend on their strength; enemies with zero strength cannot deal damage.
 - Defeating monsters grants gold and experience. When experience reaches the requirement
   for the next level, your level increases automatically.
 - If your health drops to zero you lose and can restart from the home screen.
