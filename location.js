@@ -247,9 +247,9 @@ function createButtons(location) {
   }
 
   for (let index = 0; index < limit; index++) {
-    const text = texts[index];
+    const label = texts[index];
     const button = document.createElement('button');
-    button.innerText = text;
+    button.innerText = label;
     button.id = `button${index + 1}`;
     button.addEventListener('click', functions[index]);
     if (location['button images'] && location['button images'][index]) {
@@ -257,9 +257,9 @@ function createButtons(location) {
 
       const showImage = () => {
         characterPreview.src = buttonImage;
-        characterPreview.alt = text;
+        characterPreview.alt = label;
         image.src = buttonImage;
-        image.alt = text;
+        image.alt = label;
       };
 
       const revertImage = () => {
