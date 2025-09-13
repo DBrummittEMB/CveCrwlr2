@@ -147,7 +147,7 @@ eventEmitter.on('fightBoss', () => {
 function getMonsterAttackValue() {
   let strengthComp = enemy.getComponent('strength');
   let strength = strengthComp ? strengthComp.strength : 0;
-  return Math.floor(Math.random() * strength) + 1;
+  return Math.floor(Math.random() * strength);
 }
 
 // gets attack value of the player
