@@ -1,4 +1,4 @@
-import { locations, monsterHealthText, monsterNameText, monsterStats } from './location.js';
+import { locations, monsterHealthText, monsterNameText } from './location.js';
 import { weapons } from './item.js';
 import { eventEmitter } from './eventEmitter.js';
 import { smallMonsters, mediumMonsters, bossMonsters } from './monster.js';
@@ -54,7 +54,6 @@ eventEmitter.on('goFight', () => {
   enemyHealth = enemy.getComponent('health');
   enemyName = enemy.getComponent('name');
   const enemyImageUrl = enemy.getComponent('imageUrl').imageUrl;
-  monsterStats.style.display = 'block';
   monsterNameText.innerText = enemyName.name;
   monsterHealthText.innerText = enemyHealth.currentHealth;
 
