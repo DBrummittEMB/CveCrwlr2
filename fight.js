@@ -41,6 +41,10 @@ function clearEnemy() {
 }
 
 eventEmitter.on('goFight', () => {
+  if (enemy) {
+    return;
+  }
+  clearEnemy();
   eventEmitter.emit('update', locations[3]);
   enemy = entityManager.createEntity({
     name: new nameComponent(fighting.name),
