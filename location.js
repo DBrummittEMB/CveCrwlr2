@@ -238,12 +238,23 @@ function createButtons(location) {
 
   const texts = location['button text'] || [];
   const functions = location['button functions'] || [];
-  const limit = Math.min(texts.length, functions.length);
+  const images = location['button images'];
+  const limit = Math.min(
+    texts.length,
+    functions.length,
+    Array.isArray(images) ? images.length : Infinity
+  );
 
   if (texts.length !== functions.length) {
     console.warn(
       `Button text (${texts.length}) and functions (${functions.length}) length mismatch`
     );
+  }
+  if (
+    Array.isArray(images) &&
+    (images.length !== texts.length || images.length !== functions.length)
+  ) {
+    console.warn(`Button images (${images.length}) length mismatch`);
   }
 
   for (let index = 0; index < limit; index++) {
@@ -252,8 +263,8 @@ function createButtons(location) {
     button.innerText = label;
     button.id = `button${index + 1}`;
     button.addEventListener('click', functions[index]);
-    if (location['button images'] && location['button images'][index]) {
-      const buttonImage = location['button images'][index];
+    if (Array.isArray(images) && images[index]) {
+      const buttonImage = images[index];
 
       const showImage = () => {
         characterPreview.src = buttonImage;
