@@ -160,9 +160,16 @@ function getPlayerAttackValue() {
 }
 
 function doesHit(attackerAgility, defenderAgility) {
-  let hitChance = attackerAgility / (attackerAgility + defenderAgility);
+  // Avoid division by zero or negative agility totals.
+  const totalAgility = attackerAgility + defenderAgility;
+  if (totalAgility <= 0) {
+    return false;
+  }
+  const hitChance = attackerAgility / totalAgility;
   return Math.random() < hitChance;
 }
+
+export { doesHit };
   
 /**
  * Handles using an item during a fight.

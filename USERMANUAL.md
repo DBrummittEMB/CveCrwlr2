@@ -41,8 +41,8 @@ In the cave you can fight **small** or **medium** monsters. The **Fight Boss** b
 hub starts a battle with a boss.
 
 During combat:
-- **Attack**: damage the enemy based on your strength and weapon. Attacks can miss if the
-  enemy's agility is higher than yours.
+ - **Attack**: damage the enemy based on your strength and weapon. Attacks can miss if the
+   enemy's agility is higher than yours or if both combatants have no agility.
 - **Use Item**: consumes a health potion if you have one in your inventory.
 - **Run**: flee back to the town square.
 - Defeating monsters grants gold and experience. When experience reaches the requirement
