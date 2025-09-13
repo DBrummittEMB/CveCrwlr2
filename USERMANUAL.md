@@ -11,7 +11,7 @@ This manual explains every screen and mechanic so you can jump in and start adve
 ## Home Screen
 - **Start**: enter the world.
 - **Pick Character**: select a template such as warrior or mage. Each template changes your
-  starting stats and portrait.
+  starting stats (including current and maximum health) and portrait.
 - **Settings**: adjust audio and other preferences.
 - **Changelog**: view recent updates.
 
